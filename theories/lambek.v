@@ -1,17 +1,15 @@
 From mathcomp Require Import all_ssreflect.
 Require Import Coq.Logic.Eqdep_dec.
 Require Import Coq.Arith.Peano_dec.
-
 Unset Printing Implicit Defensive.
 
-(*                                                                                                                                       *)
-(*                                                                                                                                       *)
-(*        FORMALIZING Lambek Calculus SINTAXIS AND SEMANTICS           *)
-(*                                                                                                                                       *)
-(*                                                                                                                                       *)
+(*                                                                                     *)
+(*                                                                                     *)
+(*               FORMALIZING Lambek Calculus SINTAXIS AND SEMANTICS                    *)
+(*                                                                                     *)
+(*                                                                                     *)
 
 Notation "'ℕ'" := nat.
-
 
 (* We work non-associative Lambek Calculus.
     It's shown that its display system corresponds to Lambek's original formulation.
@@ -58,6 +56,10 @@ Notation "⊨ φ" := (sat φ) (at level 50) : lkf_scope.
 Definition sat_cons φ ψ:= (⊨φ->⊨ψ)%lkf.
 Notation "φ ⊩ ψ" := (sat_cons φ ψ) (at level 50).
 
+
+(*  CALCULI  *)
+
+(* Original Calculi *)
 Inductive cons : lkf -> lkf -> Type :=
   | axiom_id : forall φ : lkf, cons φ φ
   | res1 : forall φ ψ ρ : lkf, cons (φ·ψ) ρ -> cons φ (ρ/ψ)
@@ -178,6 +180,7 @@ Notation "φ [·] ψ" := (tensor_lks φ ψ) (at level 30).
 Notation "φ [\] ψ" := (rresidual_lks φ ψ) (at level 40).
 Notation "φ [/] ψ" := (lresidual_lks φ ψ) (at level 45).
 
+(* Goré's 1998 article Lambek Calculi *)
 Inductive display_cons : lks -> lks -> Type :=
   | display_id : forall X, display_cons X X
   | display1 : forall X Y Z, display_cons X (Z [/] Y) -> display_cons (X [·] Y) Z
@@ -209,12 +212,12 @@ Fixpoint τ φ :=
   end
 .
 
-(* τ i ' són functors adjunts, cal veure-ho.
-   Més concretament, les fòrmules formen una subcategoria reflexiva de les estructures. *)
-
-(* Cut gives to calculi a Category structure.
+(* Cut gives to calculi a Category structure (modulo some equivalence between deduction rules).
      We're going to see that τ is a functor from the category of the display calculi to the original calculi  *)
 (* In Coq <-> allows you to rewrite, rewriting of HITs is problematic, so <-> requires Types of height 0 (Props) *)
+(* As for now, deduction is a set and not a Proposition.
+    I did like this in order to prove strong induction below, not really important for our objectives.
+ *)
 Theorem dp_lambek X Y : (X ⊢ Y)%lks -> (τ X ⊢ τ Y).
 Proof.
   intros. elim: H; simpl; intros.
@@ -269,7 +272,7 @@ Proof.
   - apply (cut _ ψ). exact: H0. exact: H1.
 Qed.
 
-(* Furthermore, τ is left inverse of ', so that the original calculi es a reflective subcategory of the display calculi. *)
+(* Furthermore, τ is left inverse of ', so that the original calculi is a reflective subcategory of the display calculi. *)
 Goal forall φ, τ('φ) = φ.
   reflexivity.
 Qed.
@@ -277,10 +280,6 @@ Qed.
 End Display.
 
 Module Semantics.
-
-  (* Un bon afegit seria definir la semàntica algebràica del sistema de Lambek donada per Došen i Ono.
-     Seria un monoide sense unitat.
-   *)
 
 Proposition sm_lres_tensor_K φ ψ : (φ/ψ)·ψ ⊩ φ.
 Proof.
@@ -307,6 +306,9 @@ Proof.
 Qed.
 
 End Semantics.
+
+
+(*  SOME MISCELLANEA  *)
 
 Definition lass_law := forall φ ψ ρ, (φ·ψ)·ρ⊢φ·(ψ·ρ).
 Definition rass_law := forall φ ψ ρ, φ·(ψ·ρ)⊢(φ·ψ)·ρ.
@@ -371,8 +373,6 @@ Fixpoint eq_lks (A B : lks) : bool :=
   | _, _ => false
 end.
 
-(* Necessitem algun tipus d'inducció forta per a invertir els arbres donats pels càlculs i comparar-los. *)
-
 Inductive proof_comp : forall {A B C D}, (A⊢B)->(C⊢D)->Type :=
   | refl_id : forall {A B} (L : A⊢B), proof_comp L L
   | Sdisplay1 : forall {A B C D E} (L : D⊢E) M, proof_comp L M -> proof_comp L (display1 A B C M)
@@ -386,10 +386,6 @@ Inductive proof_comp : forall {A B C D}, (A⊢B)->(C⊢D)->Type :=
 .
 Notation "L ≤ M" := (proof_comp L M) (at level 70).
 
-(*
-  Les igualtats entre tipus dependents es corresponent a path-overs com a tipus inductius o a transport d'igualtats.
- *)
-
 Lemma transport {X : Type} {A : X -> Type} {x y : X} : x = y -> A x -> A y.
 Proof.
   move ->. exact: (fun n => n).
@@ -400,14 +396,15 @@ Proof.
   intros. inversion H; split. reflexivity. exact: H3.
 Qed.
 
-(*
-assert (no_idr : forall X Y, ~X·Y = X).
-      intros. elim X; intros; intros nH; try discriminate.
-      injection nH as nH eqY. rewrite eqY in H1. exact: (H1 nH).
-    assert (no_idl : forall X Y, ~Y·X = X).
-      intros. elim X; intros; intros nH; try discriminate.
-      injection nH as eqY nH. rewrite eqY in H2. exact: (H2 nH).
-*)
+Goal forall X Y, ~X·Y = X.
+  intros. elim X; intros; intros nH; try discriminate.
+  injection nH as nH eqY. rewrite eqY in H. exact: (H nH).
+Qed.
+
+Goal forall X Y, ~Y·X = X.
+  intros. elim X; intros; intros nH; try discriminate.
+  injection nH as eqY nH. rewrite eqY in H0. exact: (H0 nH).
+Qed.
 
 Lemma min_id : forall X (M : X ⊢ X), M≤(display_id X) -> M = display_id X.
 Proof.
@@ -435,14 +432,11 @@ Lemma strong_ind (P : forall A B, A⊢B -> Type)
     : forall A B L, P A B L.
 Proof.
   intros. apply: (display_cons_rect (fun C D (N : C⊢D) => forall E F (M : E⊢F), M ≤ N -> P E F M) _ _ _ _ _ _ _ _ _ _ _ A B L A B L (refl_id L)); intros.
-  (* Em cal poder display_cons X, donat que és l'única manera de començar una demo. *)
   (* Les diferents parts de la prova consisteixen en demostrar que l'única forma d'arribar a l'últim pas de la demostració és mitjançant l'últim argument, i fent servir transitivitat tenim que el nostre argument ha de ser més petit que que el precedent. *)
   - (* Per evitar un argument així de lleig cal fer servir transport *)
     move: (H) => /min_id_transport [eqA eqB]. revert dependent M.
     rewrite eqA. rewrite eqB. intros.
     apply min_id in H. rewrite H. exact: (base _).
-  (* Quan puguis troba una manera de substituir els inversion, són horribles.
-     De moment, el problema és que la condició d'igualtat dona error perquè és un transport i no una igualtat quan s'intenta fer inducció. *)
   - inversion H.
     + move: H5 H8 H7 H6 H0 H1 => _ _ _ _ _ _. move: L0 L1 L2 A0 B0 => _ _ _ _ _.
       revert dependent M. rewrite H2. rewrite H3. intros.
