@@ -3,17 +3,18 @@ Require Import Coq.Logic.Eqdep_dec.
 Require Import Coq.Arith.Peano_dec.
 Unset Printing Implicit Defensive.
 
-(*                                                                                     *)
-(*                                                                                     *)
-(*               FORMALIZING Lambek Calculus SINTAXIS AND SEMANTICS                    *)
-(*                                                                                     *)
-(*                                                                                     *)
+(*                                                                            *)
+(*                                                                            *)
+(*           FORMALIZING Lambek Calculus SINTAXIS AND SEMANTICS               *)
+(*                                                                            *)
+(*                                                                            *)
 
 Notation "'ℕ'" := nat.
 
-(* We work non-associative Lambek Calculus.
-    It's shown that its display system corresponds to Lambek's original formulation.
-    At the end some miscellanea is found for sanity checks.
+(* We work only non-associative Lambek Calculus.
+   It is shown that its display system corresponds to Lambek's original
+   formulation.
+   At the end some miscellanea is found for sanity checks.
  *)
 
 Inductive lkf :=
@@ -48,7 +49,8 @@ Fixpoint force {W} (M : kripke W) (w : W) (φ : lkf) :=
 
 Declare Scope lkf_scope.
 Delimit Scope lkf_scope with lkf.
-Notation "M ; s ⊨ φ " := (force M s φ) (at level 50, format "M ; s  ⊨  φ") : lkf_scope.
+Notation "M ; s ⊨ φ " :=
+  (force M s φ) (at level 50, format "M ; s  ⊨  φ") : lkf_scope.
 Print Grammar pattern.
 Definition sat φ := forall W (M : kripke W) s, (M;s⊨φ)%lkf.
 Notation "⊨ φ" := (sat φ) (at level 50) : lkf_scope.
@@ -183,15 +185,24 @@ Notation "φ [/] ψ" := (lresidual_lks φ ψ) (at level 45).
 (* Goré's 1998 article Lambek Calculi *)
 Inductive display_cons : lks -> lks -> Type :=
   | display_id : forall X, display_cons X X
-  | display1 : forall X Y Z, display_cons X (Z [/] Y) -> display_cons (X [·] Y) Z
-  | display2 : forall X Y Z, display_cons (X [·] Y) Z -> display_cons Y (X [\] Z)
-  | display3 : forall X Y Z, display_cons Y (X [\] Z) -> display_cons X (Z [/] Y)
-  | tensorL : forall X (φ ψ : lkf), display_cons (φ [·] ψ) X -> display_cons (φ·ψ) X
-  | tensorR : forall X Y (φ ψ : lkf), display_cons X φ -> display_cons Y ψ -> display_cons (X [·] Y) (φ·ψ)
-  | rresL : forall X (φ ψ : lkf), display_cons X (φ [\] ψ) -> display_cons X (φ \ ψ)
-  | rresR : forall X Y (φ ψ : lkf), display_cons X φ -> display_cons ψ Y -> display_cons (φ \ ψ) (X [\] Y)
-  | lresL : forall X (φ ψ : lkf), display_cons X (φ [/] ψ) -> display_cons X (φ / ψ)
-  | lresR : forall X Y (φ ψ : lkf), display_cons φ X -> display_cons Y ψ -> display_cons (φ / ψ) (X [/] Y)
+  | display1 : forall X Y Z,
+      display_cons X (Z [/] Y) -> display_cons (X [·] Y) Z
+  | display2 : forall X Y Z,
+      display_cons (X [·] Y) Z -> display_cons Y (X [\] Z)
+  | display3 : forall X Y Z,
+      display_cons Y (X [\] Z) -> display_cons X (Z [/] Y)
+  | tensorL : forall X (φ ψ : lkf),
+      display_cons (φ [·] ψ) X -> display_cons (φ·ψ) X
+  | tensorR : forall X Y (φ ψ : lkf),
+      display_cons X φ -> display_cons Y ψ -> display_cons (X [·] Y) (φ·ψ)
+  | rresL : forall X (φ ψ : lkf),
+      display_cons X (φ [\] ψ) -> display_cons X (φ \ ψ)
+  | rresR : forall X Y (φ ψ : lkf),
+      display_cons X φ -> display_cons ψ Y -> display_cons (φ \ ψ) (X [\] Y)
+  | lresL : forall X (φ ψ : lkf),
+      display_cons X (φ [/] ψ) -> display_cons X (φ / ψ)
+  | lresR : forall X Y (φ ψ : lkf),
+      display_cons φ X -> display_cons Y ψ -> display_cons (φ / ψ) (X [/] Y)
   | cut : forall X Y Z, display_cons X Y -> display_cons Y Z -> display_cons X Z
 .
 
@@ -212,11 +223,119 @@ Fixpoint τ φ :=
   end
 .
 
-(* Cut gives to calculi a Category structure (modulo some equivalence between deduction rules).
-     We're going to see that τ is a functor from the category of the display calculi to the original calculi  *)
-(* In Coq <-> allows you to rewrite, rewriting of HITs is problematic, so <-> requires Types of height 0 (Props) *)
-(* As for now, deduction is a set and not a Proposition.
-    I did like this in order to prove strong induction below, not really important for our objectives.
+
+Open Scope str_scope.
+
+Proposition lres_tensor_K φ ψ : (φ[/]ψ);ψ⊢φ.
+Proof.
+  apply display1.
+  exact: (display_id _).
+Qed.
+
+Proposition tensor_lres_K φ ψ : φ⊢φ;ψ[/]ψ.
+Proof.
+  apply display3. apply display2.
+  exact: (display_id _).
+Qed.
+
+Proposition rres_tensor_K φ ψ : φ⊢ψ[\]ψ;φ.
+Proof.
+  apply display2.
+  exact: (display_id _).
+Qed.
+
+Proposition tensor_rres_K φ ψ : ψ;(ψ[\]φ)⊢φ.
+Proof.
+  apply display1. apply display3.
+  exact: (display_id _).
+Qed.
+
+Lemma tensor_lton_pos φ ψ ρ : φ⊢ψ -> φ;ρ⊢ψ;ρ.
+Proof.
+  intros; apply display1.
+  apply (cut _ ψ). exact: H.
+  exact: (tensor_lres_K _ _).
+Qed.
+
+Lemma tensor_rton_pos φ ψ ρ : φ⊢ψ -> ρ;φ⊢ρ;ψ.
+Proof.
+  intros. apply display1. apply display3.
+  apply (cut _ ψ). exact: H.
+  exact: (rres_tensor_K _ _).
+Qed.
+
+Lemma rres_lton_pos φ ψ ρ : φ⊢ψ -> ρ[\]φ⊢ρ[\]ψ.
+Proof.
+  intros. apply display2.
+  apply (cut _ φ).
+    exact: (tensor_rres_K _ _).
+  exact: H.
+Qed.
+
+Lemma lres_rton_pos φ ψ ρ : φ⊢ψ -> φ[/]ρ⊢ψ[/]ρ.
+Proof.
+  intros. apply display3. apply display2.
+  apply (cut _ φ).
+    exact: (lres_tensor_K _ _).
+  exact: H.
+Qed.
+
+Lemma rres_rton_neg φ ψ ρ : φ⊢ψ -> ψ[\]ρ⊢φ[\]ρ.
+Proof.
+  intros. apply display2. apply display1.
+  apply (cut _ ψ).
+    exact: H.
+  apply display3. exact: (display_id _).
+Qed.
+
+Lemma lres_lton_neg φ ψ ρ : φ⊢ψ -> ρ[/]ψ⊢ρ[/]φ.
+Proof.
+  intros. apply display3.
+  apply (cut _ ψ).
+    exact: H.
+  apply display2. apply display1. exact: (display_id _).
+Qed.
+
+Proposition lk_tensorR : forall (φ ψ ρ η : lks), φ⊢ρ -> ψ⊢η -> φ;ψ⊢ρ;η.
+Proof.
+  intros.
+  apply (cut _ (φ;η)).
+    exact: (tensor_rton_pos _ _ _ H0).
+  exact: (tensor_lton_pos _ _ _ H).
+Qed.
+
+Proposition lk_rresR : forall (φ ψ ρ η : lks), ρ⊢φ -> ψ⊢η -> φ[\]ψ⊢ρ[\]η.
+Proof.
+  intros.
+  apply (cut _ (ρ[\]ψ)).
+    exact: (rres_rton_neg _ _ _ H).
+  exact: (rres_lton_pos _ _ _ H0).
+ Qed.
+
+Proposition lk_lresR : forall (φ ψ ρ η : lks), φ⊢ρ -> η⊢ψ -> φ[/]ψ⊢ρ[/]η.
+Proof.
+  intros.
+  apply (cut _ (φ[/]η)).
+    exact: (lres_lton_neg _ _ _ H0).
+  exact: (lres_rton_pos _ _ _ H).
+Qed.
+
+Close Scope str_scope.
+
+
+(*
+   Cut gives to calculi a Category structure (modulo some equivalence between
+   deduction rules).
+   We're going to see that τ is a functor from the category of the display
+   calculi to the original calculi.
+*)
+
+(*
+   In Coq <-> allows you to rewrite, rewriting of HITs is problematic, so <->
+   requires Types of height 0 (Props).
+   As for now, deduction is a set and not a Proposition.
+   I defined it this way in order to prove strong induction below, not really
+   important for our objectives.
  *)
 Theorem dp_lambek X Y : (X ⊢ Y)%lks -> (τ X ⊢ τ Y).
 Proof.
@@ -226,11 +345,11 @@ Proof.
   - exact: (res2 _ _ _ H).
   - apply res1. exact: (res4 _ _ _ H).
   - exact: H.
-  - exact: (lk_tensorR _ _ _ _ H H0).
+  - exact: (lambek.lk_tensorR _ _ _ _ H H0).
   - exact: H.
-  - exact: (lk_rresR _ _ _ _ H H0).
+  - exact: (lambek.lk_rresR _ _ _ _ H H0).
   - exact: H.
-  - exact: (lk_lresR _ _ _ _ H H0).
+  - exact: (lambek.lk_lresR _ _ _ _ H H0).
   exact: (cut_rule _ _ _ H H0).
 Qed.
 
@@ -260,8 +379,11 @@ Proof.
   - apply rresR; exact: (display_id _).
 Qed.
 
-(* ' is a functor from the category of the original calculi and the category of the display calculi given by Goré *Substructural Logics on Display* *)
-Theorem lambek_dp X Y : (X⊢Y) -> (X⊢Y)%lks.
+(*
+   ' is a functor from the category of the original calculi and the category
+   of the display calculi given by Goré *Substructural Logics on Display*
+*)
+Theorem lambek_dp_lkf φ ψ : (φ⊢ψ) -> (φ⊢ψ)%lks.
 Proof.
   intros. elim H; intros.
   - exact: (display_id _).
@@ -269,10 +391,54 @@ Proof.
   - apply /rresL /display2. exact: (tensorL_inv _ _ _ H0).
   - apply /tensorL /display1. exact: (lresL_inv _ _ _ H0).
   - apply /tensorL /display1 /display3. exact: (rresL_inv _ _ _ H0).
-  - apply (cut _ ψ). exact: H0. exact: H1.
+  - apply (cut _ ψ0). exact: H0. exact: H1.
 Qed.
 
-(* Furthermore, τ is left inverse of ', so that the original calculi is a reflective subcategory of the display calculi. *)
+(*
+   The fiber of τ is contractible, so that we can consider structures somehow
+   equal to formulas (provably equivalent).
+*)
+Theorem τ_fiber_contractible X : ((τ X⊢X) * (X⊢τ X))%lks%type.
+Proof.
+  intros.
+  elim: X => /= [l
+               | X [lIHX rIHX] Y [lIHY rIHY]
+               | X [lIHX rIHX] Y [lIHY rIHY]
+               | X [lIHX rIHX] Y [lIHY rIHY]].
+  - split; exact (display_id _).
+  - split.
+      apply: tensorL. exact: (lk_tensorR _ _ _ _ lIHX lIHY).
+    apply: tensorR. exact: rIHX. exact: rIHY.
+  - split.
+      apply: rresR. exact: rIHX. exact: lIHY.
+    apply: rresL. exact: (lk_rresR _ _ _ _ lIHX rIHY).
+  - split.
+      apply: lresR. exact: lIHX. exact: rIHY.
+    apply: lresL. exact: (lk_lresR _ _ _ _ rIHX lIHY).
+Qed.
+
+Theorem lτ_fiber X : (τ X⊢X)%lks.
+Proof.
+  move: (τ_fiber_contractible X) => [H _]. exact: H.
+Qed.
+
+Theorem rτ_fiber X : (X⊢τ X)%lks.
+Proof.
+  move: (τ_fiber_contractible X) => [_ H]. exact: H.
+Qed.
+
+Theorem lambek_dp X Y : (τ X⊢τ Y) -> (X⊢Y)%lks.
+Proof.
+  intros. apply: (cut _ (τ Y)). apply: (cut _ (τ X)).
+  - exact: (rτ_fiber _).
+    apply: lambek_dp_lkf. exact H.
+  - exact: (lτ_fiber _).
+Qed.
+
+(*
+   Furthermore, τ is left inverse of ', so that the original calculi is a
+   reflective subcategory of the display calculi.
+*)
 Goal forall φ, τ('φ) = φ.
   reflexivity.
 Qed.
@@ -328,14 +494,17 @@ Proof.
   elim; intros;
     try (
       destruct B; intros; try (right; intros nH; discriminate);
-      destruct (H B1); destruct (H0 B2); try (right; intros nH; injection nH as eq1 eq2; apply n; exact: eq1);
+      destruct (H B1); destruct (H0 B2);
+      try (right; intros nH; injection nH as eq1 eq2; apply n; exact: eq1);
       first (left; rewrite e e0; reflexivity);
       right; intros nH; injection nH as eq1 eq2; apply n; exact: eq2
       ).
-  - elim B; intros; try (destruct H; destruct H0; right; intros nH; discriminate).
+  - elim B; intros;
+      try (destruct H; destruct H0; right; intros nH; discriminate).
     case H: (n == n0).
     + rewrite (eqnP H). left. reflexivity.
-    right. intros nH. injection nH as nH. rewrite nH eq_refl in H. discriminate.
+    right. intros nH. injection nH as nH.
+    rewrite nH eq_refl in H. discriminate.
 Qed.
 
 Open Scope str_scope.
@@ -345,11 +514,13 @@ Proof.
   elim; intros;
     try (
       destruct B; intros; try (right; intros nH; discriminate);
-      destruct (H B1); destruct (H0 B2); try (right; intros nH; injection nH as eq1 eq2; apply n; exact: eq1);
+      destruct (H B1); destruct (H0 B2);
+      try (right; intros nH; injection nH as eq1 eq2; apply n; exact: eq1);
       first (left; rewrite e e0; reflexivity);
       right; intros nH; injection nH as eq1 eq2; apply n; exact: eq2
       ).
-  - elim B; intros; try (destruct H; destruct H0; right; intros nH; discriminate).
+  - elim B; intros;
+      try (destruct H; destruct H0; right; intros nH; discriminate).
     case (lkf_eq_dec l l0).
     + left. rewrite e. reflexivity.
     right. intros nH. injection nH as nH. exact: (n nH).
@@ -374,15 +545,24 @@ Fixpoint eq_lks (A B : lks) : bool :=
 end.
 
 Inductive proof_comp : forall {A B C D}, (A⊢B)->(C⊢D)->Type :=
-  | refl_id : forall {A B} (L : A⊢B), proof_comp L L
-  | Sdisplay1 : forall {A B C D E} (L : D⊢E) M, proof_comp L M -> proof_comp L (display1 A B C M)
-  | Sdisplay2 : forall {A B C D E} (L : D⊢E) M, proof_comp L M -> proof_comp L (display2 A B C M)
-  | Sdisplay3 : forall {A B C D E} (L : D⊢E) M, proof_comp L M -> proof_comp L (display3 A B C M)
-  | StensorL : forall {A B C D E} (L : D⊢E) M, proof_comp L M -> proof_comp L (tensorL A B C M)
-  | StensorR : forall {A B C D E F} (L : E⊢F) M N, proof_comp L M -> proof_comp L N -> proof_comp L (tensorR A B C D M N)
-  | SrresL : forall {A B C D E} (L : D⊢E) M, proof_comp L M -> proof_comp L (rresL A B C M)
-  | SlresrL : forall {A B C D E} (L : D⊢E) M, proof_comp L M -> proof_comp L (lresL A B C M)
-  | Scut : forall {A B C D E} (L : D⊢E) M N, proof_comp L M -> proof_comp L N -> proof_comp L (cut A B C M N)
+  | refl_id : forall {A B} (L : A⊢B),
+      proof_comp L L
+  | Sdisplay1 : forall {A B C D E} (L : D⊢E) M,
+      proof_comp L M -> proof_comp L (display1 A B C M)
+  | Sdisplay2 : forall {A B C D E} (L : D⊢E) M,
+      proof_comp L M -> proof_comp L (display2 A B C M)
+  | Sdisplay3 : forall {A B C D E} (L : D⊢E) M,
+      proof_comp L M -> proof_comp L (display3 A B C M)
+  | StensorL : forall {A B C D E} (L : D⊢E) M,
+      proof_comp L M -> proof_comp L (tensorL A B C M)
+  | StensorR : forall {A B C D E F} (L : E⊢F) M N,
+      proof_comp L M -> proof_comp L N -> proof_comp L (tensorR A B C D M N)
+  | SrresL : forall {A B C D E} (L : D⊢E) M,
+      proof_comp L M -> proof_comp L (rresL A B C M)
+  | SlresrL : forall {A B C D E} (L : D⊢E) M,
+      proof_comp L M -> proof_comp L (lresL A B C M)
+  | Scut : forall {A B C D E} (L : D⊢E) M N,
+      proof_comp L M -> proof_comp L N -> proof_comp L (cut A B C M N)
 .
 Notation "L ≤ M" := (proof_comp L M) (at level 70).
 
@@ -391,7 +571,8 @@ Proof.
   move ->. exact: (fun n => n).
 Qed.
 
-Lemma min_id_transport : forall A B (M : A⊢B) X, M≤(display_id X) -> A = X ∧ B = X.
+Lemma min_id_transport : forall A B (M : A⊢B) X,
+    M≤(display_id X) -> A = X ∧ B = X.
 Proof.
   intros. inversion H; split. reflexivity. exact: H3.
 Qed.
@@ -406,35 +587,60 @@ Goal forall X Y, ~Y·X = X.
   injection nH as eqY nH. rewrite eqY in H0. exact: (H0 nH).
 Qed.
 
+Ltac prepare M d temp := revert dependent M; revert dependent d;
+  repeat (intro; intro; intro temp;
+          repeat (try (apply (inj_pair2_eq_dec _ lks_eq_dec) in temp);
+                  try (apply (inj_pair2_eq_dec _ lkf_eq_dec) in temp));
+          revert temp; intros ?K0).
+
 Lemma min_id : forall X (M : X ⊢ X), M≤(display_id X) -> M = display_id X.
 Proof.
   intros.
-  inversion H. apply (inj_pair2_eq_dec _ lks_eq_dec) in H5. apply (inj_pair2_eq_dec _ lks_eq_dec) in H5.
-   apply (inj_pair2_eq_dec _ lks_eq_dec) in H6. apply (inj_pair2_eq_dec _ lks_eq_dec) in H6.
-  rewrite <- H5. exact: H6.
+  inversion H. move: H0 H1 H2 H3 => _ _ _ _.
+  prepare M X temp.
+  rewrite <- K1. exact: K0.
 Qed.
-
-Ltac prepare M d temp := revert dependent M; revert dependent d;
-        repeat (intro; intro; intro temp; repeat (try (apply (inj_pair2_eq_dec _ lks_eq_dec) in temp); try (apply (inj_pair2_eq_dec _ lkf_eq_dec) in temp)); revert temp; intros ?K0).
 
 Lemma strong_ind (P : forall A B, A⊢B -> Type)
   (base : forall X, P X X (display_id X))
-  (step_display1 : forall X Y Z (M : X⊢Z[/]Y), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P (X[·]Y) Z (display1 X Y Z M))
-  (step_display2 : forall X Y Z (M : X[·]Y⊢Z), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P Y (X[\]Z) (display2 X Y Z M))
-  (step_display3 : forall X Y Z (M : Y⊢X[\]Z), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P X (Z[/]Y) (display3 X Y Z M))
-  (step_tensorL : forall (φ ψ:lkf) X (M : φ[·]ψ⊢X), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P (φ·ψ) X (tensorL X φ ψ M))
-  (step_tensorR : forall (φ ψ:lkf) X Y (M : X⊢φ) (N:Y⊢ψ), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P (X[·]Y) (φ·ψ) (tensorR X Y φ ψ M N))
-  (step_rresL : forall (φ ψ:lkf) X (M : X⊢φ[\]ψ), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P X (φ\ψ) (rresL X φ ψ M))
-  (step_rresR : forall (φ ψ:lkf) X Y (M : X⊢φ) (N:ψ⊢Y), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P (φ\ψ) (X[\]Y) (rresR X Y φ ψ M N))
-  (step_lresL : forall (φ ψ:lkf) X (M : X⊢φ[/]ψ), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P X (φ/ψ) (lresL X φ ψ M))
-  (step_lresR : forall (φ ψ:lkf) X Y (M : φ⊢X) (N:Y⊢ψ), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P (φ/ψ) (X[/]Y) (lresR X Y φ ψ M N))
-  (step_cut : forall X Y Z (M : X⊢Y) (N:Y⊢Z), (forall A B (L : A⊢B), L ≤ M -> P A B L) -> P X Z (cut X Y Z M N))
+  (step_display1 : forall X Y Z (M : X⊢Z[/]Y),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P (X[·]Y) Z (display1 X Y Z M))
+  (step_display2 : forall X Y Z (M : X[·]Y⊢Z),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P Y (X[\]Z) (display2 X Y Z M))
+  (step_display3 : forall X Y Z (M : Y⊢X[\]Z),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P X (Z[/]Y) (display3 X Y Z M))
+  (step_tensorL : forall (φ ψ:lkf) X (M : φ[·]ψ⊢X),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P (φ·ψ) X (tensorL X φ ψ M))
+  (step_tensorR : forall (φ ψ:lkf) X Y (M : X⊢φ) (N:Y⊢ψ),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P (X[·]Y) (φ·ψ) (tensorR X Y φ ψ M N))
+  (step_rresL : forall (φ ψ:lkf) X (M : X⊢φ[\]ψ),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P X (φ\ψ) (rresL X φ ψ M))
+  (step_rresR : forall (φ ψ:lkf) X Y (M : X⊢φ) (N:ψ⊢Y),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P (φ\ψ) (X[\]Y) (rresR X Y φ ψ M N))
+  (step_lresL : forall (φ ψ:lkf) X (M : X⊢φ[/]ψ),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P X (φ/ψ) (lresL X φ ψ M))
+  (step_lresR : forall (φ ψ:lkf) X Y (M : φ⊢X) (N:Y⊢ψ),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P (φ/ψ) (X[/]Y) (lresR X Y φ ψ M N))
+  (step_cut : forall X Y Z (M : X⊢Y) (N:Y⊢Z),
+      (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
+      P X Z (cut X Y Z M N))
     : forall A B L, P A B L.
 Proof.
-  intros. apply: (display_cons_rect (fun C D (N : C⊢D) => forall E F (M : E⊢F), M ≤ N -> P E F M) _ _ _ _ _ _ _ _ _ _ _ A B L A B L (refl_id L)); intros.
-  (* Les diferents parts de la prova consisteixen en demostrar que l'única forma d'arribar a l'últim pas de la demostració és mitjançant l'últim argument, i fent servir transitivitat tenim que el nostre argument ha de ser més petit que que el precedent. *)
-  - (* Per evitar un argument així de lleig cal fer servir transport *)
-    move: (H) => /min_id_transport [eqA eqB]. revert dependent M.
+  intros.
+  apply:
+    (display_cons_rect
+       (fun C D (N : C⊢D) => forall E F (M : E⊢F), M ≤ N -> P E F M)
+         _ _ _ _ _ _ _ _ _ _ _ A B L A B L (refl_id L)); intros.
+  - move: (H) => /min_id_transport [eqA eqB]. revert dependent M.
     rewrite eqA. rewrite eqB. intros.
     apply min_id in H. rewrite H. exact: (base _).
   - inversion H.
@@ -460,7 +666,8 @@ Proof.
     + prepare M d temp.
       rewrite K1 in H4. rewrite K0 in H4. exact: (X0 _ _ _ H4).
   - inversion H.
-    + move: H5 H8 H7 H6 H1 H0 => _ _ _ _ _ _. revert dependent M. rewrite H3. rewrite H2. intros.
+    + move: H5 H8 H7 H6 H1 H0 => _ _ _ _ _ _. revert dependent M.
+      rewrite H3. rewrite H2. intros.
       inversion H; prepare M d temp.
       * rewrite K1 in K0. rewrite K0. apply step_tensorL. exact: X0.
       * rewrite K1 in H7. rewrite K0 in H7. exact: (X0 _ _ _ H7).
@@ -474,7 +681,8 @@ Proof.
     + prepare M d temp.
       rewrite K1 in H5. rewrite K0 in H5. exact: (X0 _ _ _ H5).
   - inversion H.
-    + move: H5 H8 H7 H6 H1 H0 => _ _ _ _ _ _. revert dependent M. rewrite H3. rewrite H2. intros.
+    + move: H5 H8 H7 H6 H1 H0 => _ _ _ _ _ _. revert dependent M.
+      rewrite H3. rewrite H2. intros.
       inversion H; prepare M d temp.
       * rewrite K1 in K0. rewrite K0. apply step_rresL. exact: X0.
       * rewrite K1 in H6. rewrite K0 in H6. exact: (X0 _ _ _ H6).
@@ -485,7 +693,8 @@ Proof.
    inversion H; prepare M d temp.
    rewrite K1 in K0. rewrite K0. apply step_rresR. exact: X0.
 - inversion H.
-  + move: H5 H6 H8 H7 H0 H1 => _ _ _ _ _ _. revert dependent M. rewrite H3. rewrite H2. intros.
+  + move: H5 H6 H8 H7 H0 H1 => _ _ _ _ _ _. revert dependent M.
+    rewrite H3. rewrite H2. intros.
     inversion H; prepare M d temp.
     * rewrite K1 in K0. rewrite K0. apply step_lresL. exact: X0.
     * rewrite K1 in H6. rewrite K0 in H6. exact: (X0 _ _ _ H6).

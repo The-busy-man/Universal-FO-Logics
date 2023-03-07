@@ -2,13 +2,13 @@ From mathcomp Require Import all_ssreflect  all_fingroup zmodp.
 
 Unset Printing Implicit Defensive.
 
-(*                                                                                                                                  *)
-(*                                                                                                                                  *)
-(*               FORMALIZING GAGGLES LOGICS' SINTAXIS AND SEMANTICS                    *)
-(*                                                                                                                                  *)
-(*                                                                                                                                  *)
+(*                                                                            *)
+(*                                                                            *)
+(*           FORMALIZING GAGGLES LOGICS' SINTAXIS AND SEMANTICS               *)
+(*                                                                            *)
+(*                                                                            *)
 
-(* changing universal quantification utf8 symbols  *)
+(* Changing universal quantification utf8 symbols  *)
 Notation "'ℕ'" := nat.
 Notation "∃" := (@Zp1 1).
 Notation "∀" := (@Zp0 1).
@@ -17,7 +17,10 @@ Notation "⊹" := (@Zp0 1). (* ⊹ '\+ ' with Agda's key-bindings*)
 Notation "±" := 'Z_2.
 Notation "'Æ'" := 'Z_2.
 
-(* Two possible alternatives are mathcomps lists, which are almost the same of this but have the lemmas proved, or ('I_n -> nat) -> ('I_n -> ±) *)
+(*
+   Two possible alternatives are mathcomp's lists, which are almost the same
+   but have the lemmas proved, or ('I_n -> nat) -> ('I_n -> ±)
+*)
 Inductive tupla {T} : ℕ -> Type :=
   | empty : tupla 0
   | cons n : T -> tupla n -> tupla n.+1
@@ -29,7 +32,7 @@ Definition first_of {T} {n} (L : @tupla T n) (pos : n > 0) : T.
   exact t.
 Defined.
 
-(* Millor escriu-ho desprès com a Fixpoint *)
+(* Millor escriu-ho després com a Fixpoint *)
 Definition In {T} {n} (L : @tupla T n) (i : 'I_n) : T.
   elim: L i => [[//]| m t L Hi i].
   case: i => i iord.
@@ -48,12 +51,10 @@ Class Atomic_Skeleton := {
     sk_tonicity : @tupla ± sk_arity
 }.
 
-(* Pensar una bona manera d'escriure les lletres desde els esquelets en general. *)
-(* Millor fer-ho com ell en l'article, per a sigmplificar, i una coercion *)
-Class Propositional_Letter_Skeleton := {
-    propositional_letter_skeleton (sign : ±) (quant : Æ) (type : ℕ) := Build_Atomic_Skeleton 0 (1) sign quant type empty empty
-}.
-(* Maybe I'll add some Coercions in here. *)
+(*
+   Pensar una bona manera d'escriure les lletres desde els esquelets en general.
+   Millor fer-ho com ell en l'article, per a sigmplificar, i una coercion.
+*)
 
 Class Assignment {T} := {
   connective : (T -> Atomic_Skeleton)
@@ -77,14 +78,28 @@ Class Connective {T} {A} k := {
 End Of_type.
 
 Module Letter.
+Class Atomic_Skeleton := {
+    sk_sign : ±;
+    sk_quantification : Æ;
+    sk_type : ℕ;
+}.
+Definition to_atomic_skeleton (P : Atomic_Skeleton) :=
+  match P with
+    {| sk_sign := s; sk_quantification := q; sk_type := t |} =>
+      gaggle.Build_Atomic_Skeleton 0 (1) s q t empty empty
+  end.
+Coercion to_atomic_skeleton : Atomic_Skeleton >-> gaggle.Atomic_Skeleton.
 Class Connective {T} {A} := {
     var : T;
     skeleton := @connective T A var;
     min : sk_arity = 0
 }.
 End Letter.
-Definition letter_to_connective {T} {A} (P : @Letter.Connective T A) : @Connective T A :=
-  match P with {| Letter.var := var0; Letter.min := _ |} => (Build_Connective T A var0) end.
+Definition letter_to_connective {T} {A}
+  (P : @Letter.Connective T A) : @Connective T A :=
+    match P with
+      {| Letter.var := var0; Letter.min := _ |} => (Build_Connective T A var0)
+    end.
 Coercion letter_to_connective : Letter.Connective >-> Connective.
 
 Module Strict.
@@ -94,8 +109,11 @@ Class Connective {T} {A} := {
     pos : sk_arity > 0
   }.
 End Strict.
-Definition strict_to_connective {T} {A} (P : @Strict.Connective T A) : @Connective T A :=
-  match P with {| Strict.var := var0; Strict.pos := _ |} => (Build_Connective T A var0) end.
+Definition strict_to_connective {T} {A}
+  (P : @Strict.Connective T A) : @Connective T A :=
+  match P with
+    {| Strict.var := var0; Strict.pos := _ |} => (Build_Connective T A var0)
+  end.
 Coercion strict_to_connective : Strict.Connective >-> Connective.
 
 Fixpoint exponential (n : ℕ) (T : Type) :=
@@ -106,5 +124,10 @@ Fixpoint exponential (n : ℕ) (T : Type) :=
 
 Inductive Formula {T : Type} {A : @Assignment T} : ℕ -> Type :=
   | variable : forall P : @Letter.Connective T A, Formula (type P)
-  | operation : forall (C : @Connective T A), (forall i : 'I_(@arity T A C), Formula (In (type_source C) i)) -> Formula (type C)
+  | operation :
+      forall (C : @Connective T A),
+      (forall i : 'I_(@arity T A C), Formula (In (type_source C) i)) ->
+      Formula (type C)
 .
+
+(* After arranging the actions, Sintaxis will be done. *)
