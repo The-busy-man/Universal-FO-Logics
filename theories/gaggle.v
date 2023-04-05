@@ -1,5 +1,7 @@
-From mathcomp Require Import all_ssreflect ssralg all_fingroup zmodp finmap.
+From mathcomp Require Import all_ssreflect ssralg all_fingroup zmodp.
+From HB Require Import structures.
 Require Import Logic.Eqdep_dec.
+Import EqNotations.
 
 From mathcomp Require Import ssreflect.eqtype.
 
@@ -309,16 +311,19 @@ Proof.
 Qed.
 
 Inductive cycle (T : eqType) := Cycle l of (@uniq T l).
-Coercion list_of_cycle {T : eqType} (c : cycle T) := let: Cycle l _ := c in l.
+Coercion seq_of_cycle {T : eqType} (c : cycle T) := let: Cycle l _ := c in l.
 
-Open Scope eq_scope.
+HB.instance Definition _ {T} := [isSub of cycle T for seq_of_cycle].
+HB.instance Definition _ {T} := [eqMixin of cycle T by <:].
 
+(*
 Lemma vrefl {T} (P : pred T) : forall x, P x -> x = x. by[].
 Qed.
 Definition vrefl_rect {T} (P : pred T) := vrefl P.
-Canonical cycle_subType {T : eqType} := [subType for (@list_of_cycle T)].
+Canonical cycle_subType {T : eqType} := [isSub for (@list_of_cycle T)].
 Definition cycle_eqMixin {T : eqType} := Eval hnf in [eqMixin of cycle T by <:].
 Canonical cycle_eqType {T : eqType} := Eval hnf in EqType (cycle T) cycle_eqMixin.
+*)
 
 (* Pots demostrar-ho també fent servir:
   apply: (@can_inj _ _ _ (fun z => (nth z (rot (size l).-1 l) (index z l)))).
@@ -371,7 +376,7 @@ Definition head_rot {T : finType} (l : seq T) x :=
   else None.
 
 Definition head_cycle {T : finType} (c : cycle T) x :=
-  if (x\in (list_of_cycle c)) then Some (rot_cycle (index x c) c)
+  if (x\in (seq_of_cycle c)) then Some (rot_cycle (index x c) c)
   else None.
 
 Definition rot_eq {T : finType} (c c' : cycle T) :=
@@ -420,7 +425,7 @@ Inductive decomp_cperm {T : finType} (s : {perm T}) :=
     (s = \prod_(c <- cs) cperm c)%g &
     forall (c c' : cycle T), c \in cs -> c' \in cs -> c != c' -> disjoint c c' &
     uniq cs &
-    all (fun l => length (list_of_cycle l) >= 2) cs.
+    all (fun l => length (seq_of_cycle l) >= 2) cs.
 Coercion list_of_decomp {T : finType} {s : {perm T}} (cs : decomp_cperm s) : seq (cycle T) :=
   let: Cycle_list l _ _ _ _ := cs in l.
 
@@ -564,7 +569,7 @@ Proof.
   by rewrite /= -Heq size_rot.
 Qed.
 
-Lemma head_cycle_mem {T : finType} (c d : cycle T) (x : T) : (head_cycle c x) = Some d -> (x \in (list_of_cycle d)).
+Lemma head_cycle_mem {T : finType} (c d : cycle T) (x : T) : (head_cycle c x) = Some d -> (x \in (seq_of_cycle d)).
 Proof.
   rewrite /head_cycle.
   case: c d => [l Hl] [s Hs].
@@ -582,115 +587,387 @@ Proof.
   by rewrite Heq /rot drop_index.
 Qed.
 
-(* Necessito aprendre a tractar proves opaques. *)
+Definition cons_cycle_proof {T : finType} (x : T) (c : cycle T) : x\notin (seq_of_cycle c) -> uniq (x :: c).
+Proof.
+  case: c. intros.
+  move: (andb_true_intro (conj H i)).
+  by rewrite /= -(cons_uniq).
+Defined.
 
-(* We need to convert into 'S_n the cycles not containing n. *)
-Lemma unlift_seq {n} (l : seq (ordinal_eqType n.+1)) : size l > 0 -> ord_max \notin l -> {s : seq (ordinal_eqType n) | l = map (lift ord_max) s & map (unlift ord_max) l = map Some s}.
+Definition cons_cycle {T : finType} (x : T) (c : cycle T) (Hx : x\notin (seq_of_cycle c))
+  : cycle T :=
+  Cycle _ (x :: c) (cons_cycle_proof x c Hx)
+.
+
+Inductive head_cycle_seq {T : finType} (x : T) : (seq (cycle T)) -> (seq (cycle T)) -> Type :=
+  | is_head_cycle : forall (y : T)  (c : cycle T) (cs : seq (cycle T)),
+      uniq cs ->
+      all (fun d => x\notin (seq_of_cycle d)) cs ->
+      forall Hy : y\notin (seq_of_cycle c),
+      forall Hx : x\notin seq_of_cycle (cons_cycle y c Hy),
+      head_cycle_seq x (cs++[::(cons_cycle x (cons_cycle y c Hy) Hx)]) (cs++[::(cons_cycle x  (cons_cycle y c Hy) Hx)])
+  | isnot_head_cycle : forall (cs : seq (cycle T)),
+      uniq cs ->
+      all (fun c => x\notin (seq_of_cycle c)) cs ->
+      head_cycle_seq x cs cs
+  | rotate_head_cycle : forall (c : cycle T) (cs ds : seq (cycle T)) n,
+      head_cycle_seq x (c::cs) (c::ds) -> head_cycle_seq x ((rot_cycle n c)::cs) (c::ds)
+  | rotate_cycle : forall (cs cs' ds : seq (cycle T)),
+      perm_eq cs cs' -> head_cycle_seq x cs ds -> head_cycle_seq x cs' ds
+.
+
+Lemma head_cycle_list_correct {T : finType} (cs : seq (cycle T)) (x : T) (Huniq : uniq cs) :
+  head_cycle_seq x cs
+    (match head_cycle_list cs x with
+     | Some ds => ds
+     | None => cs
+     end).
 Proof.
-  elim: l => [//|a l IHl] /=; intros.
-  move: H0. rewrite in_cons negb_or => /andP [Hneqa H0].
-  move: (unlift_some Hneqa) => /= [j _ _].
-  case: l H IHl H0 => [| b l]; intros.
+  elim: cs Huniq => /= [_ | c0 cs0 IHcs0 /andP [Hc0 Huniq0]].
+    exact: (isnot_head_cycle _ _ _).
+  move: IHcs0 => /(_ Huniq0) IHcs0.
+  remember (match head_cycle_list cs0 x with
+            | Some ds => ds
+            | None => cs0
+            end) as ds0.
+  elim: IHcs0 Heqds0 Huniq0 Hc0 => /= [y c cs Huniq Hall Hy Hx| cs Huniq Hall| c cs ds n Hcs IHcs| cs cs' ds Hperm Hcs IHcs] Heqds0 Huniq0 Hc0.
 Admitted.
-  (*
-    exact: [::j].
-  rewrite /= ltnS in IHl.
-  move: IHl => /(_ (leq0n _))/(_ H0) IHl.
-  apply (cons j) in IHl.
-  exact: IHl.
-Qed.*)
-Definition unlift_cycle {n} (c : cycle (ordinal_eqType n.+1)) : size c > 0 -> ord_max \notin (list_of_cycle c) -> {d : cycle (ordinal_eqType n) | list_of_cycle c = map (lift ord_max) (list_of_cycle d) & map (unlift ord_max) (list_of_cycle c) = map Some (list_of_cycle d)}.
-Proof.
-  case: c => [l Hl].
-Admitted.
+
 (*
-  elim: l => [//|a l IHl] /=; intros.
-  move: H0. rewrite in_cons negb_or => /andP [Hneqa H0].
-  move: (unlift_some Hneqa) => /= [j _ _].
-  case: l H IHl H0 => [| b l]; intros.
-    exact: [::j].
-  rewrite /= ltnS in IHl.
-  move: IHl => /(_ (leq0n _))/(_ H0) IHl.
-  apply (cons j) in IHl.
-  exact: IHl.
-Qed.*)
-Definition unlift_seq_cycle {n} (cs : seq (cycle (ordinal_eqType n.+1))) :
-  all (fun c => size (list_of_cycle c) > 0) cs ->
-  all (fun c => ord_max \notin (list_of_cycle c)) cs ->
-  {ds : seq (cycle (ordinal_eqType n)) | all2 (fun c d => list_of_cycle c == map (lift ord_max) (list_of_cycle d)) cs ds & all2 (fun c d => map (unlift ord_max) (list_of_cycle c) == map Some (list_of_cycle d)) cs ds}.
-Admitted.
+  - case Ha: (head_cycle c0 x) => [a|].
+  - 
+Qed.
+*)
 
-Definition sk_Residuation (C : Atomic_Skeleton) (p : 'S_(sk_arity).+1) : Atomic_Skeleton.
+Definition uniq_cycle {T : eqType} (c : cycle T) : uniq (seq_of_cycle c) :=
+  let: Cycle l Hl := c in Hl.
+
+Lemma map_cycle_proof {T U: eqType} (f : T -> U) (f_inj : injective f) (c : cycle T) : uniq (map f c).
 Proof.
-  set n := sk_arity.
-  move: (prod_cpermP p) => [cs Hprod Hdis Huniq Hlen].
-  remember (head_cycle_list cs (ord_max)) as Ods.
-  case: Ods HeqOds => [ds |]; intros.
-    case: cs Hprod Hdis Hlen Huniq HeqOds => [//|c cs] /=; intros.
-    remember (head_cycle c (ord_max)) as Oc.
-    case: Oc HeqOds HeqOc => [d| //]; intros.
-    move: d HeqOds HeqOc => [l Hl].
-    case: l Hl => [//| xn]; case => [//| a]; intros.
-    assert (H1: all (fun c0 : cycle (ordinal_eqType sk_arity.+1) => 0 < size c0) cs).
-      intros.
-    move: (unlift_seq_cycle cs). => [cs _ _].
-    remember (map (map (unlift ord_max)) (map list_of_cycle cs)) as cs'.
-    
-    assert (Haord : a != ord_max).
-      move: (head_cycle_head _ _ _ a HeqOc) => /=.
-      move: (Hl) => /= /andP [Hxn /andP [Ha Huql]].
-      move: Hxn. rewrite in_cons negb_or => /andP [/negbTE Hneqan Hxn] Heqxn.
-      rewrite Heqxn in Hneqan.
-      apply/negP => /eqP H.
-      by rewrite H /= eq_refl in Hneqan.
-    move: (unlift_some Haord) => /= [a' _ _].
-    move: (sk_Permute C (\prod_(c0 <- cs) (cperm ds))%g) => D.
+  case: c => l Hl.
+  by rewrite (map_inj_uniq f_inj).
+Qed.
 
-    apply: sk_partial_Residuation (sk_Permute) a'.
-    case: l Hl Hprod Hlen Hdis Huniq HeqOds HeqOc => [//| a l] /=; intros.
-  case Opds: (head_cycle_list cs n).
+Definition map_cycle {T U: eqType} (f : T -> U) (f_inj : injective f) (c : cycle T)
+  := Cycle _ (map f c) (map_cycle_proof f f_inj c).
+
+Definition unlift_seq {n} (cs : seq 'I_n) (x : 'I_n) :=
+  map (unlift x) cs.
+
+Lemma unlift_some_seq {n} (c : seq 'I_n) (x : 'I_n) :
+  x\notin c -> {d : seq 'I_n.-1 | c = map (lift x) d & map (unlift x) c = map Some d}.
+Proof.
+  elim: c => /= [_| a l IHl Hx].
+    exact: (exist2 _ _ [::]).
+  move: Hx. rewrite in_cons negb_or => /andP [/unlift_some Hx /IHl IHlx].
+  apply (exist2 _ _ ((proj1_sig Hx) :: (proj1_sig IHlx))) => /=.
+    f_equal. exact: (proj2_sig Hx).1. exact: (proj2_sig IHlx).1.
+  f_equal. exact: (proj2_sig Hx).2. exact: (proj2_sig IHlx).2.
+Qed.
+
+Lemma unlift_some_seq_seq {n} (cs : seq (seq 'I_n)) (x : 'I_n) :
+  all (fun c => x\notin c) cs -> {cs' : seq (seq 'I_n.-1) | cs = map (map (lift x)) cs' & map (map (unlift x)) cs = map (map Some) cs'}.
+Proof.
+  elim: cs => /= [_| a l IHl Hx].
+    exact: (exist2 _ _ [::]).
+  move: Hx => /andP [/unlift_some_seq Hx /IHl IHlx].
+  apply (exist2 _ _ ((proj1_sig Hx) :: (proj1_sig IHlx))) => /=.
+    f_equal. exact: (proj2_sig Hx).1. exact: (proj2_sig IHlx).1.
+  f_equal. exact: (proj2_sig Hx).2. exact: (proj2_sig IHlx).2.
+Qed.
+
+Lemma unlift_inj {n} {h : 'I_n} [i1 i2 : 'I_n] : unlift h i1 = unlift h i2 -> i1 = i2.
+Proof.
+  case: (unliftP h i1) => [j Hj|]; case: (unliftP h i2) => [j' Hj' H|H1 H2]//.
+  injection H as H. by rewrite Hj Hj' H.
+  by rewrite H1 H2.
+Qed.
+
+Lemma Some_inj {A : Type} : injective (@Some A).
+Proof.
+  rewrite /injective => x y H.
+  by injection H.
+Qed.
+
+Lemma map_cycle_inj {T U : eqType} (f : T -> U) f_inj : injective (map_cycle f f_inj).
+Proof.
+  rewrite /map_cycle/injective; case => l Hl; case => s Hs H.
+  injection H as H. move: Hl Hs.
+  rewrite (inj_map f_inj H) => Hl Hs.
+  f_equal.
+  exact: (UIP_dec Bool.bool_dec).
+Qed.
+
+(*
+Lemma unlift_some_cycle {n} (c : cycle 'I_n) (x : 'I_n) :
+  x\notin (seq_of_cycle c) -> {d : cycle 'I_n.-1 | c = map_cycle (lift x) (lift_inj) d & map_cycle (unlift x) (unlift_inj) c = map_cycle Some Some_inj d}.
+Proof.
+  move => Hx. move: (unlift_some_seq c x Hx) => [s Hlift Hunlift].
+  assert (Huniq : uniq s).
+    apply: (map_uniq (f:=Some)). rewrite -Hunlift.
+    rewrite (map_inj_uniq unlift_inj).
+    exact: (uniq_cycle _).
+  move: c Hx Hlift Hunlift  => [l /= Hl] Hx Hlift Hunlift.
+  rewrite /map_cycle /=.
+  apply: (exist2 _ _ (Cycle _ s Huniq)) => /=.
+    move: Hl. rewrite Hlift => Hl.
+    f_equal. exact: (UIP_dec Bool.bool_dec).
+  case: (@eqP _ (eqP (map_cycle_proof Some Some_inj
+       (Cycle (fintype_ordinal__canonical__eqtype_Equality n.-1) s Huniq))) (eqxx true)).
+  case: (@eqP _ (uniq [seq unlift x i | i <- Cycle (fintype_ordinal__canonical__eqtype_Equality n) l Hl]) true) => Hstar.
+    rewrite Hstar.
+  move: Hl Huniq. rewrite -Hunlift.
+  move: Hl Hlift Hx Huniq. rewrite Hunlift. /= => Hl.
+  rewrite (inj_map lift_inj) in 
+  revert dependent l.
+  elim => /= [Hl _ | a s IHs Hl Hx].
+    apply (exist2 _ _ (Cycle 'I_n.-1 [::] Hl)) => //.
+    rewrite /map_cycle /=. f_equal.
+    exact: (UIP_dec Bool.bool_dec Hl (eqxx true)).
+  move: Hx. rewrite in_cons negb_or => /andP [/unlift_some Hx /IHs IHsx].
+  apply (exist2 _ _ ((proj1_sig Hx) :: (proj1_sig IHsx))) => /=.
+    f_equal. exact: (proj2_sig Hx).1. exact: (proj2_sig IHlx).1.
+  f_equal. exact: (proj2_sig Hx).2. exact: (proj2_sig IHlx).2.
+Qed.*)
+
+Definition unlift_perm_fun {n} i j (s : 'S_n) k :=
+  if k is Some k'
+  then unlift j (s (lift i k'))
+  else unlift j (s i).
+
+Lemma unlift_perm_fun_inj {n} i j (s : 'S_n) : injective (unlift_perm_fun i j s).
+Proof.
+  rewrite /unlift_perm_fun => x y.
+  case: x => [x|]; case: y => [y| //];
+    first (by move /unlift_inj/perm_inj/lift_inj => ->);
+  move/unlift_inj/perm_inj/eqP; by rewrite ?lift_eqF // eq_sym lift_eqF.
+Qed.
+
+Definition unlift_perm {n} i j (s : 'S_n) :=
+  perm (unlift_perm_fun_inj i j s).
+
+Definition option_perm_fun {T : finType} (p : {perm T}) k :=
+  if k is Some k'
+  then Some (p k')
+  else None.
+
+Definition option_perm_fun_inj {T : finType} (p : {perm T}) : injective (option_perm_fun p).
+Proof.
+  rewrite /option_perm_fun.
+  case => [x|] [// y|//].
+  move => H. apply Some_inj in H.
+  apply perm_inj in H. by rewrite H.
+Qed.
+
+Definition option_perm {T : finType} (p : {perm T}) :=
+  perm (option_perm_fun_inj p).
+
+Lemma unlift_inj_iff {n m} (f : 'I_n -> 'I_m) (f_inj : injective f) x y :
+  unlift x y <-> unlift (f x) (f y).
+Proof.
+  case: (@eqP _ x y) => [-> | nH].
+    by rewrite !unlift_none.
+  assert (Heq : f x != f y). by apply/eqP => /f_inj.
+  split.
+    by rewrite (proj2_sig (unlift_some Heq)).2.
+  move: nH => /eqP nH.
+  by rewrite (proj2_sig (unlift_some nH)).2.
+Qed.
+
+(*
+Lemma unlift_inj_eq {n m} (f : 'I_n -> 'I_m) (f_inj : injective f) x y :
+  f (unlift x y) <-> unlift (f x) (f y).
+Proof.
+  case: (@eqP _ x y) => [-> | nH].
+    by rewrite !unlift_none.
+  assert (Heq : f x != f y). by apply/eqP => /f_inj.
+  split.
+    by rewrite (proj2_sig (unlift_some Heq)).2.
+  move: nH => /eqP nH.
+  by rewrite (proj2_sig (unlift_some nH)).2.
+Qed.
+*)
+
+Lemma option_some_proof {T U : Type} (f : option T -> option U) (f_wd : forall x : option T, x -> f x) x : ~ (f (Some x) = None).
+  case Heq: (f (Some x)) => [//|].
+  move: (f_wd (Some x) (eq_refl true)).
+  by rewrite Heq.
+Qed.
+
+Definition option_some {T U : Type} (f : option T -> option U) (f_wd : forall x : option T, x -> f x) : T -> U
   :=
+  fun x =>
+    (match f (Some x) as o return f (Some x) = o -> U with
+    | Some a => fun=> a
+    | None => fun Ho => False_rect U (option_some_proof f f_wd x Ho)
+    end) (Logic.eq_refl _).
+
+Definition option_match_some_rw {A P vSome vNone o} {x:A} (H:Some x = o)
+  : match o return P o with None => vNone | Some y => vSome y end  = rew [P] H in vSome x
+  := match H with Logic.eq_refl => Logic.eq_refl end.
+
+Definition option_match_none_rw {A P vSome vNone} {o : option A} {x:A} (H:None = o)
+  : match o return P o with None => vNone | Some y => vSome y end  = rew [P] H in vNone
+  := match H with Logic.eq_refl => Logic.eq_refl end.
+
+Definition constant_rw T P (x y:T) (H:x=y) B b
+  : rew [fun z => P z -> B] H in (fun _ => b) = fun _ => b
+  := match H with Logic.eq_refl => Logic.eq_refl end.
+
+Lemma option_some_wf {T U : Type} (f : option T -> option U) (f_wd : forall x : option T, x -> f x) x : f (Some x) = Some (option_some f f_wd x).
+Proof.
+  case Heq: (f (Some x)) => [a|].
+    rewrite /option_some (option_match_some_rw (Logic.eq_sym Heq)).
+    by rewrite constant_rw.
+  by apply option_some_proof in Heq.
+Qed.
+
+Lemma option_some_finj {T : Type} (f : option T -> option T) (f_wd : forall x : option T, x -> f x) (f_inj : injective f) : injective (option_some f f_wd).
+Proof.
+  move => x y.
+  case Heqx : (f (Some x)) => [a|]; case Heqy : (f (Some y)) => [b|].
+  - rewrite /option_some.
+    rewrite (option_match_some_rw (Logic.eq_sym Heqx)).
+    rewrite (option_match_some_rw (Logic.eq_sym Heqy)).
+    rewrite !constant_rw => Heqab.
+    rewrite Heqab -Heqy in Heqx.
+    move: Heqx => /f_inj Heqx.
+    exact: (Some_inj _ _ Heqx).
+  - move: (f_wd (Some y) (eq_refl true)).
+    by rewrite Heqy.
+  - move: (f_wd (Some x) (eq_refl true)).
+    by rewrite Heqx.
+  rewrite -Heqy in Heqx.
+  move: Heqx => /f_inj Heqx.
+  by apply Some_inj in Heqx.
+Qed.
+
+Lemma unlift_perm_unlift [n : ℕ] (i j : 'I_n) (s : 'S_n) (k : 'I_n):
+  unlift_perm i j s (unlift i k) = unlift j (s k).
+Proof.
+  rewrite permE/unlift_perm_fun.
+  case: (@eqP _ i k) => [-> | /eqP nHeq].
+    by rewrite unlift_none.
+  move: (unlift_some nHeq) => [k' Hunit Hcounit].
+  by rewrite Hcounit -Hunit.
+Qed.
+
+Lemma unlift_some_perm {n} (i j : 'I_n.+1) (s : 'S_n.+1) :
+  (s i = j) -> {p : 'S_n | s = lift_perm i j p & unlift_perm i j s = option_perm p}.
+Proof.
+  move => H.
+  assert (unlift_wd : forall (x : option 'I_n), x -> (unlift_perm i j s x)).
+    move => x. rewrite /unlift_perm permE/unlift_perm_fun.
+    case: x => [x|//] Hx.
+    rewrite -H -(unlift_inj_iff _ perm_inj).
+    by rewrite (proj2_sig (unlift_some (neq_lift i x))).2.
+  apply (exist2 _ _ (perm (option_some_finj _ unlift_wd perm_inj))).
+    rewrite -permP => x.
+    rewrite permE/lift_perm_fun.
+    case: (@eqP _ i x) => Heq.
+      by rewrite -Heq unlift_none.
+    move: Heq => /eqP Heq.
+    move: (unlift_some Heq) => [k Hunit Hcounit].
+    rewrite Hcounit permE Hunit -{1}H.
+    case Hsome: (unlift_perm i j s (Some k)) => [a|].
+      rewrite /option_some.
+      rewrite (option_match_some_rw (Logic.eq_sym Hsome)) constant_rw.
+      rewrite -Hcounit unlift_perm_unlift Hunit -H in Hsome.
+      rewrite Hunit in Heq.
+      move: Heq => /eqP/(contra_not (@perm_inj _ s _ _))/eqP.
+      move /(unlift_some) => /= [k' Hunit' Hcounit'].
+      rewrite Hunit'. rewrite Hsome in Hcounit'.
+      by rewrite (Some_inj _ _ Hcounit').
+    rewrite -Hcounit unlift_perm_unlift Hunit -H in Hsome.
+    rewrite Hunit in Heq.
+    move: Heq => /eqP/(contra_not (@perm_inj _ s _ _))/eqP Heq.
+    by rewrite (proj2_sig (unlift_some Heq)).2 /= in Hsome.
+  rewrite -permP => x.
+  rewrite !permE/unlift_perm_fun/option_perm_fun.
+  case: x => [a|].
+    rewrite permE.
+    case Hsome : (unlift_perm i j s (Some a)) => [b|].
+      rewrite /option_some.
+      rewrite (option_match_some_rw (Logic.eq_sym Hsome)) constant_rw.
+      by rewrite permE /= in Hsome.
+    rewrite permE/= in Hsome.
+    move: (neq_lift i a) => /eqP/(contra_not (@perm_inj _ s _ _))/eqP Heq.
+    move: (unlift_some Heq) => [k Hunit Hcounit].
+    by rewrite -H Hcounit in Hsome.
+  by rewrite H unlift_none.
+Qed.
+
+Lemma cycle_in_fix {T : finType} (c : cycle T) (x : T) :
+  x \notin (seq_of_cycle c) -> (cperm c) x == x.
+Proof.
+  rewrite permE/fun_of_cycle /= => /memNindex H.
+  by rewrite nth_default // H size_rot.
+Qed.
+
+(*
+Definition unlift_perm {n} (i j : 'I_n.+1) (s : 'S_n.+1) (max_wd : s (ord_max) = ord_max) : 'S_n.
+*)
+
+Lemma nmem_cons_cycle_l {T : finType} x y (c : cycle T) Hy :
+  x \notin seq_of_cycle (cons_cycle y c Hy) -> x != y.
+Proof.
+  case: c Hy => /= [l Hl] Hy.
+  by rewrite in_cons negb_or => /andP [Hx _].
+Qed.
+
+Lemma nmem_cons_cycle_r {T : finType} x y (c : cycle T) Hy :
+  x \notin seq_of_cycle (cons_cycle y c Hy) -> x \notin (seq_of_cycle c).
+Proof.
+  case: c Hy => /= [l Hl] Hy.
+  by rewrite in_cons negb_or => /andP [_ Hx].
+Qed.
+
+Lemma all_prod_id {T : finType} (cs : seq (cycle T)) x : all (fun d => (cperm d x == x)) cs -> (\prod_(d <- cs) cperm d)%g x = x.
+Proof.
+  elim: cs => /= [| a l IHl].
+    by rewrite big_nil permE.
+  move => /andP [/eqP Hx /IHl Hl].
+  by rewrite big_cons permE /= Hx.
+Qed.
+
+(* versió inductiva tb?
+*)
+
+Lemma all_imp {T : Type} (P Q : T -> bool) l (H : forall n, P n -> Q n) : all P l -> all Q l.
+Proof.
+  elim: l => /= [//| a l IHl].
+  move => /andP [Ha /IHl Hl]. apply/andP.
+  split.
+    exact: (H _ Ha).
+  exact: Hl.
+Qed.
+
+(* I used head_cycle_seq inductive type to have an inductive definition carrying the desired properties of our decomposition, it goes along a fixpoint construction called head_cycle_list for cycles of cycles. *)
+Definition sk_Residuation
+  (C : Atomic_Skeleton) (p : 'S_(sk_arity).+1) : Atomic_Skeleton :=
   let: n := sk_arity in
-  let: Cycle_list cs Hprod Hdis := (prod_cpermP p) in
-  match (head_cycle_list cs n) with
-  | None => ?
-  | Some ds =>
-      match ds with
-      | [::] => False_ind
-                 sk_partial_Residuation
-  end.
+  let: Cycle_list cs0 Hprod Hdis Huniq Hlen := (prod_cpermP p) in
+  (fix skRfix cs ds
+     (hproof : head_cycle_seq (ord_max) cs ds) :=
+  match hproof with
+  | is_head_cycle y c cs' Huniq Hnew Hnew2 Hx =>
+      sk_Permute
+        (sk_Permute
+           (sk_partial_Residuation C (proj1_sig (unlift_some (nmem_cons_cycle_l _ _ _ _ Hx))))
+           (proj1_sig (unlift_some_perm ord_max ord_max (cperm c) (eqP (cycle_in_fix _ _ (nmem_cons_cycle_r _ _ _ _ Hx))))))
+        (proj1_sig (unlift_some_perm ord_max ord_max (\prod_(d <- cs') cperm d)%g (all_prod_id _ _ (all_imp _ _ cs' (fun d => cycle_in_fix (T:='I_n.+1) d (@ord_max n)) Hnew))))
+  | isnot_head_cycle cs' Huniq Hnew =>
+      sk_Permute C (proj1_sig (unlift_some_perm ord_max ord_max (\prod_(d <- cs') cperm d)%g (all_prod_id _ _ (all_imp _ _ cs' (fun d => cycle_in_fix (T:='I_n.+1) d (@ord_max n)) Hnew))))
+  | rotate_head_cycle c cs' ds n Hrot => skRfix _ _ Hrot
+  | rotate_cycle cs' cs'' ds Hcs Hrot => skRfix _ _ Hrot
+  end
+  ) cs0 (let Ods := (head_cycle_list cs0 ord_max) in
+     match Ods with
+     | Some ds => ds
+     | None => cs0
+     end) (head_cycle_list_correct cs0 ord_max Huniq).
 
 (* Cal Residuació tb sobre connectius. *)
-
-
-
-Lemma dmap_feq {T T' : Type}
-  (f : ℕ -> T -> T') (g : ℕ -> T -> T') {n} (t : tuple n) :
-  (forall n x, f n x = g n x) -> dmap f t = dmap g t.
-Proof.
-  elim: t f g; simpl; intros.
-    reflexivity.
-  f_equal.
-  exact: H0.
-  exact: H.
-Qed.
-
-Lemma dmap_comp {T T' T'' : Type}
-  (f : ℕ -> T -> T') (g : ℕ -> T' -> T'') {n} (t : tuple n) :
-  dmap g (dmap f t) = dmap (fun n x => g n (f n x)) t.
-Proof.
-  elim: t f g; intros.
-    reflexivity.
-  simpl. f_equal.
-  exact: H.
-Qed.
-
-Lemma dmap_id {T : Type} {n} (t : @tuple T n) : dmap (fun _ x => x) t = t.
-Proof.
-  elim: t; intros.
-    reflexivity.
-  simpl. by rewrite H.
-Qed.
 
 Lemma involutive_residuation (C : Atomic_Skeleton) (i : 'I_(sk_arity)) : sk_Residuation (sk_Residuation C i) i = C.
 Proof.
