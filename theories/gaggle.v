@@ -15,14 +15,26 @@ Set Printing Implicit Defensive.
 
 (* Changing universal quantification utf8 symbols  *)
 Notation "'ℕ'" := nat.
-Definition oneZ2 := (1%:R : 'Z_2)%R.
-Definition zeroZ2 := (0 : 'Z_2)%R.
+Definition Z2 := 'Z_2.
+Definition oneZ2 := (1%:R : Z2)%R.
+Definition zeroZ2 := (0 : Z2)%R.
 Notation "∃" := oneZ2.
 Notation "∀" := zeroZ2.
 Notation "─" := oneZ2. (* '\---' with Agda's key-bindings *)
 Notation "⊹" := zeroZ2. (* ⊹ '\+ ' with Agda's key-bindings*)
-Notation "'Æ'" := 'Z_2.
-Notation "±" := 'Z_2.
+Notation "'Æ'" := Z2.
+Notation "±" := Z2.
+
+Definition sign_to_bool (i : ±) :=
+  match i with
+  Ordinal n _ =>
+    match n with
+    | 0 => true
+    | _.+1 => false
+    end
+  end
+.
+Coercion sign_to_bool : Z2 >-> bool.
 
 Goal (∃ + ∃ = ∀)%R. exact: char_Zp. Qed.
 Goal (∃ + ⊹ = ─)%R.
@@ -54,7 +66,11 @@ Class Connective {A : Connectives} := {
 }.
 
 Definition arity {A} (C : Connective) := @sk_arity (@skeleton A C).
-Definition type {A} (C : Connective) := @sk_type_output (@skeleton A C).
+Definition permutation {A} (C : Connective) := @sk_permutation (@skeleton A C).
+Definition sign {A} (C : Connective) := @sk_sign (@skeleton A C).
+Definition sign_input {A} (C : Connective) := @sk_sign_input (@skeleton A C).
+Definition quantification {A} (C : Connective) := @sk_quantification (@skeleton A C).
+Definition type_output {A} (C : Connective) := @sk_type_output (@skeleton A C).
 Definition type_input {A} (C : Connective) := @sk_type_input (@skeleton A C).
 Section Of_type.
 Variable k : nat.
@@ -107,15 +123,16 @@ Definition to_connective {A : Connectives}
 End Strict.
 Coercion Strict.to_connective : Strict.Connective >-> Connective.
 
-Inductive Formula {A : Connectives} : ℕ -> Type :=
+Inductive typed_Formula {A : Connectives} : ℕ -> Type :=
   | composition :
       forall (C : @Connective A),
-      (forall i : 'I_(@arity A C), Formula (tnth (type_input C) i)) ->
-      Formula (type C)
+      (forall i : 'I_(@arity A C), typed_Formula (tnth (type_input C) i)) ->
+      typed_Formula (type_output C)
 .
+Definition Formula {A : Connectives} := {k & typed_Formula k}.
 
-Inductive signed T :=
-  | sign : 'Z_2 -> T -> signed T
+Inductive Signed T :=
+  | signed : Z2 -> T -> Signed T
 .
 
 Definition Boolean_Negation (C : Atomic_Skeleton) : Atomic_Skeleton :=
@@ -143,12 +160,12 @@ Definition Boolean_Negation (C : Atomic_Skeleton) : Atomic_Skeleton :=
 
 Definition Boolean_Action (A : Connectives) : Connectives :=
   {|
-  connective_set := signed connective_set;
+  connective_set := Signed connective_set;
   assignment :=
-    fun sC : signed connective_set =>
+    fun sC : Signed connective_set =>
     match sC with
-    | @sign _ (@Ordinal _ 0 _) t => assignment t
-    | @sign _ (@Ordinal _ _.+1 _) t =>
+    | @signed _ (@Ordinal _ 0 _) t => assignment t
+    | @signed _ (@Ordinal _ _.+1 _) t =>
         Boolean_Negation (assignment t)
     end
 |}.
@@ -230,11 +247,11 @@ Definition lres_connective : Connectives :=
          |})
   |}.
 
-Goal @assignment (Boolean_Action and_connective) (sign (@connective_set and_connective) ⊹ 0%R) = @assignment and_connective 0%R.
+Goal @assignment (Boolean_Action and_connective) (signed (@connective_set and_connective) ⊹ 0%R) = @assignment and_connective 0%R.
   by[].
 Qed.
 (* Cal pensar una manera general per a que portar les proves decidibles no es fagi carregos. *)
-Goal @assignment (Boolean_Action and_connective) (sign (@connective_set and_connective) ─ 0%R) = @assignment or_connective 0%R.
+Goal @assignment (Boolean_Action and_connective) (signed (@connective_set and_connective) ─ 0%R) = @assignment or_connective 0%R.
   move => /=.
   rewrite GRing.addr0.
   rewrite -GRing.mulrnDr.
@@ -358,6 +375,12 @@ Proof.
   exact: (neq_lift _ _).
 Qed.
 
+(* Semantical type input is posing a serious problem here, as the type input must change, in order to respect composition restrictions (both in Permute and partial_Residuation).
+   Furthermore, when residuating a with the ord_max component, through partial_Residuation, the new component might of any possible type.
+   Therefore, we need a different kind of residuation for all types we are interested in returning.
+   In case we want sequents to have the same types in both sides it gets simply solved by interchanging type output and type input in the type sequence.
+   THIS CHANGES ARE NOT REFLECTED IN THE ARTICLES DEFINITIONS!
+ *)
 Definition sk_partial_Residuation (C : Atomic_Skeleton) (i : 'I_(sk_arity)) : Atomic_Skeleton :=
   let s := (tnth sk_sign_input i) in
   let n := (@ord_max sk_arity) in
@@ -862,10 +885,49 @@ Qed.
 Lemma orbit_set (C : Atomic_Skeleton) : @connective_set (orbit_of_skeleton C) = 'S_sk_arity.+1.
 Proof. by[]. Qed.
 
-Definition Residuation {C : Atomic_Skeleton} (D : @Connective (orbit_of_skeleton C)) (p : 'S_(@sk_arity C).+1) : @Connective (orbit_of_skeleton C) :=
-  @Build_Connective (orbit_of_skeleton C)
-    (p * (cast_perm (f_equal S (Logic.eq_sym (orbit_arity C D)))
-              (@sk_permutation (@skeleton _ D))))%g.
+(* STRUCTURES *)
+
+(* Una definició diferent alternativa seria que structure_set hagues de contenir als connectius A però en poguès tenir més. *)
+(* We set a new class because formulas from structures are defined independently from connectives.
+   With a duplicate definition it is easier for us to tell them appart.
+ *)
+Class Structures {A : Connectives} :=
+  {
+    structure_set := @connective_set A;
+    structure_assignment := @assignment A
+  }.
+Class Structure {A : Connectives} {S : @Structures A} :=
+  {
+    structure_var : connective_set;
+    structure_skeleton := assignment structure_var
+  }.
+Definition S_to_Cs {A} (S : @Structures A) := A.
+Definition C_to_Ss (C : @Connectives) := @Build_Structures C.
+Definition S_to_C {A : Connectives} {B} (S : @Structure _ B) : @Connective (S_to_Cs B) :=
+  {|
+    var := structure_var
+  |}.
+Definition C_to_S {A} (C : @Connective A) : @Structure A (C_to_Ss A) :=
+  {|
+    structure_var := var
+  |}.
+
+(* Boolean negation to be done and added over formulas.
+   As an alternative one could leave the sign over formulas as ill-defined (it takes whatever value is required by context).
+ *)
+Inductive typed_Structural_Formula {A : Connectives} {S : Structures} : ℕ -> Type :=
+  | from_formula {k} : @typed_Formula A k -> typed_Structural_Formula k
+  | structural_composition
+    : forall C : Structure,
+      (forall i : 'I_(@sk_arity (@structure_skeleton _ _ C)),
+          typed_Structural_Formula (tnth (@sk_type_input (@structure_skeleton _ _ C)) i)) ->
+      typed_Structural_Formula (@sk_type_output (@structure_skeleton _ _ C)).
+Definition Structural_Formula {A : Connectives} {S : Structures} := sigT typed_Structural_Formula.
+
+Definition Residuation {C : Atomic_Skeleton} (D : @Structure _ (C_to_Ss (orbit_of_skeleton C))) (p : 'S_(@sk_arity C).+1) : @Structure _ (C_to_Ss (orbit_of_skeleton C)) :=
+  @Build_Structure _ (C_to_Ss (orbit_of_skeleton C))
+    (p * (cast_perm (f_equal S (Logic.eq_sym (orbit_arity C (S_to_C D))))
+              (@sk_permutation (@skeleton _ (S_to_C D)))))%g.
 
 Theorem α_is_action {C : Atomic_Skeleton} : is_action [set: 'S_(@sk_arity C).+1] (@Residuation C).
 Proof.
@@ -876,9 +938,8 @@ Proof.
     rewrite cast_permE /=.
 Admitted.
 
-Definition α {C : Atomic_Skeleton} := Action (α_is_action (C:=C)).
-
-Definition full_Connectives {Generators : Connectives} :=
+(* Each connective from Generators creates a full independent orbit of connectives. *)
+Definition full_Connectives (Generators : Connectives) :=
   {|
     connective_set := sigT (fun (C : @Connective Generators) => 'S_sk_arity.+1);
     assignment := fun Cp =>
@@ -886,21 +947,7 @@ Definition full_Connectives {Generators : Connectives} :=
                     (sk_α {| sa:= skeleton; eqs_arity := Logic.eq_refl _|} p)
   |}.
 
-(* We set a new class because formulas from structures are defined independently than connectives.
-   With a duplicate definition it is easier for us to tell them appart.
- *)
-Class Structures {A : Connectives} :=
-  {
-    structure_set := @connective_set A;
-    structure_assignment := @assignment A
-  }.
-Definition S_to_C {A} (S : @Structures A) :=
-  {|
-    connective_set := @connective_set A;
-    assignment := @assignment A
-  |}.
-Definition C_to_S {A} (S : @Structures A) :=
-  @Build_Structures A.
+Definition α {C : Atomic_Skeleton} := Action (α_is_action (C:=C)).
 
 
 (* ATOMIC CALCULUS *)
@@ -908,11 +955,71 @@ Definition C_to_S {A} (S : @Structures A) :=
 (* Agafar tota l'òrbita per la negació i la residuació. *)
 (* Potser val la pena fer-ho com comentava el Guillaume i de moment limitar-ho tot només sobre esquelets. *)
 
-Definition unsigned_joint {A : Connectives} (f : Formula -> Formula -> Type) (C : Connective)
-
-Inductive Derivation {k : nat} {Generators : Connectives}
-  : @Formula (@full_Connectives Generators) k ->
-    @Formula (@full_Connectives Generators) k -> Type
+Definition unsigned_function
+  (s : ±) {A : Connectives} {S : Structures}
+  (f : Structural_Formula -> Structural_Formula -> Type)
+  (X Y : Structural_Formula)
   :=
-  hola (k : nat) : forall C, Derivation C C
+  f
+    (if s then Y else X)
+    (if s then X else Y).
+
+Definition unsigned_pivoted_function_S
+  {A : Connectives} {S : Structures}
+  (f : Structural_Formula -> Structural_Formula -> Type) (C : @Structure _ S)
+  (X : forall i:'I_(@sk_arity (@structure_skeleton _ _ C)),
+      typed_Structural_Formula (tnth sk_type_input i))
+  (U : Structural_Formula)
+  :=
+  unsigned_function (@sk_sign (@structure_skeleton _ _ C)) f
+    U (existT _
+           (@sk_type_output (@structure_skeleton _ _ C)) (structural_composition C X)).
+
+Definition unsigned_pivoted_function_C
+  {A : Connectives} {S : Structures}
+  (f : Structural_Formula -> Structural_Formula -> Type) (C : @Connective A)
+  (φ : forall i:'I_(arity C),
+      typed_Formula (tnth (type_input C) i))
+  (U : Structural_Formula)
+  :=
+  unsigned_function (sign C) f
+    U (existT _
+           (type_output C) (from_formula (composition C φ))).
+
+(* stopped due to some formalisation problems. *)
+
+(* semantical types are a little bit problematic here, as we need a different residuated skeleton, depending on the type of the consequent in dr1. *)
+(* Lacks dr2 and connective sets non equal to a full orbit. *)
+Inductive Derivation {Generators : Connectives}
+  : @Structural_Formula _ (C_to_Ss (@full_Connectives Generators)) ->
+    @Structural_Formula _ (C_to_Ss (@full_Connectives Generators)) -> Type
+  :=
+  | LRule (C : @Connective (@full_Connectives Generators))
+    :
+      forall (X : forall i:'I_(arity C),
+          typed_Structural_Formula (tnth (type_input C) i)),
+      forall (φ : forall i:'I_(arity C),
+          typed_Formula (tnth (type_input C) i)),
+      (forall i:'I_(arity C),
+          unsigned_function (tnth (sign_input C) i + (quantification C))%R
+            Derivation
+            (existT _ (tnth (type_input C) i) (X i))
+            (existT _ (tnth (type_input C) i) (from_formula (φ i)))) ->
+      unsigned_pivoted_function_S Derivation (C_to_S C)
+        X
+        (existT _ (type_output C) (from_formula (composition C φ)))
+  | RRule (C : @Connective (@full_Connectives Generators))
+    :
+      forall (φ : forall i:'I_(arity C),
+          typed_Formula (tnth (type_input C) i)),
+      forall U : Structural_Formula,
+      unsigned_pivoted_function_S Derivation (C_to_S C)
+        (fun i => from_formula (φ i)) U ->
+      unsigned_pivoted_function_C Derivation C φ U
+  | dr1 (C : @Connective (@full_Connectives Generators)) (p : 'S_(arity C).+1)
+    :
+      forall (X : forall i:'I_(arity C),
+          typed_Structural_Formula (tnth (type_input C) i)),
+      forall U : Structural_Formula,
+      unsigned_pivoted_function_S Derivation (C_to_S C)
 .
