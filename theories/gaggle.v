@@ -35,6 +35,9 @@ Definition sign_to_bool (i : ±) :=
   end
 .
 Coercion sign_to_bool : Z2 >-> bool.
+Definition bool_to_sign (b : bool) : Z2 :=
+  if b then @Ordinal 2 0 (eq_refl _) else @Ordinal 2 1 (eq_refl _).
+Coercion bool_to_sign : bool >-> Z2.
 
 Goal (∃ + ∃ = ∀)%R. exact: char_Zp. Qed.
 Goal (∃ + ⊹ = ─)%R.
@@ -47,12 +50,14 @@ by rewrite GRing.add0r. Qed.
 Class Atomic_Skeleton := {
     sk_arity : ℕ;
     sk_permutation : 'S_sk_arity.+1;
-    sk_sign : ±;
+    sk_sign : sk_arity.+1.-tuple ±;
     sk_quantification : Æ;
-    sk_type_output : ℕ;
-    sk_type_input : sk_arity.-tuple ℕ;
-    sk_sign_input : sk_arity.-tuple ±
+    sk_type : sk_arity.+1.-tuple ℕ;
 }.
+Definition sk_sign_input {C : Atomic_Skeleton} := [tuple tnth (@sk_sign C) (lift ord_max i) | i < (@sk_arity C)].
+Definition sk_sign_output {C : Atomic_Skeleton} := tnth (@sk_sign C) ord_max.
+Definition sk_type_input {C : Atomic_Skeleton} := [tuple tnth (@sk_type C) (lift ord_max i) | i < (@sk_arity C)].
+Definition sk_type_output {C : Atomic_Skeleton} := tnth (@sk_type C) ord_max.
 
 (* Arregla-ho a tot arreu *)
 Class Connectives := {
@@ -68,8 +73,10 @@ Class Connective {A : Connectives} := {
 Definition arity {A} (C : Connective) := @sk_arity (@skeleton A C).
 Definition permutation {A} (C : Connective) := @sk_permutation (@skeleton A C).
 Definition sign {A} (C : Connective) := @sk_sign (@skeleton A C).
+Definition sign_output {A} (C : Connective) := @sk_sign_output (@skeleton A C).
 Definition sign_input {A} (C : Connective) := @sk_sign_input (@skeleton A C).
 Definition quantification {A} (C : Connective) := @sk_quantification (@skeleton A C).
+Definition type {A} (C : Connective) := @sk_type (@skeleton A C).
 Definition type_output {A} (C : Connective) := @sk_type_output (@skeleton A C).
 Definition type_input {A} (C : Connective) := @sk_type_input (@skeleton A C).
 Section Of_type.
@@ -90,7 +97,7 @@ Class Atomic_Skeleton := {
 Definition to_atomic_skeleton (P : Atomic_Skeleton) :=
   match P with
     {| sk_sign := s; sk_quantification := q; sk_type_output := t |} =>
-      gaggle.Build_Atomic_Skeleton 0 (1) s q t (@Tuple _ _ nil (eq_refl _)) (@Tuple _ _ nil (eq_refl _))
+      gaggle.Build_Atomic_Skeleton 0 (1)  (@Tuple _ _ [::s] (eq_refl _)) q (@Tuple _ _ [::t] (eq_refl _))
   end.
 Class Connective {A : Connectives} := {
     var : connective_set;
@@ -126,8 +133,8 @@ Coercion Strict.to_connective : Strict.Connective >-> Connective.
 Inductive typed_Formula {A : Connectives} : ℕ -> Type :=
   | composition :
       forall (C : @Connective A),
-      (forall i : 'I_(@arity A C), typed_Formula (tnth (type_input C) i)) ->
-      typed_Formula (type_output C)
+      (forall i : 'I_(@arity A C), typed_Formula (tnth (type C) (lift ord_max i))) ->
+      typed_Formula (tnth (type C) ord_max)
 .
 Definition Formula {A : Connectives} := {k & typed_Formula k}.
 
@@ -140,23 +147,18 @@ Definition Boolean_Negation (C : Atomic_Skeleton) : Atomic_Skeleton :=
   | {|
       sk_arity := n0;
       sk_permutation := σ;
-      sk_sign := s_o;
+      sk_sign := s;
       sk_quantification := q;
-      sk_type_output := t_o;
-      sk_type_input := t_i;
-      sk_sign_input := s_i
+      sk_type := t;
     |} =>
       ({|
           sk_arity := n0;
           sk_permutation := σ;
-          sk_sign := ─ + s_o;
+          sk_sign := map_tuple (fun x => ─ + x) s;
           sk_quantification := ─ + q;
-          sk_type_output := t_o;
-          sk_type_input := t_i;
-          sk_sign_input := [ tuple ─ + tnth s_i i | i < n0 ]
+          sk_type := t;
         |})%R
   end.
-(* Cal convertir-ho en una acció sobre els connectius mitjançant mathcomp.fingroup.action *)
 
 Definition Boolean_Action (A : Connectives) : Connectives :=
   {|
@@ -169,96 +171,64 @@ Definition Boolean_Action (A : Connectives) : Connectives :=
         Boolean_Negation (assignment t)
     end
 |}.
+(* Cal convertir-ho en una acció *)
 
 Definition and_skeleton : Atomic_Skeleton :=
   {|
     sk_arity := 2;
     sk_permutation := 1;
-    sk_sign := ⊹;
+    sk_sign := @Tuple 3 _ [:: ⊹; ⊹; ⊹]%R (eq_refl _);
     sk_quantification := ∃;
-    sk_type_output := 1;
-    sk_type_input := @Tuple 2 _ [:: 1; 1] (eq_refl _);
-    sk_sign_input := @Tuple 2 _ [:: 0; 0]%R (eq_refl _)
+    sk_type := @Tuple 3 _ [:: 1; 1; 1] (eq_refl _);
   |}.
 Definition or_skeleton : Atomic_Skeleton :=
   {|
     sk_arity := 2;
     sk_permutation := 1;
-    sk_sign := ─;
+    sk_sign := @Tuple 3 _ [:: ─; ─; ─]%R (eq_refl _);
     sk_quantification := ∀;
-    sk_type_output := 1;
-    sk_type_input := @Tuple 2 _ [:: 1; 1] (eq_refl _);
-    sk_sign_input := @Tuple 2 _ [:: 1; 1]%R (eq_refl _)
+    sk_type := @Tuple 3 _ [:: 1; 1; 1] (eq_refl _);
   |}.
 Definition lres_skeleton : Atomic_Skeleton :=
   {|
     sk_arity := 2;
     sk_permutation := tperm (@Ordinal 3 0 (eq_refl _)) (@Ordinal 3 2 (eq_refl _));
-    sk_sign := ─;
+    sk_sign := @Tuple 3 _ [:: ⊹; ─; ─]%R (eq_refl _);
     sk_quantification := ∀;
-    sk_type_output := 1;
-    sk_type_input := @Tuple 2 _ [:: 1; 1] (eq_refl _);
-    sk_sign_input := @Tuple 2 _ [:: ⊹; ─]%R (eq_refl _)
+    sk_type := @Tuple 3 _ [:: 1; 1; 1] (eq_refl _);
   |}.
 
 Definition and_connective : Connectives :=
   {|
     connective_set := 'I_1;
     assignment :=
-      (fun _ =>
-         {|
-           sk_arity := 2;
-           sk_permutation := 1;
-           sk_sign := ⊹;
-           sk_quantification := ∃;
-           sk_type_output := 1;
-           sk_type_input := @Tuple 2 _ [:: 1; 1] (eq_refl _);
-           sk_sign_input := @Tuple 2 _ [:: 0; 0]%R (eq_refl _)
-         |})
+      (fun _ => and_skeleton)
   |}.
 Definition or_connective : Connectives :=
   {|
     connective_set := 'I_1;
     assignment :=
-      (fun _ =>
-         {|
-           sk_arity := 2;
-           sk_permutation := 1;
-           sk_sign := ─;
-           sk_quantification := ∀;
-           sk_type_output := 1;
-           sk_type_input := @Tuple 2 _ [:: 1; 1] (eq_refl _);
-           sk_sign_input := @Tuple 2 _ [:: 1; 1]%R (eq_refl _)
-         |})
+      (fun _ => or_skeleton)
   |}.
 Definition lres_connective : Connectives :=
   {|
     connective_set := 'I_1;
     assignment :=
-      (fun _ =>
-         {|
-           sk_arity := 2;
-           sk_permutation := tperm (@Ordinal 3 0 (eq_refl _)) (@Ordinal 3 2 (eq_refl _));
-           sk_sign := ─;
-           sk_quantification := ∀;
-           sk_type_output := 1;
-           sk_type_input := @Tuple 2 _ [:: 1; 1] (eq_refl _);
-           sk_sign_input := @Tuple 2 _ [:: ⊹; ─]%R (eq_refl _)
-         |})
+      (fun _ => lres_skeleton)
   |}.
 
 Goal @assignment (Boolean_Action and_connective) (signed (@connective_set and_connective) ⊹ 0%R) = @assignment and_connective 0%R.
-  by[].
-Qed.
+Proof. by[]. Qed.
 (* Cal pensar una manera general per a que portar les proves decidibles no es fagi carregos. *)
 Goal @assignment (Boolean_Action and_connective) (signed (@connective_set and_connective) ─ 0%R) = @assignment or_connective 0%R.
-  move => /=.
-  rewrite GRing.addr0.
-  rewrite -GRing.mulrnDr.
-  rewrite char_Zp; last by[].
+Proof.
+  rewrite /=/and_skeleton/or_skeleton/=.
   f_equal.
-  rewrite /mktuple. rewrite /map_tuple.
-Admitted.
+    apply eq_from_tnth => x.
+    rewrite tnth_map.
+    case: x. do 3 (try case) => //.
+  by rewrite -GRing.mulrnDr char_Zp.
+Qed.
 
 (* PERMUTATIONS and α-ACTION *)
 
@@ -375,47 +345,37 @@ Proof.
   exact: (neq_lift _ _).
 Qed.
 
-(* Semantical type input is posing a serious problem here, as the type input must change, in order to respect composition restrictions (both in Permute and partial_Residuation).
-   Furthermore, when residuating a with the ord_max component, through partial_Residuation, the new component might of any possible type.
-   Therefore, we need a different kind of residuation for all types we are interested in returning.
-   In case we want sequents to have the same types in both sides it gets simply solved by interchanging type output and type input in the type sequence.
-   THIS CHANGES ARE NOT REFLECTED IN THE ARTICLES DEFINITIONS!
- *)
-Definition sk_partial_Residuation (C : Atomic_Skeleton) (i : 'I_(sk_arity)) : Atomic_Skeleton :=
-  let s := (tnth sk_sign_input i) in
-  let n := (@ord_max sk_arity) in
-  (* Si l'opacitat no et donès problemes, aleshores utilitza lift ord_max *)
-  let i' := lift n i in
+(* versió inductiva tb? *)
+Definition sk_Residuation (C : Atomic_Skeleton) (p : 'S_sk_arity.+1) : Atomic_Skeleton
+  :=
+  let: n := (@ord_max sk_arity) in
+  let: i := (p n) in
+  let: s := (tnth sk_sign i) in
+  let: p' := (p * tperm ord_max (p ord_max))%g in
   {|
     sk_arity := sk_arity;
-    sk_permutation := (tperm i' n) * sk_permutation;
-    sk_sign := ─ + s + sk_sign;
-    sk_quantification := ─ + s + sk_quantification;
-    sk_type_output := sk_type_output;
-    sk_type_input := sk_type_input;
-    sk_sign_input := [ tuple let: s' := tnth sk_sign_input j in
-                       if j == i then s' else ─ + s + s' | j < n]
-  |}%R
-.
-
-Definition sk_Permute (C : Atomic_Skeleton) (p : 'S_(sk_arity)) : Atomic_Skeleton :=
-  let n := Ordinal (leqnn sk_arity.+1) in
-  {|
-    sk_arity := sk_arity;
-    sk_permutation := (lift_perm ord_max ord_max p * sk_permutation)%g;
-    sk_sign := sk_sign;
-    sk_quantification := sk_quantification;
-    sk_type_output := sk_type_output;
-    sk_type_input := [tuple tnth sk_type_input (p i) | i < n];
-    sk_sign_input := [tuple tnth sk_sign_input (p i) | i < n]
-  |}%R
-.
+    sk_permutation := sk_permutation * p;
+    sk_sign :=
+      if (i != n) then
+        [tuple if j != i
+           then ─ + s + tnth sk_sign ((p'^-1)%g j)
+           else s | j < sk_arity.+1]
+      else sk_sign;
+    sk_quantification :=
+      if (i != n) then
+        ─ + s + sk_quantification
+      else sk_quantification;
+    sk_type :=
+      [tuple tnth sk_type ((p^-1)%g i) | i < sk_arity.+1]
+  |}%R.
 
 Definition unlift_seq {n} (cs : seq 'I_n) (x : 'I_n) :=
   map (unlift x) cs.
 
 Lemma unlift_some_seq {n} (c : seq 'I_n) (x : 'I_n) :
-  x\notin c -> {d : seq 'I_n.-1 | c = map (lift x) d & map (unlift x) c = map Some d}.
+  x\notin c ->
+  {d : seq 'I_n.-1 |
+    c = map (lift x) d & map (unlift x) c = map Some d}.
 Proof.
   elim: c => /= [_| a l IHl Hx].
     exact: (exist2 _ _ [::]).
@@ -505,24 +465,24 @@ Definition option_some {T U : Type} (f : option T -> option U) (f_wd : forall x 
     (match f (Some x) as o return f (Some x) = o -> U with
     | Some a => fun=> a
     | None => fun Ho => False_rect U (option_some_proof f f_wd x Ho)
-    end) (Logic.eq_refl _).
+    end) (erefl _).
 
 Definition option_match_some_rw {A P vSome vNone o} {x:A} (H:Some x = o)
   : match o return P o with None => vNone | Some y => vSome y end  = rew [P] H in vSome x
-  := match H with Logic.eq_refl => Logic.eq_refl end.
+  := match H with erefl => erefl end.
 
 Definition option_match_none_rw {A P vSome vNone} {o : option A} (H:None = o)
   : match o return P o with None => vNone | Some y => vSome y end  = rew [P] H in vNone
-  := match H with Logic.eq_refl => Logic.eq_refl end.
+  := match H with erefl => erefl end.
 
 Definition constant_rw T P (x y:T) (H:x=y) B b
   : rew [fun z => P z -> B] H in (fun _ => b) = fun _ => b
-  := match H with Logic.eq_refl => Logic.eq_refl end.
+  := match H with erefl => erefl end.
 
 Lemma option_some_wf {T U : Type} (f : option T -> option U) (f_wd : forall x : option T, x -> f x) x : f (Some x) = Some (option_some f f_wd x).
 Proof.
   case Heq: (f (Some x)) => [a|].
-    rewrite /option_some (option_match_some_rw (Logic.eq_sym Heq)).
+    rewrite /option_some (option_match_some_rw (esym Heq)).
     by rewrite constant_rw.
   by apply option_some_proof in Heq.
 Qed.
@@ -532,8 +492,8 @@ Proof.
   move => x y.
   case Heqx : (f (Some x)) => [a|]; case Heqy : (f (Some y)) => [b|].
   - rewrite /option_some.
-    rewrite (option_match_some_rw (Logic.eq_sym Heqx)).
-    rewrite (option_match_some_rw (Logic.eq_sym Heqy)).
+    rewrite (option_match_some_rw (esym Heqx)).
+    rewrite (option_match_some_rw (esym Heqy)).
     rewrite !constant_rw => Heqab.
     rewrite Heqab -Heqy in Heqx.
     move: Heqx => /f_inj Heqx.
@@ -576,7 +536,7 @@ Proof.
     rewrite Hcounit permE Hunit -{1}H.
     case Hsome: (unlift_perm i j s (Some k)) => [a|].
       rewrite /option_some.
-      rewrite (option_match_some_rw (Logic.eq_sym Hsome)) constant_rw.
+      rewrite (option_match_some_rw (esym Hsome)) constant_rw.
       rewrite -Hcounit unlift_perm_unlift Hunit -H in Hsome.
       rewrite Hunit in Heq.
       move: Heq => /eqP/(contra_not (@perm_inj _ s _ _))/eqP.
@@ -593,7 +553,7 @@ Proof.
     rewrite permE.
     case Hsome : (unlift_perm i j s (Some a)) => [b|].
       rewrite /option_some.
-      rewrite (option_match_some_rw (Logic.eq_sym Hsome)).
+      rewrite (option_match_some_rw (esym Hsome)).
       rewrite constant_rw.
       by rewrite permE /= in Hsome.
     rewrite permE/= in Hsome.
@@ -614,203 +574,29 @@ Proof.
 Qed.
 
 
-(* versió inductiva tb?
-*)
-Definition sk_Residuation
-  (C : Atomic_Skeleton) (s : 'S_(sk_arity).+1) : Atomic_Skeleton :=
-  let n := sk_arity in
-  match unlift ord_max (s ord_max) with
-  | Some i =>
-      sk_Permute
-        (sk_partial_Residuation C i)
-        (proj1_sig (unlift_some_perm _ _
-                      (s * (tperm ord_max (s ord_max)))%g
-                      (ord_max_residuate s ord_max)))
-  | None =>
-      sk_Permute C
-        (proj1_sig (unlift_some_perm _ _
-                      (s * (tperm ord_max (s ord_max)))%g
-                      (ord_max_residuate s ord_max)))
-  end.
 Section Of_arity.
 Variable n : nat.
 
 Class ary_Skeleton := {
     sa : @Atomic_Skeleton;
-    eqs_arity : n = sk_arity
+    eqs_arity : n == sk_arity
   }.
 Class ary_Connective {A : Connectives} := {
     ca : @Connective A;
-    eqc_arity : n = @sk_arity skeleton
+    eqc_arity : n == @sk_arity skeleton
 }.
-
-Definition ska_Residuation
-  (C : ary_Skeleton) (s : 'S_n.+1) :=
-  match unlift ord_max (s ord_max) with
-  | Some i =>
-      {| sa := sk_Permute
-           (sk_partial_Residuation sa (cast_ord eqs_arity i))
-           (cast_perm eqs_arity (proj1_sig (unlift_some_perm _ _
-                      (s * (tperm ord_max (s ord_max)))%g
-                      (ord_max_residuate s ord_max))));
-        eqs_arity := eqs_arity
-      |}
-  | None =>
-      {| sa := sk_Permute sa
-           (cast_perm eqs_arity (proj1_sig (unlift_some_perm _ _
-                      (s * (tperm ord_max (s ord_max)))%g
-                      (ord_max_residuate s ord_max))));
-        eqs_arity := eqs_arity
-      |}
-  end.
-End Of_arity.
 Coercion ca : ary_Connective >-> Connective.
 Coercion sa : ary_Skeleton >-> Atomic_Skeleton.
 
-(* Cal Residuació tb sobre connectius. *)
+Definition ska_Residuation
+  (C : ary_Skeleton) (s : 'S_n.+1) :=
+  {| sa := sk_Residuation C (cast_perm (f_equal S (eqP eqs_arity)) s);
+    eqs_arity := eqs_arity
+  |}.
+End Of_arity.
 
-Goal
-  (sk_Residuation and_skeleton
-  (tperm (@Ordinal 3 0 (eq_refl _)) (@Ordinal 3 2 (eq_refl _))))
-  = lres_skeleton.
-  rewrite /sk_Residuation.
-  move: (@unlift_some _ ord_max (tperm
-         (Ordinal (n:=3) (m:=0)
-            (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (1 - 3)))
-         (Ordinal (n:=3) (m:=2)
-            (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (3 - 3))) ord_max)) => [|j Heqj1 Heqj2].
-    by rewrite permE /=.
-  rewrite Heqj2.
-  rewrite /sk_Permute/ord_max/and_skeleton/lres_skeleton/sk_sign/sk_arity/sk_type_output/sk_quantification.
-  move: (unlift_some_perm (Ordinal (n:=3) (m:=2) (ltnSn 2))
-           (Ordinal (n:=3) (m:=2) (ltnSn 2))
-           (tperm
-              (Ordinal (n:=3) (m:=0)
-                 (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (1 - 3)))
-              (Ordinal (n:=3) (m:=2)
-                 (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (3 - 3))) *
-            tperm (Ordinal (n:=3) (m:=2) (ltnSn 2))
-              (tperm
-                 (Ordinal (n:=3) (m:=0)
-                    (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (1 - 3)))
-                 (Ordinal (n:=3) (m:=2)
-                    (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (3 - 3)))
-                 (Ordinal (n:=3) (m:=2) (ltnSn 2))))
-           (ord_max_residuate
-              (tperm
-                 (Ordinal (n:=3) (m:=0)
-                    (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (1 - 3)))
-                 (Ordinal (n:=3) (m:=2)
-                    (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (3 - 3))))
-              (Ordinal (n:=3) (m:=2) (ltnSn 2)))) => [p Heqp1 Heqp2].
-  f_equal => //=.
-  - rewrite -Heqp1 -permP => x. rewrite !permE/=.
-    rewrite mulg1.
-    case: x => n Hn.
-    case: n Hn => /= [Hn| n Hn].
-      repeat (rewrite permE /=).
-      rewrite -Heqj1 permE /= /ord_max.
-      exact: ord_inj.
-    case: n Hn => /= [Hn| n Hn].
-      repeat (rewrite permE /=).
-      rewrite -Heqj1 permE /= /ord_max.
-      exact: ord_inj.
-    case: n Hn => //= Hn.
-      repeat (rewrite permE /=).
-      rewrite -Heqj1 permE /= /ord_max.
-      exact: ord_inj.
-  - rewrite (tnth_nth ord_max) /=.
-    move: (f_equal (@nat_of_ord 3) Heqj1).
-    by rewrite lift_max permE /= => <- /=.
-  - rewrite (tnth_nth ord_max) /=.
-    move: (f_equal (@nat_of_ord 3) Heqj1).
-    rewrite lift_max permE /= => <- /=.
-    by rewrite GRing.addr0 -GRing.mulrnDr char_Zp.
-  - apply eq_from_tnth => x.
-    rewrite !(tnth_nth 0) /=.
-    case: x => n Hn.
-      (* tractar amb tnth o [tuple _] *)
-    have H : tnth
-          (Tuple (n:=2) (tval:=[:: 1; 1])
-             (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) 2)) \o p
-             =1 (nth 0 [:: 1; 1]) \o (nat_of_ord (n:=2)) \o p.
-    move => x /=. by rewrite /tnth (set_nth_default 0).
-    rewrite (eq_map H) /=.
-    rewrite (nth_map (@Ordinal 2 0 (eq_refl _)));
-      last by rewrite size_enum_ord.
-    rewrite permE /= -permP in Heqp2.
-    case: n Hn => /= [Hn| n Hn].
-      have {16}->: 0 = nat_of_ord (@Ordinal 2 0 (eq_refl _)). by[].
-      rewrite nth_ord_enum.
-      move: Heqp2 => /(_ (Some (Ordinal (n:=2) (m:=0) (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (1 - 2))))).
-      repeat (rewrite permE /=).
-      have nHeq : (Ordinal (n:=3) (m:=2) (ltnSn 2)) != (Ordinal (n:=3) (m:=0) (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (1 - 3))). by[].
-      move: (unlift_some nHeq) => [i Heqi1 Heqi2].
-      move: Heqi1 => /(f_equal (nat_of_ord (n:=3))) Heqi1.
-      rewrite lift_max in Heqi1.
-      rewrite Heqi2 => /(Some_inj _ _) /(f_equal (nat_of_ord (n:=2))) /=.
-      by rewrite -Heqi1 => <- /=.
-    case: n Hn => /= [Hn|//].
-    have {14}->: 1 = nat_of_ord (@Ordinal 2 1 (eq_refl _)). by[].
-    rewrite nth_ord_enum.
-    move: Heqp2 => /(_ (Some (Ordinal (n:=2) (m:=1) (eq_refl _)))).
-    repeat (rewrite permE /=).
-    have nHeq : ord_max != lift ord_max (Ordinal (n:=2) (m:=1) (eq_refl _)). by[].
-    move: (unlift_some nHeq) => [i Heqi1 Heqi2].
-    move: Heqi1 => /(f_equal (nat_of_ord (n:=3))) Heqi1.
-    rewrite lift_max in Heqi1.
-    rewrite Heqi2 => /(Some_inj _ _) /(f_equal (nat_of_ord (n:=2))) /=.
-    move => <-.
-    case: i Heqi1 Heqi2.
-    by case => //; case => //; case => //.
-  apply eq_from_tnth => x.
-  rewrite !(tnth_nth (@Ordinal 2 0 (eq_refl _))) /=.
-  case: x => n Hn.
-  rewrite (nth_map (@Ordinal 2 0 (eq_refl _)));
-    last by rewrite size_enum_ord.
-  rewrite !(tnth_nth (@Ordinal 2 0 (eq_refl _))).
-  rewrite (nth_map (@Ordinal 2 0 (eq_refl _)));
-    last by rewrite size_enum_ord.
-  rewrite nth_ord_enum /= nth_ord_enum /=.
-  case: n Hn => [Hn | n Hn].
-    rewrite -permP in Heqp2.
-    move: Heqp2 => /(_ (Some (Ordinal (n:=2) (m:=0) (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (1 - 2))))).
-    repeat (rewrite permE /=).
-    have nHeq : ord_max != Ordinal (n:=3) (m:=0) (eq_refl _). by[].
-    move: (unlift_some nHeq) => /= [i Heqi1 Heqi2].
-    apply (f_equal (nat_of_ord (n:=3))) in Heqi1.
-    rewrite lift_max in Heqi1.
-    rewrite Heqi2 => /(Some_inj _ _) /(f_equal (@nat_of_ord 2)).
-    have <- : Ordinal (n:=2) (m:=0) Hn = Ordinal (n:=2) (m:=0) (eqxx (T:=Datatypes_nat__canonical__eqtype_Equality) (1 - 2)). by apply ord_inj.
-    rewrite -Heqi1 => H.
-    have <- : p (Ordinal (n:=2) (m:=0) Hn) = j.
-      apply ord_inj. rewrite -H.
-      apply (f_equal (@nat_of_ord 3)) in Heqj1.
-      rewrite lift_max permE /= in Heqj1.
-      by rewrite -Heqj1.
-    rewrite eq_refl.
-    by rewrite (tnth_nth (@Ordinal 2 0 (eq_refl _))) -H /=.
-  case: n Hn => // Hn.
-  rewrite -permP in Heqp2.
-  move: Heqp2 => /(_ (Some (Ordinal (n:=2) (m:=1) (eq_refl _)))).
-  repeat (rewrite permE /=).
-  have nHeq : ord_max != lift ord_max (Ordinal (n:=2) (m:=1) (eq_refl _)). by[].
-  move: (unlift_some nHeq) => /= [i Heqi1 Heqi2].
-  apply lift_inj in Heqi1.
-  rewrite Heqi2 -Heqi1 => /(Some_inj _ _).
-  have <- : Ordinal (n:=2) (m:=1) Hn = Ordinal (n:=2) (m:=1) (eq_refl _). by apply ord_inj.
-  move => <-.
-  have <-: (Ordinal (n:=2) (m:=0) (eq_refl _)) = j.
-    apply ord_inj.
-    apply (f_equal (@nat_of_ord 3)) in Heqj1.
-    rewrite lift_max permE /= in Heqj1.
-    by rewrite -Heqj1.
-  have -> : (@Ordinal 2 1 Hn) == @Ordinal 2 0 (eq_refl _) = false.
-    by apply /negPf/eqP => /(f_equal (@nat_of_ord 2)).
-  by rewrite (tnth_nth (@Ordinal 2 0 (eq_refl _))) /=.
-Qed.
-
-(* Comprovar que són accions *)
+HB.instance Definition _ {n : nat} := [isSub of (ary_Skeleton n) for @sa n].
+HB.instance Definition _ {A : Connectives} {n : nat} := [isSub of (ary_Connective n) for @ca n A].
 
 (* Total action should be defined over all permutations of natural numbers, which is problematic as we have been using properties of finite types.
    For the moment we might work with sets of connectives of bounded height.
@@ -818,72 +604,116 @@ Qed.
    Our first approach will be reducing all skeletons to be of fixed arity.
  *)
 
+Definition cast_ary_sk {m} {n} (eq_mn : m = n) (C : ary_Skeleton m) :=
+  let: erefl in _ = n := eq_mn return ary_Skeleton n in C.
+
+Lemma sa_inj {n} : injective (@sa n).
+Proof.
+  move => x y H.
+  apply val_inj.
+  exact: H.
+Qed.
+
+Lemma ca_inj {A} {n} : injective (@ca A n).
+Proof.
+  move => x y H.
+  apply val_inj.
+  exact: H.
+Qed.
+
+Goal
+  (sk_Residuation and_skeleton
+  (tperm (@Ordinal 3 0 (eq_refl _)) (@Ordinal 3 2 (eq_refl _))))
+  = lres_skeleton.
+Proof.
+  rewrite /sk_Residuation/and_skeleton/lres_skeleton /=.
+  f_equal.
+  - by rewrite /sk_permutation mul1g.
+  - apply eq_from_tnth => x.
+Admitted.
+(*
+    rewrite permE /iinv /=. tnth_map.
+    rewrite iinv_f.
+    rewrite permE /= tnth_map.
+    case: x. do 3 (try case); move => //= Heq;
+      by rewrite tnth_ord_tuple /=.
+  - rewrite permE /=.
+    rewrite (tnth_nth ord_max) /=.
+    by rewrite GRing.addr0 -GRing.mulrnDr char_Zp.
+  apply eq_from_tnth => x.
+  rewrite tnth_map /=.
+  case: x. do 3 (try case); move => //= Heq.
+  ;
+  by rewrite tnth_ord_tuple permE /=.
+Qed. *)
+
 Theorem sk_α_is_action {n} : is_action [set: 'S_n.+1] (ska_Residuation n).
 Proof.
-  apply: is_total_action => [C|C p1 p2].
-    case: C;
-    case => n0 p s q t ti si Heq.
-    rewrite /ska_Residuation {1}permE unlift_none.
-    rewrite /sk_Permute /=.
-    have -> :
-          (lift_perm ord_max ord_max
-            (cast_perm Heq
-               (ssrfun.s2val
-                  (unlift_some_perm ord_max ord_max (1 * tperm ord_max ((1%g : 'S_n.+1) ord_max))
-                     (ord_max_residuate 1 ord_max)))) * sk_permutation)%g = sk_permutation.
-      admit.
-    have -> :
-      [tuple tnth sk_type_input
-         (cast_perm Heq
-            (ssrfun.s2val
-               (unlift_some_perm ord_max ord_max (1 * tperm ord_max ((1%g : 'S_n.+1) ord_max))
-                            (ord_max_residuate 1 ord_max))) i)
-             | i < sk_arity] = sk_type_input.
-      admit.
-    have -> :
-      [tuple tnth sk_sign_input
-                   (cast_perm Heq
-                      (ssrfun.s2val
-                         (unlift_some_perm ord_max ord_max (1 * tperm ord_max ((1%g : 'S_n.+1) ord_max))
-                            (ord_max_residuate 1 ord_max))) i)
-             | i < sk_arity] = sk_sign_input.
-      admit.
-    by f_equal.
-  rewrite !/ska_Residuation.
-  rewrite {1}permE /=.
-  case Heqa: (unlift ord_max (p2 ord_max)) => [a|];
-  case Heqb: (unlift ord_max (p2 (p1 ord_max))) => [b|].
-  - f_equal.
+  rewrite /ska_Residuation/sk_Residuation.
+  apply: is_total_action => [C|C p1 p2];
+    case: C => C Heq;
+    apply sa_inj => /=;
+    case: C Heq => n0 p s q t Heq.
+    f_equal.
+    - rewrite -permP => x.
+      by rewrite permE /= cast_permE permE /= cast_ordKV.
+    - by rewrite /= cast_permE permE /= cast_ordKV eq_refl.
+    - by rewrite cast_permE permE /= cast_ordKV eq_refl.
+    - apply eq_from_tnth => x.
+      rewrite tnth_map /=.
+      f_equal.
+        apply (@perm_inj _ (cast_perm (f_equal S (eqP Heq)) 1)).
+        rewrite permKV.
+        by rewrite cast_permE permE /= cast_ordKV tnth_ord_tuple.
+  case H1 : (cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max != ord_max);
+    last move: H1 => /eqP H1;
+    (case H2 : (cast_perm (f_equal succn (eqP Heq)) p1 ord_max != ord_max);
+      first (case H3 : (cast_perm (f_equal succn (eqP Heq)) p2 ord_max != ord_max);
+        last move : H3 => /eqP H3);
+      last move: H2 => /eqP H2;
+      (f_equal;
+      first by rewrite /= -mulgA cast_perm_morphM);
+      (try (
+        apply eq_from_tnth => x;
+        rewrite !tnth_map !tnth_ord_tuple))).
+  - case H4 : (x != cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max);
+      case H5 : (x != cast_perm (f_equal succn (eqP Heq)) p2 ord_max);
+        case H6 : (
+                    cast_perm (f_equal succn (eqP Heq)) p2 ord_max
+                      != cast_perm (f_equal succn (eqP Heq)) p1 ord_max).
+(*
+  Pensa-t'ho millor, val més la pena convertir-lo en una prova automatizada.  
+  Cal fer tots els possibles casos de valors de x, depenent de si es igual a ord_max o les seves imatges.
+  potser cal algun lemma sobre iinv.
+  potser tb algun entre cast i ^-1.
+ *)
+(*
+      case H4 : (x != cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max).
+      rewrite !cast_permE !permE /=.
+      rewrite  cast_ordKV.
+  - admit.
+      by rewrite cast_permE permE /= cast_ordKV tnth_ord_tuple.
+  f_equal.
+  - simpl.
+    rewrite cast_permE permE /=.
+    admit.
+  - simpl.
+    rewrite cast_permE permE /=.
+    admit.
+  apply eq_from_tnth => x.
+  rewrite !tnth_map /sk_type.
+  f_equal.
+  rewrite !cast_permE permE /=.
+  f_equal.*)
 Admitted.
 
 Definition sk_α {n} := Action (sk_α_is_action (n:=n)).
 
-
-(* Convertir-ho en una acció sobre certs conjunts de connectius *)
-
-Definition orbit_of_skeleton (C : Atomic_Skeleton) : Connectives :=
-  {|
-    connective_set := 'S_sk_arity.+1;
-    assignment := fun p => (sk_α {| sa:= C; eqs_arity := Logic.eq_refl _|} p)
-  |}.
-
-Lemma ska_Residuation_arity_invariant (C : Atomic_Skeleton) (p : 'S_sk_arity.+1) : @sk_arity C = @sk_arity ((ska_Residuation _ {| sa:= C; eqs_arity := Logic.eq_refl _|} p)).
+Lemma ska_Residuation_arity_invariant (C : Atomic_Skeleton) (p : 'S_sk_arity.+1) : @sk_arity C = @sk_arity ((ska_Residuation _ {| sa:= C; eqs_arity := eq_refl _|} p)).
 Proof.
   rewrite /ska_Residuation /=.
   by case: (unlift ord_max (p ord_max)).
 Qed.
-
-Lemma orbit_arity (C : Atomic_Skeleton) (D : @Connective (orbit_of_skeleton C)) :
-  @sk_arity C = @sk_arity (@skeleton _ D).
-Proof.
-  move: D. rewrite /orbit_of_skeleton.
-  case => /= lD.
-  move: C lD => /= [aC pC sC qC toC tiC siC] lD.
-  by rewrite -ska_Residuation_arity_invariant.
-Qed.
-
-Lemma orbit_set (C : Atomic_Skeleton) : @connective_set (orbit_of_skeleton C) = 'S_sk_arity.+1.
-Proof. by[]. Qed.
 
 (* STRUCTURES *)
 
@@ -920,34 +750,92 @@ Inductive typed_Structural_Formula {A : Connectives} {S : Structures} : ℕ -> T
   | structural_composition
     : forall C : Structure,
       (forall i : 'I_(@sk_arity (@structure_skeleton _ _ C)),
-          typed_Structural_Formula (tnth (@sk_type_input (@structure_skeleton _ _ C)) i)) ->
-      typed_Structural_Formula (@sk_type_output (@structure_skeleton _ _ C)).
+          typed_Structural_Formula
+            (tnth (@sk_type (@structure_skeleton _ _ C)) (lift ord_max i))) ->
+      typed_Structural_Formula (tnth (@sk_type (@structure_skeleton _ _ C)) ord_max).
 Definition Structural_Formula {A : Connectives} {S : Structures} := sigT typed_Structural_Formula.
 
-Definition Residuation {C : Atomic_Skeleton} (D : @Structure _ (C_to_Ss (orbit_of_skeleton C))) (p : 'S_(@sk_arity C).+1) : @Structure _ (C_to_Ss (orbit_of_skeleton C)) :=
-  @Build_Structure _ (C_to_Ss (orbit_of_skeleton C))
-    (p * (cast_perm (f_equal S (Logic.eq_sym (orbit_arity C (S_to_C D))))
-              (@sk_permutation (@skeleton _ (S_to_C D)))))%g.
+Definition orbit_of_skeleton (C : Atomic_Skeleton) : Connectives :=
+  {|
+    connective_set := 'S_sk_arity.+1;
+    assignment := fun p => (sk_α {| sa:= C; eqs_arity := eq_refl _|} p)
+  |}.
 
-Theorem α_is_action {C : Atomic_Skeleton} : is_action [set: 'S_(@sk_arity C).+1] (@Residuation C).
-Proof.
-  apply is_total_action.
-    rewrite /Residuation. move => [lD D].
-    rewrite mul1g. f_equal.
-    rewrite -permP => x.
-    rewrite cast_permE /=.
-Admitted.
+Lemma orbit_arity (C : Atomic_Skeleton)
+  (D : @Connective (orbit_of_skeleton C)) :
+  @sk_arity C = @sk_arity (@skeleton _ D).
+Proof. by[]. Qed.
+
+Lemma orbit_set (C : Atomic_Skeleton) :
+  @connective_set (orbit_of_skeleton C) = 'S_sk_arity.+1.
+Proof. by[]. Qed.
 
 (* Each connective from Generators creates a full independent orbit of connectives. *)
 Definition full_Connectives (Generators : Connectives) :=
   {|
-    connective_set := sigT (fun (C : @Connective Generators) => 'S_sk_arity.+1);
-    assignment := fun Cp =>
-                  let: existT C p := Cp in
-                    (sk_α {| sa:= skeleton; eqs_arity := Logic.eq_refl _|} p)
+    connective_set := { C : @Connective Generators & 'S_sk_arity.+1 };
+    assignment :=
+      fun Cp => let: existT C p := Cp in
+                (sk_α {| sa:= skeleton; eqs_arity := eq_refl _|} p)
   |}.
 
-Definition α {C : Atomic_Skeleton} := Action (α_is_action (C:=C)).
+Definition head_of {Generators : Connectives} (C : @Connective (full_Connectives Generators)) :=
+  let: existT cC _ := (@var _ C) in cC.
+Definition orbit_of_full {Generators : Connectives}
+  (C : @Connective (full_Connectives Generators)) :=
+  {|
+    connective_set := 'S_(arity C).+1;
+    assignment :=
+      fun p : 'S_sk_arity.+1 =>
+        sk_α
+          {|
+            sa := (@skeleton _ C); eqs_arity := eq_refl _
+          |} p
+  |}.
+Definition full_of_orbit {Generators : Connectives}
+  (C : @Connective (full_Connectives Generators))
+  :=
+  orbit_of_skeleton (@skeleton _ C).
+
+(*
+  Tb cal poder traduïr a nivell individual els connectius.
+  Seria util poder tractar Connectives com un conjunt, de manera que només calguès comprovar si els elements són iguals per a trobar igualtat.
+ *)
+
+(* El problema ve de que són diferents aritats de diferents connectius (per molt que siguin iguals). *)
+Definition full_of_orbit_C {Generators : Connectives}
+  (C : @Connective (full_Connectives Generators)) (D : @Connective (orbit_of_skeleton (@skeleton _ C))) :
+  @Connective (full_Connectives Generators) :=
+  {|
+    var := (let: existT (Cp) (p) := @var _ C in
+            existT _ Cp (p * (@var _ D : 'S_sk_arity.+1) : 'S_sk_arity.+1)%g :
+              @connective_set (full_Connectives Generators))
+  |}.
+
+(*
+Definition orbit1 {Generators : Connectives} := @Connective (full_Connectives Generators).
+Definition orbit2 {Generators : Connectives} {C : orbit1} := @Connective (orbit_of_skeleton (@skeleton _ (head_of C))).
+Coercion orbit_of_full : orbit1 >-> orbit2.
+*)
+
+Definition Residuation {Generators : Connectives}
+  (C : @Connective (full_Connectives Generators))
+  (D : @Structure _ (C_to_Ss (orbit_of_full C)))
+  (p : 'S_(arity C).+1) : @Structure _ (C_to_Ss (orbit_of_full C)) :=
+  @Build_Structure _ (C_to_Ss (orbit_of_full C))
+    ((cast_perm (f_equal S (esym (orbit_arity (@skeleton _ C) (S_to_C D))))
+              (@sk_permutation (@skeleton _ (S_to_C D)))) * p)%g.
+
+Theorem α_is_action {Generators : Connectives} {C : @Connective (full_Connectives Generators)} :
+  is_action [set: 'S_(arity C).+1] (Residuation C).
+Proof.
+  rewrite /Residuation.
+  apply is_total_action.
+    move => /= S.
+Admitted.
+
+Definition α {Generators : Connectives} {C : @Connective (full_Connectives Generators)} :=
+  Action (α_is_action (C:=C)).
 
 
 (* ATOMIC CALCULUS *)
@@ -964,14 +852,15 @@ Definition unsigned_function
     (if s then Y else X)
     (if s then X else Y).
 
+(* Calen coercions o coses similars amb sk_type_output/input i sk_type. *)
 Definition unsigned_pivoted_function_S
   {A : Connectives} {S : Structures}
   (f : Structural_Formula -> Structural_Formula -> Type) (C : @Structure _ S)
   (X : forall i:'I_(@sk_arity (@structure_skeleton _ _ C)),
-      typed_Structural_Formula (tnth sk_type_input i))
+      typed_Structural_Formula (tnth sk_type (lift ord_max i)))
   (U : Structural_Formula)
   :=
-  unsigned_function (@sk_sign (@structure_skeleton _ _ C)) f
+  unsigned_function (@sk_sign_output (@structure_skeleton _ _ C)) f
     U (existT _
            (@sk_type_output (@structure_skeleton _ _ C)) (structural_composition C X)).
 
@@ -979,16 +868,17 @@ Definition unsigned_pivoted_function_C
   {A : Connectives} {S : Structures}
   (f : Structural_Formula -> Structural_Formula -> Type) (C : @Connective A)
   (φ : forall i:'I_(arity C),
-      typed_Formula (tnth (type_input C) i))
+      typed_Formula (tnth (type C) (lift ord_max i)))
   (U : Structural_Formula)
   :=
-  unsigned_function (sign C) f
+  unsigned_function (tnth (sign C) ord_max) f
     U (existT _
-           (type_output C) (from_formula (composition C φ))).
+           (tnth (type C) ord_max) (from_formula (composition C φ))).
 
 (* stopped due to some formalisation problems. *)
 
-(* semantical types are a little bit problematic here, as we need a different residuated skeleton, depending on the type of the consequent in dr1. *)
+(* semantical types are a little bit problematic here, as we need a different
+   residuated skeleton, depending on the type of the consequent in dr1. *)
 (* Lacks dr2 and connective sets non equal to a full orbit. *)
 Inductive Derivation {Generators : Connectives}
   : @Structural_Formula _ (C_to_Ss (@full_Connectives Generators)) ->
@@ -997,29 +887,33 @@ Inductive Derivation {Generators : Connectives}
   | LRule (C : @Connective (@full_Connectives Generators))
     :
       forall (X : forall i:'I_(arity C),
-          typed_Structural_Formula (tnth (type_input C) i)),
+          typed_Structural_Formula (tnth (type C) (lift ord_max i))),
       forall (φ : forall i:'I_(arity C),
-          typed_Formula (tnth (type_input C) i)),
+          typed_Formula (tnth (type C) (lift ord_max i))),
       (forall i:'I_(arity C),
-          unsigned_function (tnth (sign_input C) i + (quantification C))%R
+          unsigned_function
+            (tnth (sign C) (lift ord_max i) + (quantification C))%R
             Derivation
-            (existT _ (tnth (type_input C) i) (X i))
-            (existT _ (tnth (type_input C) i) (from_formula (φ i)))) ->
+            (existT _ (tnth (type C) (lift ord_max i)) (X i))
+            (existT _ (tnth (type C) (lift ord_max i)) (from_formula (φ i)))) ->
       unsigned_pivoted_function_S Derivation (C_to_S C)
         X
-        (existT _ (type_output C) (from_formula (composition C φ)))
+        (existT _ (tnth (type C) ord_max) (from_formula (composition C φ)))
   | RRule (C : @Connective (@full_Connectives Generators))
     :
       forall (φ : forall i:'I_(arity C),
-          typed_Formula (tnth (type_input C) i)),
+          typed_Formula (tnth (type C) (lift ord_max i))),
       forall U : Structural_Formula,
       unsigned_pivoted_function_S Derivation (C_to_S C)
         (fun i => from_formula (φ i)) U ->
       unsigned_pivoted_function_C Derivation C φ U
-  | dr1 (C : @Connective (@full_Connectives Generators)) (p : 'S_(arity C).+1)
-    :
-      forall (X : forall i:'I_(arity C),
-          typed_Structural_Formula (tnth (type_input C) i)),
-      forall U : Structural_Formula,
-      unsigned_pivoted_function_S Derivation (C_to_S C)
-.
+  | dr1 {C : @Connective (@full_Connectives Generators)}
+      (D : @Connective (@orbit_of_full _ C)) (p : 'S_(arity C).+1)
+    : forall (X : forall i:'I_(arity C).+1,
+          typed_Structural_Formula (tnth (@sk_type (@skeleton _ C)) i)),
+      unsigned_pivoted_function_S Derivation (C_to_S D)
+        (fun i => X (lift ord_max i))
+        (existT _ _ (X ord_max)) ->
+      unsigned_pivoted_function_S Derivation (@α _ _ (C_to_S D) p)
+        (fun i => X (p (lift ord_max i)))
+        (X (p ord_max)).
