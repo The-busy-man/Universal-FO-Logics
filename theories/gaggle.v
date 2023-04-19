@@ -630,22 +630,31 @@ Proof.
   f_equal.
   - by rewrite /sk_permutation mul1g.
   - apply eq_from_tnth => x.
-Admitted.
-(*
-    rewrite permE /iinv /=. tnth_map.
-    rewrite iinv_f.
-    rewrite permE /= tnth_map.
-    case: x. do 3 (try case); move => //= Heq;
-      by rewrite tnth_ord_tuple /=.
-  - rewrite permE /=.
-    rewrite (tnth_nth ord_max) /=.
+    rewrite !permE /= !tnth_map.
+    rewrite tnth_ord_tuple /=.
+    case: x.
+    (case; try case; try case) => //= Hproof.
+      rewrite invMg !tpermV.
+      rewrite !(tnth_nth (@Ordinal 2 0 (eq_refl _))) /=.
+      by rewrite /ord_max !permE /= tpermD tpermD.
+    rewrite invMg !tpermV.
+    rewrite !(tnth_nth (@Ordinal 2 0 (eq_refl _))) !permE /=.
+    have <-: (ord_max = Ordinal Hproof). exact: ord_inj.
+    by rewrite !tpermL /= !GRing.addr0.
+  - have <-: (ord_max = @Ordinal 3 2 (eq_refl _)). exact: ord_inj.
+    rewrite tpermR /= (tnth_nth (@Ordinal 2 0 (eq_refl _))) /=.
     by rewrite GRing.addr0 -GRing.mulrnDr char_Zp.
   apply eq_from_tnth => x.
-  rewrite tnth_map /=.
-  case: x. do 3 (try case); move => //= Heq.
-  ;
-  by rewrite tnth_ord_tuple permE /=.
-Qed. *)
+  rewrite tpermV tnth_map.
+  case: x. (case; try case; try case) => //= Hproof;
+    rewrite tnth_ord_tuple !(tnth_nth 0) /=.
+  - have ->: (Ordinal Hproof = @Ordinal 3 0 (eq_refl _)). exact: ord_inj.
+    by rewrite tpermL.
+  - have ->: (Ordinal Hproof = @Ordinal 3 1 (eq_refl _)). exact: ord_inj.
+    by rewrite tpermD.
+  have ->: (Ordinal Hproof = @Ordinal 3 2 (eq_refl _)). exact: ord_inj.
+  by rewrite tpermR.
+Qed.
 
 Theorem sk_α_is_action {n} : is_action [set: 'S_n.+1] (ska_Residuation n).
 Proof.
@@ -792,25 +801,30 @@ Definition orbit_of_full {Generators : Connectives}
             sa := (@skeleton _ C); eqs_arity := eq_refl _
           |} p
   |}.
+
 Definition full_of_orbit {Generators : Connectives}
   (C : @Connective (full_Connectives Generators))
   :=
   orbit_of_skeleton (@skeleton _ C).
-
-(*
-  Tb cal poder traduïr a nivell individual els connectius.
-  Seria util poder tractar Connectives com un conjunt, de manera que només calguès comprovar si els elements són iguals per a trobar igualtat.
- *)
-
-(* El problema ve de que són diferents aritats de diferents connectius (per molt que siguin iguals). *)
+Set Printing All.
 Definition full_of_orbit_C {Generators : Connectives}
   (C : @Connective (full_Connectives Generators)) (D : @Connective (orbit_of_skeleton (@skeleton _ C))) :
   @Connective (full_Connectives Generators) :=
   {|
     var := (let: existT (Cp) (p) := @var _ C in
-            existT _ Cp (p * (@var _ D : 'S_sk_arity.+1) : 'S_sk_arity.+1)%g :
+            existT _ Cp (((cast_perm (erefl _) p) : 'S_(@sk_arity (@skeleton _ C)).+1) * ((cast_perm (erefl _) (@var _ D)) : 'S_(@sk_arity (@skeleton _ C)).+1) : 'S_(@sk_arity (@skeleton _ C)).+1)%g :
               @connective_set (full_Connectives Generators))
   |}.
+
+(*
+  Tb cal poder traduïr a nivell individual els connectius.
+  Seria util poder tractar Connectives com un conjunt, de manera que només calguès comprovar si els elements són iguals per a trobar igualtat.
+
+  Una alternativa seria definir les òrbites com una partició que verifica que els esquelets sont residuacions entre sí i no hi ha repeticions.
+ *)
+
+(* El problema ve de que són diferents aritats de diferents connectius (per molt que siguin iguals).
+ *)
 
 (*
 Definition orbit1 {Generators : Connectives} := @Connective (full_Connectives Generators).
@@ -837,6 +851,15 @@ Admitted.
 Definition α {Generators : Connectives} {C : @Connective (full_Connectives Generators)} :=
   Action (α_is_action (C:=C)).
 
+(*
+  Ha insitit en que sembla que estigui havent de donar massa sovint les inferencies.
+  CPDT Adam Chlipala.
+  Gallinette.
+  Structures Canoniques (+) type classes, hierarchy builder (tb fet per Enrico Tassi, pots preguntar-li).
+    - declarer des instances sur les classes.
+  types dependents => bool
+  conditions de bonnes formation.
+ *)
 
 (* ATOMIC CALCULUS *)
 
@@ -852,7 +875,6 @@ Definition unsigned_function
     (if s then Y else X)
     (if s then X else Y).
 
-(* Calen coercions o coses similars amb sk_type_output/input i sk_type. *)
 Definition unsigned_pivoted_function_S
   {A : Connectives} {S : Structures}
   (f : Structural_Formula -> Structural_Formula -> Type) (C : @Structure _ S)
@@ -862,7 +884,7 @@ Definition unsigned_pivoted_function_S
   :=
   unsigned_function (@sk_sign_output (@structure_skeleton _ _ C)) f
     U (existT _
-           (@sk_type_output (@structure_skeleton _ _ C)) (structural_composition C X)).
+         (@sk_type_output (@structure_skeleton _ _ C)) (structural_composition C X)).
 
 Definition unsigned_pivoted_function_C
   {A : Connectives} {S : Structures}
@@ -873,14 +895,13 @@ Definition unsigned_pivoted_function_C
   :=
   unsigned_function (tnth (sign C) ord_max) f
     U (existT _
-           (tnth (type C) ord_max) (from_formula (composition C φ))).
+         (tnth (type C) ord_max) (from_formula (composition C φ))).
 
 (* stopped due to some formalisation problems. *)
 
-(* semantical types are a little bit problematic here, as we need a different
-   residuated skeleton, depending on the type of the consequent in dr1. *)
+(* Simplifier *)
 (* Lacks dr2 and connective sets non equal to a full orbit. *)
-Inductive Derivation {Generators : Connectives}
+Inductive Calculus {Generators : Connectives}
   : @Structural_Formula _ (C_to_Ss (@full_Connectives Generators)) ->
     @Structural_Formula _ (C_to_Ss (@full_Connectives Generators)) -> Type
   :=
@@ -893,10 +914,10 @@ Inductive Derivation {Generators : Connectives}
       (forall i:'I_(arity C),
           unsigned_function
             (tnth (sign C) (lift ord_max i) + (quantification C))%R
-            Derivation
+            Calculus
             (existT _ (tnth (type C) (lift ord_max i)) (X i))
             (existT _ (tnth (type C) (lift ord_max i)) (from_formula (φ i)))) ->
-      unsigned_pivoted_function_S Derivation (C_to_S C)
+      unsigned_pivoted_function_S Calculus (C_to_S C)
         X
         (existT _ (tnth (type C) ord_max) (from_formula (composition C φ)))
   | RRule (C : @Connective (@full_Connectives Generators))
@@ -904,16 +925,18 @@ Inductive Derivation {Generators : Connectives}
       forall (φ : forall i:'I_(arity C),
           typed_Formula (tnth (type C) (lift ord_max i))),
       forall U : Structural_Formula,
-      unsigned_pivoted_function_S Derivation (C_to_S C)
+      unsigned_pivoted_function_S Calculus (C_to_S C)
         (fun i => from_formula (φ i)) U ->
-      unsigned_pivoted_function_C Derivation C φ U
-  | dr1 {C : @Connective (@full_Connectives Generators)}
-      (D : @Connective (@orbit_of_full _ C)) (p : 'S_(arity C).+1)
-    : forall (X : forall i:'I_(arity C).+1,
+      unsigned_pivoted_function_C Calculus C φ U
+  | dr1 (C : @Connective (@full_Connectives Generators))
+      (p : 'S_(arity C).+1)
+    :
+    forall (X : forall i:'I_(arity C).+1,
           typed_Structural_Formula (tnth (@sk_type (@skeleton _ C)) i)),
-      unsigned_pivoted_function_S Derivation (C_to_S D)
+      unsigned_pivoted_function_S Calculus (C_to_S C)
         (fun i => X (lift ord_max i))
         (existT _ _ (X ord_max)) ->
-      unsigned_pivoted_function_S Derivation (@α _ _ (C_to_S D) p)
+      unsigned_pivoted_function_S Calculus (@α _ _ (C_to_S C) p)
         (fun i => X (p (lift ord_max i)))
         (X (p ord_max)).
+
