@@ -867,6 +867,23 @@ Admitted.
 Definition α {Generators : Connectives} {C : @Connective (full_Connectives Generators)} :=
   Action (α_is_action (C:=C)).
 
+Lemma Singleton_contractible {T : Type} (a : T) (h1 h2 : Singleton T a) : h1 = h2.
+Proof.
+  by elim: h2 h1 => b; elim => c.
+Qed.
+
+Lemma Singleton_eq {T S : Type} (a : T) (h : Singleton T a) (P : T -> S) : (let: element b := h in P b) = P a.
+Proof.
+  by case: h.
+Qed.
+
+Lemma arity_α {Generators : Connectives} {C : @Connective (full_Connectives Generators)}
+  (D : @Structure _ (S_of_Cs (restricted_orbit C))) : @sk_arity (@structure_skeleton _ _ D) = arity C.
+Proof.
+  case: D. case: C => /= [[C s]] [D p].
+  by rewrite Singleton_eq.
+Qed.
+
 (*
   Ha insitit en que sembla que estigui havent de donar massa sovint les inferencies.
   CPDT Adam Chlipala.
@@ -954,5 +971,5 @@ Inductive Calculus {Generators : Connectives}
         (existT _ _ (X ord_max)) ->
       unsigned_pivoted_function_S Calculus
         (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) (cast_perm (erefl _) p)))))
-        (fun i => X (p (cast_ord (erefl _)(lift ord_max i))))
+        (fun i => X ((cast_perm (erefl _) p) (cast_ord (f_equal S (arity_α _)) (lift ord_max i))))
         (X (p ord_max)).
