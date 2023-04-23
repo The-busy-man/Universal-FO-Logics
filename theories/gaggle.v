@@ -358,7 +358,7 @@ Definition sk_Residuation (C : Atomic_Skeleton) (p : 'S_sk_arity.+1) : Atomic_Sk
     sk_sign :=
       if (i != n) then
         [tuple if j != i
-           then ─ + s + tnth sk_sign ((p'^-1)%g j)
+           then ─ + s + tnth sk_sign (p' j)
            else s | j < sk_arity.+1]
       else sk_sign;
     sk_quantification :=
@@ -366,7 +366,7 @@ Definition sk_Residuation (C : Atomic_Skeleton) (p : 'S_sk_arity.+1) : Atomic_Sk
         ─ + s + sk_quantification
       else sk_quantification;
     sk_type :=
-      [tuple tnth sk_type ((p^-1)%g i) | i < sk_arity.+1]
+      [tuple tnth sk_type (p i) | i < sk_arity.+1]
   |}%R.
 
 Definition unlift_seq {n} (cs : seq 'I_n) (x : 'I_n) :=
@@ -634,18 +634,16 @@ Proof.
     rewrite tnth_ord_tuple /=.
     case: x.
     (case; try case; try case) => //= Hproof.
-      rewrite invMg !tpermV.
       rewrite !(tnth_nth (@Ordinal 2 0 (eq_refl _))) /=.
       by rewrite /ord_max !permE /= tpermD tpermD.
-    rewrite invMg !tpermV.
     rewrite !(tnth_nth (@Ordinal 2 0 (eq_refl _))) !permE /=.
-    have <-: (ord_max = Ordinal Hproof). exact: ord_inj.
-    by rewrite !tpermL /= !GRing.addr0.
+    have <-: (@Ordinal 3 2 (eq_refl _) = Ordinal Hproof). exact: ord_inj.
+    by rewrite !tpermR /= !GRing.addr0.
   - have <-: (ord_max = @Ordinal 3 2 (eq_refl _)). exact: ord_inj.
     rewrite tpermR /= (tnth_nth (@Ordinal 2 0 (eq_refl _))) /=.
     by rewrite GRing.addr0 -GRing.mulrnDr char_Zp.
   apply eq_from_tnth => x.
-  rewrite tpermV tnth_map.
+  rewrite tnth_map.
   case: x. (case; try case; try case) => //= Hproof;
     rewrite tnth_ord_tuple !(tnth_nth 0) /=.
   - have ->: (Ordinal Hproof = @Ordinal 3 0 (eq_refl _)). exact: ord_inj.
@@ -672,7 +670,6 @@ Proof.
       rewrite tnth_map /=.
       f_equal.
         apply (@perm_inj _ (cast_perm (f_equal S (eqP Heq)) 1)).
-        rewrite permKV.
         by rewrite cast_permE permE /= cast_ordKV tnth_ord_tuple.
   case H1 : (cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max != ord_max);
     last move: H1 => /eqP H1;
@@ -690,12 +687,6 @@ Proof.
         case H6 : (
                     cast_perm (f_equal succn (eqP Heq)) p2 ord_max
                       != cast_perm (f_equal succn (eqP Heq)) p1 ord_max).
-(*
-  Pensa-t'ho millor, val més la pena convertir-lo en una prova automatizada.  
-  Cal fer tots els possibles casos de valors de x, depenent de si es igual a ord_max o les seves imatges.
-  potser cal algun lemma sobre iinv.
-  potser tb algun entre cast i ^-1.
- *)
 (*
       case H4 : (x != cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max).
       rewrite !cast_permE !permE /=.
@@ -779,60 +770,87 @@ Lemma orbit_set (C : Atomic_Skeleton) :
   @connective_set (orbit_of_skeleton C) = 'S_sk_arity.+1.
 Proof. by[]. Qed.
 
+Class sig_Class {A : Type} {B : A -> Type} :=
+  {
+    sig_fst : A;
+    sig_snd : B sig_fst
+  }.
+
 (* Each connective from Generators creates a full independent orbit of connectives. *)
 Definition full_Connectives (Generators : Connectives) :=
   {|
-    connective_set := { C : @Connective Generators & 'S_sk_arity.+1 };
+    connective_set := @sig_Class (@Connective Generators) (fun C => 'S_sk_arity.+1);
     assignment :=
-      fun Cp => let: existT C p := Cp in
-                (sk_α {| sa:= skeleton; eqs_arity := eq_refl _|} p)
+      fun Cp =>
+                (sk_α {| sa:= skeleton; eqs_arity := eq_refl _|} (@sig_snd _ _ Cp))
   |}.
 
 Definition generator {Generators : Connectives} (C : @Connective Generators)
-  : @Connective (full_Connectives Generators).
-  apply: Build_Connective => /=.
-  apply: existT.
-  exact: 1%g.
-Defined.
-
-Definition head_of {Generators : Connectives} (C : @Connective (full_Connectives Generators)) :=
-  let: existT cC _ := (@var _ C) in cC.
+  : @Connective (full_Connectives Generators) :=
+  {|
+    var :=
+      {|
+        sig_fst := C;
+        sig_snd := (1%g : 'S_(arity C).+1)
+      |} : @connective_set (full_Connectives Generators)
+  |}.
 
 (* change connective_set to a subtype of the other connective_set.
     I need to somehow store the original connective in its individual orbit.
  *)
 
-Inductive Singleton (T : Type) : T -> Type := element a : Singleton T a.
+Class Singleton (T : Type) (a : T) : Type :=
+  {
+    element := a
+  }.
+
+Lemma Singleton_contractible {T : Type} (a : T) (h1 h2 : Singleton T a) : h1 = h2.
+Proof.
+  by case: h2; case: h1.
+Qed.
+
+Lemma Singleton_eq {T : Type} (a : T) (h : Singleton T a) : (@element _ _ h) = a.
+Proof.
+  by case: h.
+Qed.
+
+Definition arity_full {Generators : Connectives} (C : @Connective (full_Connectives Generators)) :
+  arity (@sig_fst _ _ (@var _ C)) = arity C.
+Proof.
+  by[].
+Qed.
 
 (* Fes atenció pq la segona component de connective_set depen directament de la variable C, no de la primera component. *)
 Definition restricted_orbit {Generators : Connectives}
   (C : @Connective (full_Connectives Generators)) : Connectives :=
   {|
     connective_set :=
-      { a : Singleton (@Connective Generators) (projT1 (@var _ C))
-            & 'S_(@sk_arity (@skeleton _ (projT1 (@var _ C)))).+1 };
+      @sig_Class (Singleton (@Connective Generators) (@sig_fst _ _ (@var _ C))) (fun C => 'S_(arity (@element _  _ C)).+1);
     assignment :=
-      fun Cp => let: existT (element C) p := Cp in
-                (sk_α {| sa:= skeleton; eqs_arity := eq_refl _ |} p)
+      fun Cp => let: C' := @sig_fst _ _ Cp in let: p := @sig_snd _ _ Cp in
+                (sk_α {| sa:= (@skeleton _ (@sig_fst _ _ (@var _ C))); eqs_arity := eq_refl _ |} p)
   |}.
 
 Definition restricted_of_full_C {Generators : Connectives}
-  (C : @Connective (full_Connectives Generators)) : @Connective (restricted_orbit C).
-  case: C => /= [[C p]].
-  apply: Build_Connective => /=.
-  apply: existT.
-    exact: element.
-  exact: p.
-Defined.
+  (C : @Connective (full_Connectives Generators)) : @Connective (restricted_orbit C) :=
+  {|
+    var :=
+      {|
+        sig_fst := (Build_Singleton _ (@sig_fst _ _ (@var _ C)));
+        sig_snd := (@sig_snd _ _ (@var _ C))
+      |} : (@connective_set (restricted_orbit C))
+  |}.
 
 Definition full_of_restricted_C {Generators : Connectives}
   (C : @Connective (full_Connectives Generators)) (D : @Connective (restricted_orbit C)) :
-  @Connective (full_Connectives Generators).
-  case: D => /= [[D s]].
-  apply: Build_Connective => /=.
-  apply: existT.
-  exact: s.
-Defined.
+  @Connective (full_Connectives Generators) :=
+  {|
+    var :=
+      {|
+        sig_fst := (@element _ _ (@sig_fst _ _ (@var _ D)));
+        sig_snd := (@sig_snd _ _ (@var _ D))
+      |} : (@connective_set (full_Connectives Generators))
+  |}.
 
 (*
 El problema ve de que són diferents aritats de diferents connectius (per molt que siguin iguals).
@@ -840,22 +858,27 @@ El problema ve de que són diferents aritats de diferents connectius (per molt q
 
 Definition Residuation' {Generators : Connectives}
   (C : @Structure _ (S_of_Cs (full_Connectives Generators)))
-  (s : 'S_(@sk_arity (@structure_skeleton _ _ C)).+1) :
-  @Structure _ (S_of_Cs (full_Connectives Generators)).
-  move: s. case: C. case: Generators => /= setGenerators assGenerators [C p] s.
-  apply: Build_Structure => /=.
-  apply: existT.
-  exact: (p * s)%g.
-Defined.
+  (p : 'S_(@sk_arity (@structure_skeleton _ _ C)).+1) :
+  @Structure _ (S_of_Cs (full_Connectives Generators)) :=
+  {|
+    structure_var :=
+      {|
+        sig_fst := @sig_fst _ _ (@structure_var _ _ C);
+        sig_snd := (p * (@sig_snd _ _ (@structure_var _ _ C)))%g
+      |} : (@connective_set (full_Connectives Generators))
+  |}.
+
 Definition Residuation {Generators : Connectives} (C : @Connective (full_Connectives Generators))
-  (D : @Structure _ (S_of_Cs (restricted_orbit C))) (p : 'S_(@sk_arity (@skeleton _ C)).+1) :
-  @Structure _ (S_of_Cs (restricted_orbit C)).
-  move: p. case: D. case: C. case: Generators => /= cset ass => [[/= C] t] [D s] /= p.
-  apply: Build_Structure => /=.
-  apply: existT.
-    exact: element.
-  exact: (p * s)%g.
-Defined.
+  (D : @Structure _ (S_of_Cs (restricted_orbit C)))
+  (p : 'S_(@sk_arity (@skeleton _ C)).+1) :
+  @Structure _ (S_of_Cs (restricted_orbit C)) :=
+  {|
+    structure_var :=
+      {|
+        sig_fst := Build_Singleton _ (@sig_fst _ _ (@var  _ C));
+        sig_snd := (p * (@sig_snd _ _ (@structure_var _ _ D)))%g
+      |} : (@connective_set (restricted_orbit C))
+  |}.
 
 Theorem α_is_action {Generators : Connectives} {C : @Connective (full_Connectives Generators)} :
   is_action [set: 'S_(arity C).+1] (Residuation C).
@@ -867,21 +890,25 @@ Admitted.
 Definition α {Generators : Connectives} {C : @Connective (full_Connectives Generators)} :=
   Action (α_is_action (C:=C)).
 
-Lemma Singleton_contractible {T : Type} (a : T) (h1 h2 : Singleton T a) : h1 = h2.
-Proof.
-  by elim: h2 h1 => b; elim => c.
-Qed.
-
-Lemma Singleton_eq {T S : Type} (a : T) (h : Singleton T a) (P : T -> S) : (let: element b := h in P b) = P a.
-Proof.
-  by case: h.
-Qed.
-
-Lemma arity_α {Generators : Connectives} {C : @Connective (full_Connectives Generators)}
+Lemma arity_restricted {Generators : Connectives} {C : @Connective (full_Connectives Generators)}
   (D : @Structure _ (S_of_Cs (restricted_orbit C))) : @sk_arity (@structure_skeleton _ _ D) = arity C.
 Proof.
-  case: D. case: C => /= [[C s]] [D p].
-  by rewrite Singleton_eq.
+  by case: D; case: C => /= [[C s]] [D p].
+Qed.
+
+Lemma arity_S_of_C {A : Connectives} {C : Connective} : @sk_arity (@structure_skeleton _ _ (S_of_C C)) = arity C.
+Proof.
+  by[].
+Qed.
+
+Lemma arity_C_of_S {A : Connectives} {B : Structures} {C : Structure} : arity (C_of_S C) =  @sk_arity (@structure_skeleton _ _ C).
+Proof.
+  by[].
+Qed.
+
+Lemma arity_full_of_restricted_C {Generators : Connectives} {C : @Connective (full_Connectives Generators)} D : arity (full_of_restricted_C C D) = arity C.
+Proof.
+  by case: D; case: C => /= [[C s]] [D p].
 Qed.
 
 (*
@@ -930,12 +957,58 @@ Definition unsigned_pivoted_function_C
     U (existT _
          (tnth (type C) ord_max) (from_formula (composition C φ))).
 
-(* stopped due to some formalisation problems. *)
-
-(* Simplifica si pots *)
-(* nomes em cal arreglar els ordinals. *)
 (* Lacks dr2 and connective sets non equal to a full orbit. *)
-Set Printing All.
+
+(* Els errors venen de que cal veure que les aritats son iguals i que els tipos son iguals (ja que les formules depenen de la tupla de tipos) *)
+
+Lemma cast_Formula {A : Connectives} {S : Structures} [n m : nat] : m = n -> typed_Structural_Formula m -> typed_Structural_Formula n.
+Proof.
+  by move => ->.
+Qed.
+
+Lemma calculus_type_wf (Generators : Connectives)
+            (C : @Connective (full_Connectives Generators)) (p : 'S_(arity C).+1)
+            (i:'I_(@sk_arity
+                     (@structure_skeleton _ _
+                        (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))))) :
+    (tnth (@sk_type (@skeleton _ C))
+                       (p (lift ord_max i))) =
+      (tnth
+         (@sk_type (@structure_skeleton _ _
+           (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p)))))) (lift ord_max i)).
+rewrite /arity. move : Generators C p i => [gset gass] [[/= C s]] /= p i.
+rewrite !tnth_map.
+f_equal.
+rewrite  !cast_perm_morphM.
+rewrite !tnth_ord_tuple !permE /=.
+f_equal. by rewrite cast_permE !cast_ord_id.
+Qed.
+
+(*
+(p : 'S_(arity C).+1)
+(X1 : forall i:'I_(arity C).+1,
+    typed_Structural_Formula (tnth (@sk_type (@skeleton _ C)) i))
+(X2 : forall i:'I_(@sk_arity
+          (@structure_skeleton _ _
+             (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p)))))),
+    typed_Structural_Formula
+      (tnth
+         (@sk_type (@structure_skeleton _ _
+           (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))) i)))
+
+  I need X1 to "fit" in X2 (a transformation over X1 with X2's typing not changing the formula).
+
+(Structural_Formula)
+(X (p ord_max))
+
+  We need to pre-compose (lift ord_max) in X1.
+  I already have proofs of equality between the arities.
+  With the equalities for arities and the permutation p I can send the ordinals required by X1 to X2 and viceversa.
+  Only proving equality for tnth of type signatures is left.
+ *)
+
+
+(* I need to prove an equality for the type of the residuation. *)
 Inductive Calculus {Generators : Connectives}
   : @Structural_Formula _ (S_of_Cs (@full_Connectives Generators)) ->
     @Structural_Formula _ (S_of_Cs (@full_Connectives Generators)) -> Type
@@ -970,6 +1043,54 @@ Inductive Calculus {Generators : Connectives}
         (fun i => X (lift ord_max i))
         (existT _ _ (X ord_max)) ->
       unsigned_pivoted_function_S Calculus
-        (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) (cast_perm (erefl _) p)))))
-        (fun i => X ((cast_perm (erefl _) p) (cast_ord (f_equal S (arity_α _)) (lift ord_max i))))
-        (X (p ord_max)).
+        (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))
+        (fun i =>
+           cast_Formula (calculus_type_wf _ _ p i)
+           ((X (p (lift ord_max i)))))
+        (* The problem arises from X being defined for the type signature of C and being used by unsigned_pivoted who checks whether it is defined with the type signature of σC *)
+        (existT _ _ (X (p ord_max))).
+
+(* I need to prove an equality for the type of the residuation. *)
+Inductive Calculus {Generators : Connectives}
+  : @Structural_Formula _ (S_of_Cs (@full_Connectives Generators)) ->
+    @Structural_Formula _ (S_of_Cs (@full_Connectives Generators)) -> Type
+  :=
+  | LRule (C : @Connective (@full_Connectives Generators))
+    : forall (X : forall i:'I_(arity C),
+          typed_Structural_Formula (tnth (type C) (lift ord_max i))),
+      forall (φ : forall i:'I_(arity C),
+          typed_Formula (tnth (type C) (lift ord_max i))),
+      (forall i:'I_(arity C),
+          unsigned_function
+            (tnth (sign C) (lift ord_max i) + (quantification C))%R
+            Calculus
+            (existT _ (tnth (type C) (lift ord_max i)) (X i))
+            (existT _ (tnth (type C) (lift ord_max i)) (from_formula (φ i)))) ->
+      unsigned_pivoted_function_S Calculus (S_of_C C)
+        X
+        (existT _ (tnth (type C) ord_max) (from_formula (composition C φ)))
+  | RRule (C : @Connective (@full_Connectives Generators))
+    : forall (φ : forall i:'I_(arity C),
+          typed_Formula (tnth (type C) (lift ord_max i))),
+      forall U : Structural_Formula,
+      unsigned_pivoted_function_S Calculus (S_of_C C)
+        (fun i => from_formula (φ i)) U ->
+      unsigned_pivoted_function_C Calculus C φ U
+  | dr1 (C : @Connective (full_Connectives Generators))
+      (p : 'S_(arity C).+1)
+    : forall (X : forall i:'I_(arity C).+1,
+          typed_Structural_Formula (tnth (@sk_type (@skeleton _ C)) i)),
+      unsigned_pivoted_function_S Calculus
+        (S_of_C C)
+        (fun i => X (lift ord_max i))
+        (existT _ _ (X ord_max)) ->
+      unsigned_pivoted_function_S Calculus
+        (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))
+        (fun i =>
+           cast_Formula (unproven_type_eq _ _ _ _)
+           ((X (p
+                       (cast_ord (f_equal S arity_S_of_C)
+                       (cast_ord (f_equal S  (arity_full_of_restricted_C _))
+                         (lift ord_max i)))))))
+        (* The problem arises from X being defined for the type signature of C and being used by unsigned_pivoted who checks whether it is defined with the type signature of σC *)
+        (existT _ _ (X (p ord_max))).
