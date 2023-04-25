@@ -686,7 +686,18 @@ Proof.
       case H5 : (x != cast_perm (f_equal succn (eqP Heq)) p2 ord_max);
         case H6 : (
                     cast_perm (f_equal succn (eqP Heq)) p2 ord_max
-                      != cast_perm (f_equal succn (eqP Heq)) p1 ord_max).
+                      != cast_perm (f_equal succn (eqP Heq)) p1 ord_max);
+      case H7 : (x != ord_max).
+    + rewrite !permE /=. rewrite !tpermD. rewrite cast_permE permE /=.
+    have -> : tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max)
+       (cast_perm (f_equal succn (eqP Heq)) p2 x) != cast_perm (f_equal succn (eqP Heq)) p1 ord_max.
+    apply/eqP=>/(f_equal (tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max))).
+    rewrite tpermK. tpermD.
+    - move /(f_equal ). move/(perm_inj). => /eqP.
+    case H7 : ((cast_perm (f_equal succn (eqP Heq)) p2 *
+      tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max))%g x
+     != cast_perm (f_equal succn (eqP Heq)) p1 ord_max).
+
 (*
       case H4 : (x != cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max).
       rewrite !cast_permE !permE /=.
@@ -984,29 +995,6 @@ rewrite !tnth_ord_tuple !permE /=.
 f_equal. by rewrite cast_permE !cast_ord_id.
 Qed.
 
-(*
-(p : 'S_(arity C).+1)
-(X1 : forall i:'I_(arity C).+1,
-    typed_Structural_Formula (tnth (@sk_type (@skeleton _ C)) i))
-(X2 : forall i:'I_(@sk_arity
-          (@structure_skeleton _ _
-             (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p)))))),
-    typed_Structural_Formula
-      (tnth
-         (@sk_type (@structure_skeleton _ _
-           (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))) i)))
-
-  I need X1 to "fit" in X2 (a transformation over X1 with X2's typing not changing the formula).
-
-(Structural_Formula)
-(X (p ord_max))
-
-  We need to pre-compose (lift ord_max) in X1.
-  I already have proofs of equality between the arities.
-  With the equalities for arities and the permutation p I can send the ordinals required by X1 to X2 and viceversa.
-  Only proving equality for tnth of type signatures is left.
- *)
-
 
 (* I need to prove an equality for the type of the residuation. *)
 Inductive Calculus {Generators : Connectives}
@@ -1047,50 +1035,4 @@ Inductive Calculus {Generators : Connectives}
         (fun i =>
            cast_Formula (calculus_type_wf _ _ p i)
            ((X (p (lift ord_max i)))))
-        (* The problem arises from X being defined for the type signature of C and being used by unsigned_pivoted who checks whether it is defined with the type signature of σC *)
-        (existT _ _ (X (p ord_max))).
-
-(* I need to prove an equality for the type of the residuation. *)
-Inductive Calculus {Generators : Connectives}
-  : @Structural_Formula _ (S_of_Cs (@full_Connectives Generators)) ->
-    @Structural_Formula _ (S_of_Cs (@full_Connectives Generators)) -> Type
-  :=
-  | LRule (C : @Connective (@full_Connectives Generators))
-    : forall (X : forall i:'I_(arity C),
-          typed_Structural_Formula (tnth (type C) (lift ord_max i))),
-      forall (φ : forall i:'I_(arity C),
-          typed_Formula (tnth (type C) (lift ord_max i))),
-      (forall i:'I_(arity C),
-          unsigned_function
-            (tnth (sign C) (lift ord_max i) + (quantification C))%R
-            Calculus
-            (existT _ (tnth (type C) (lift ord_max i)) (X i))
-            (existT _ (tnth (type C) (lift ord_max i)) (from_formula (φ i)))) ->
-      unsigned_pivoted_function_S Calculus (S_of_C C)
-        X
-        (existT _ (tnth (type C) ord_max) (from_formula (composition C φ)))
-  | RRule (C : @Connective (@full_Connectives Generators))
-    : forall (φ : forall i:'I_(arity C),
-          typed_Formula (tnth (type C) (lift ord_max i))),
-      forall U : Structural_Formula,
-      unsigned_pivoted_function_S Calculus (S_of_C C)
-        (fun i => from_formula (φ i)) U ->
-      unsigned_pivoted_function_C Calculus C φ U
-  | dr1 (C : @Connective (full_Connectives Generators))
-      (p : 'S_(arity C).+1)
-    : forall (X : forall i:'I_(arity C).+1,
-          typed_Structural_Formula (tnth (@sk_type (@skeleton _ C)) i)),
-      unsigned_pivoted_function_S Calculus
-        (S_of_C C)
-        (fun i => X (lift ord_max i))
-        (existT _ _ (X ord_max)) ->
-      unsigned_pivoted_function_S Calculus
-        (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))
-        (fun i =>
-           cast_Formula (unproven_type_eq _ _ _ _)
-           ((X (p
-                       (cast_ord (f_equal S arity_S_of_C)
-                       (cast_ord (f_equal S  (arity_full_of_restricted_C _))
-                         (lift ord_max i)))))))
-        (* The problem arises from X being defined for the type signature of C and being used by unsigned_pivoted who checks whether it is defined with the type signature of σC *)
         (existT _ _ (X (p ord_max))).
