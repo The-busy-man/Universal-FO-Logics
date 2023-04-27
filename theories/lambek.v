@@ -211,7 +211,7 @@ Inductive display_derivation : lks -> lks -> Type :=
       display_derivation X (φ [/] ψ) -> display_derivation X (φ / ψ)
   | lresR : forall X Y (φ ψ : lkf),
       display_derivation φ X -> display_derivation Y ψ -> display_derivation (φ / ψ) (X [/] Y)
-  | cut : forall X Y Z, display_derivation X Y -> display_derivation Y Z -> display_derivation X Z
+  | cut : forall (φ : lkf) X Z, display_derivation X φ -> display_derivation φ Z -> display_derivation X Z
 .
 
 Declare Scope str_scope.
@@ -379,21 +379,21 @@ Qed.
 
 Theorem tensorL_inv (X : lks) (φ ψ : lkf) : (φ·ψ⊢X)%lks -> (φ;ψ⊢X)%lks.
 Proof.
-  intros. apply (cut _ (φ·ψ)).
+  intros. apply (cut (φ·ψ)).
   - apply tensorR; exact: (display_id _).
   - exact: H.
 Qed.
 
 Theorem lresL_inv (X : lks) (φ ψ : lkf) : (X⊢φ/ψ)%lks -> (X⊢φ[/]ψ)%lks.
 Proof.
-  intros. apply (cut _ (φ/ψ)).
+  intros. apply (cut (φ/ψ)).
   - exact: H.
   - apply lresR; exact: (display_id _).
 Qed.
 
 Theorem rresL_inv (X : lks) (φ ψ : lkf) : (X⊢φ\ψ)%lks -> (X⊢φ[\]ψ)%lks.
 Proof.
-  intros. apply (cut _ (φ\ψ)).
+  intros. apply (cut (φ\ψ)).
   - exact: H.
   - apply rresR; exact: (display_id _).
 Qed.
@@ -416,7 +416,7 @@ Proof.
   - apply /rresL /display2. exact: (tensorL_inv _ _ _ H0).
   - apply /tensorL /display1. exact: (lresL_inv _ _ _ H0).
   - apply /tensorL /display1 /display3. exact: (rresL_inv _ _ _ H0).
-  - apply (cut _ ψ0). exact: H0. exact: H1.
+  - apply (cut ψ0). exact: H0. exact: H1.
 Qed.
 
 (*
@@ -455,8 +455,8 @@ Qed.
 (* Therefore, formula's derivations will be provably equivalent to those derivations of structures with appropiate tonicities. *)
 Theorem lambek_dp X Y tX tY : (τ ⊹ X tX⊢τ ─ Y tY)%R -> (X⊢Y)%lks.
 Proof.
-  intros. apply: (cut _ (τ ─ Y tY)).
-    apply: (cut _ (τ 0%R X tX)).
+  intros. apply: (cut (τ ─ Y tY)).
+    apply: (cut (τ 0%R X tX)).
       exact: (τ_sequent 0%R _ _).
     apply: lambek_dp_lkf. exact H.
   exact: (τ_sequent ─ _ _).
@@ -1045,10 +1045,10 @@ Lemma strong_ind (P : forall A B, A⊢B -> Type)
       (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
       (forall A B (L : A⊢B), L ≤ N -> P A B L) ->
       P (φ/ψ) (X[/]Y) (lresR X Y φ ψ M N))
-  (step_cut : forall X Y Z (M : X⊢Y) (N:Y⊢Z),
+  (step_cut : forall (φ : lkf) X Z (M : X⊢φ) (N:φ⊢Z),
       (forall A B (L : A⊢B), L ≤ M -> P A B L) ->
       (forall A B (L : A⊢B), L ≤ N -> P A B L) ->
-      P X Z (cut X Y Z M N))
+      P X Z (cut φ X Z M N))
     : forall A B L, P A B L.
 Proof.
   intros.

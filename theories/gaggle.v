@@ -689,6 +689,8 @@ Proof.
                       != cast_perm (f_equal succn (eqP Heq)) p1 ord_max);
       case H7 : (x != ord_max).
     + rewrite !permE /=. rewrite !tpermD. rewrite cast_permE permE /=.
+
+(*
     have -> : tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max)
        (cast_perm (f_equal succn (eqP Heq)) p2 x) != cast_perm (f_equal succn (eqP Heq)) p1 ord_max.
     apply/eqP=>/(f_equal (tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max))).
@@ -697,8 +699,6 @@ Proof.
     case H7 : ((cast_perm (f_equal succn (eqP Heq)) p2 *
       tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max))%g x
      != cast_perm (f_equal succn (eqP Heq)) p1 ord_max).
-
-(*
       case H4 : (x != cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max).
       rewrite !cast_permE !permE /=.
       rewrite  cast_ordKV.
