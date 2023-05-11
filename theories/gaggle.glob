@@ -1,0 +1,3925 @@
+DIGEST 60e08ca34bd2d98ae6c12bb2c842269b
+Fgaggle
+R29:41 mathcomp.ssreflect.all_ssreflect <> <> lib
+R43:48 mathcomp.algebra.ssralg <> <> lib
+R50:61 mathcomp.fingroup.all_fingroup <> <> lib
+R63:67 mathcomp.algebra.zmodp <> <> lib
+R69:72 mathcomp.fingroup.perm <> <> lib
+R98:107 HB.structures <> <> lib
+R125:139 Coq.Logic.Eqdep_dec <> <> lib
+R149:159 Coq.Init.Logic EqNotations <> mod
+R192:207 mathcomp.ssreflect.eqtype <> <> lib
+R725:727 Coq.Init.Datatypes <> nat ind
+not 714:714 <> :::'ℕ'
+def 741:742 <> Z2
+R747:749 mathcomp.algebra.zmodp <> ::type_scope:'''Z_'_x not
+def 764:768 <> oneZ2
+R778:780 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R781:782 gaggle <> Z2 def
+R775:777 mathcomp.algebra.ssralg <> ::ring_scope:x_'%:R' not
+def 799:804 <> zeroZ2
+R811:813 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R814:815 gaggle <> Z2 def
+R839:843 gaggle <> oneZ2 def
+not 830:830 <> :::'∃'
+R864:869 gaggle <> zeroZ2 def
+not 855:855 <> :::'∀'
+R890:894 gaggle <> oneZ2 def
+not 881:881 <> :::'─'
+R953:958 gaggle <> zeroZ2 def
+not 944:944 <> :::'⊹'
+R1020:1021 gaggle <> Z2 def
+not 1010:1010 <> :::'Æ'
+R1041:1042 gaggle <> Z2 def
+not 1033:1033 <> :::'±'
+def 1057:1068 <> sign_to_bool
+R1075:1076 gaggle <> :::'±' not
+binder 1071:1071 <> i:1
+R1090:1090 gaggle <> i:1 var
+R1099:1105 mathcomp.ssreflect.fintype <> Ordinal constr
+R1142:1145 Coq.Init.Datatypes <> true constr
+R1154:1156 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R1161:1165 Coq.Init.Datatypes <> false constr
+R1183:1217 gaggle <> sign_to_bool def
+def 1231:1242 <> bool_to_sign
+R1249:1252 Coq.Init.Datatypes <> bool ind
+binder 1245:1245 <> b:4
+R1257:1258 gaggle <> Z2 def
+R1265:1267 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R1269:1274 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R1299:1304 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R1268:1268 gaggle <> b:4 var
+R1276:1282 mathcomp.ssreflect.fintype <> Ordinal constr
+R1289:1295 mathcomp.ssreflect.eqtype <> eq_refl thm
+R1306:1312 mathcomp.ssreflect.fintype <> Ordinal constr
+R1319:1325 mathcomp.ssreflect.eqtype <> eq_refl thm
+R1331:1365 gaggle <> bool_to_sign def
+def 1369:1392 <> Unnamed_thm
+R1384:1386 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1378:1380 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R1375:1377 gaggle <> :::'∃' not
+R1381:1383 gaggle <> :::'∃' not
+R1387:1389 gaggle <> :::'∀' not
+R1402:1408 mathcomp.algebra.zmodp <> char_Zp thm
+R1402:1408 mathcomp.algebra.zmodp <> char_Zp thm
+def 1416:1439 <> Unnamed_thm0
+R1431:1433 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1425:1427 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R1422:1424 gaggle <> :::'∃' not
+R1428:1430 gaggle <> :::'⊹' not
+R1434:1436 gaggle <> :::'─' not
+def 1453:1476 <> Unnamed_thm1
+R1468:1470 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1462:1464 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R1459:1461 gaggle <> :::'⊹' not
+R1465:1467 gaggle <> :::'─' not
+R1471:1473 gaggle <> :::'─' not
+def 1490:1513 <> Unnamed_thm2
+R1505:1507 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1499:1501 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R1496:1498 gaggle <> :::'⊹' not
+R1502:1504 gaggle <> :::'⊹' not
+R1508:1510 gaggle <> :::'∀' not
+R1527:1537 mathcomp.algebra.ssralg GRing add0r def
+R1527:1537 mathcomp.algebra.ssralg GRing add0r def
+R1527:1537 mathcomp.algebra.ssralg GRing add0r def
+rec 1552:1566 <> Atomic_Skeleton
+proj 1577:1584 <> sk_arity
+proj 1597:1610 <> sk_permutation
+proj 1634:1640 <> sk_sign
+proj 1671:1687 <> sk_quantification
+proj 1699:1705 <> sk_type
+R1588:1590 gaggle <> :::'ℕ' not
+R1614:1616 mathcomp.fingroup.perm <> :::'''S_'_x not
+R1625:1627 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R1617:1624 gaggle <> sk_arity:6 meth
+R1655:1664 mathcomp.ssreflect.tuple <> ::type_scope:x_'.-tuple' not
+R1652:1654 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R1644:1651 gaggle <> sk_arity:6 meth
+R1663:1664 gaggle <> :::'±' not
+R1691:1692 gaggle <> :::'Æ' not
+R1720:1730 mathcomp.ssreflect.tuple <> ::type_scope:x_'.-tuple' not
+R1717:1719 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R1709:1716 gaggle <> sk_arity:6 meth
+R1728:1730 gaggle <> :::'ℕ' not
+def 1747:1759 <> sk_sign_input
+R1766:1780 gaggle <> Atomic_Skeleton class
+binder 1762:1762 <> C:11
+R1786:1792 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R1827:1829 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R1831:1834 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R1846:1847 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R1836:1843 gaggle <> sk_arity meth
+R1845:1845 gaggle <> C:11 var
+binder 1830:1830 <> i:12
+R1793:1796 mathcomp.ssreflect.tuple <> tnth def
+R1812:1815 mathcomp.ssreflect.fintype <> lift def
+R1825:1825 gaggle <> i:12 var
+R1817:1823 mathcomp.ssreflect.fintype <> ord_max def
+R1800:1806 gaggle <> sk_sign meth
+R1808:1808 gaggle <> C:11 var
+def 1861:1874 <> sk_sign_output
+R1881:1895 gaggle <> Atomic_Skeleton class
+binder 1877:1877 <> C:13
+R1901:1904 mathcomp.ssreflect.tuple <> tnth def
+R1919:1925 mathcomp.ssreflect.fintype <> ord_max def
+R1908:1914 gaggle <> sk_sign meth
+R1916:1916 gaggle <> C:13 var
+def 1939:1951 <> sk_type_input
+R1958:1972 gaggle <> Atomic_Skeleton class
+binder 1954:1954 <> C:14
+R1978:1984 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R2019:2021 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R2023:2026 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R2038:2039 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R2028:2035 gaggle <> sk_arity meth
+R2037:2037 gaggle <> C:14 var
+binder 2022:2022 <> i:15
+R1985:1988 mathcomp.ssreflect.tuple <> tnth def
+R2004:2007 mathcomp.ssreflect.fintype <> lift def
+R2017:2017 gaggle <> i:15 var
+R2009:2015 mathcomp.ssreflect.fintype <> ord_max def
+R1992:1998 gaggle <> sk_type meth
+R2000:2000 gaggle <> C:14 var
+def 2053:2066 <> sk_type_output
+R2073:2087 gaggle <> Atomic_Skeleton class
+binder 2069:2069 <> C:16
+R2093:2096 mathcomp.ssreflect.tuple <> tnth def
+R2111:2117 mathcomp.ssreflect.fintype <> ord_max def
+R2100:2106 gaggle <> sk_type meth
+R2108:2108 gaggle <> C:16 var
+rec 2156:2166 <> Connectives
+proj 2175:2188 <> connective_set
+proj 2200:2209 <> assignment
+R2228:2231 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2214:2227 gaggle <> connective_set:18 meth
+R2232:2246 gaggle <> Atomic_Skeleton class
+rec 2259:2268 <> Connective
+proj 2297:2299 <> var
+proj 2323:2330 <> skeleton
+R2275:2285 gaggle <> Connectives class
+binder 2271:2271 <> A:20
+R2303:2316 gaggle <> connective_set meth
+R2335:2344 gaggle <> assignment meth
+R2346:2348 gaggle <> var:22 meth
+def 2365:2369 <> arity
+binder 2372:2372 <> A:24
+R2380:2389 gaggle <> Connective class
+binder 2376:2376 <> C:25
+R2396:2403 gaggle <> sk_arity meth
+R2407:2414 gaggle <> skeleton meth
+R2416:2416 gaggle <> A:24 var
+R2418:2418 gaggle <> C:25 var
+def 2433:2443 <> permutation
+binder 2446:2446 <> A:26
+R2454:2463 gaggle <> Connective class
+binder 2450:2450 <> C:27
+R2470:2483 gaggle <> sk_permutation meth
+R2487:2494 gaggle <> skeleton meth
+R2496:2496 gaggle <> A:26 var
+R2498:2498 gaggle <> C:27 var
+def 2513:2516 <> sign
+binder 2519:2519 <> A:28
+R2527:2536 gaggle <> Connective class
+binder 2523:2523 <> C:29
+R2543:2549 gaggle <> sk_sign meth
+R2553:2560 gaggle <> skeleton meth
+R2562:2562 gaggle <> A:28 var
+R2564:2564 gaggle <> C:29 var
+def 2579:2589 <> sign_output
+binder 2592:2592 <> A:30
+R2600:2609 gaggle <> Connective class
+binder 2596:2596 <> C:31
+R2616:2629 gaggle <> sk_sign_output def
+R2633:2640 gaggle <> skeleton meth
+R2642:2642 gaggle <> A:30 var
+R2644:2644 gaggle <> C:31 var
+def 2659:2668 <> sign_input
+binder 2671:2671 <> A:32
+R2679:2688 gaggle <> Connective class
+binder 2675:2675 <> C:33
+R2695:2707 gaggle <> sk_sign_input def
+R2711:2718 gaggle <> skeleton meth
+R2720:2720 gaggle <> A:32 var
+R2722:2722 gaggle <> C:33 var
+def 2737:2750 <> quantification
+binder 2753:2753 <> A:34
+R2761:2770 gaggle <> Connective class
+binder 2757:2757 <> C:35
+R2777:2793 gaggle <> sk_quantification meth
+R2797:2804 gaggle <> skeleton meth
+R2806:2806 gaggle <> A:34 var
+R2808:2808 gaggle <> C:35 var
+def 2823:2826 <> type
+binder 2829:2829 <> A:36
+R2837:2846 gaggle <> Connective class
+binder 2833:2833 <> C:37
+R2853:2859 gaggle <> sk_type meth
+R2863:2870 gaggle <> skeleton meth
+R2872:2872 gaggle <> A:36 var
+R2874:2874 gaggle <> C:37 var
+def 2889:2899 <> type_output
+binder 2902:2902 <> A:38
+R2910:2919 gaggle <> Connective class
+binder 2906:2906 <> C:39
+R2926:2939 gaggle <> sk_type_output def
+R2943:2950 gaggle <> skeleton meth
+R2952:2952 gaggle <> A:38 var
+R2954:2954 gaggle <> C:39 var
+def 2969:2978 <> type_input
+binder 2981:2981 <> A:40
+R2989:2998 gaggle <> Connective class
+binder 2985:2985 <> C:41
+R3005:3017 gaggle <> sk_type_input def
+R3021:3028 gaggle <> skeleton meth
+R3030:3030 gaggle <> A:40 var
+R3032:3032 gaggle <> C:41 var
+sec 3044:3050 <> Of_type
+var 3062:3062 Of_type k
+R3066:3068 Coq.Init.Datatypes <> nat ind
+rec 3078:3093 <> typed_Connective
+proj 3122:3123 <> ct
+proj 3146:3152 <> eq_type
+R3100:3110 gaggle <> Connectives class
+binder 3096:3096 <> A:43
+R3128:3137 gaggle <> Connective class
+R3139:3139 gaggle <> A:43 var
+R3182:3184 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3157:3170 gaggle <> sk_type_output def
+R3173:3180 gaggle <> skeleton meth
+R3185:3185 gaggle <> Of_type.k var
+R3194:3200 gaggle Of_type <> sec
+mod 3211:3216 <> Letter
+rec 3225:3239 Letter Atomic_Skeleton
+proj 3250:3256 Letter sk_sign
+proj 3268:3284 Letter sk_quantification
+proj 3296:3309 Letter sk_type_output
+R3260:3261 gaggle <> :::'±' not
+R3288:3289 gaggle <> :::'Æ' not
+R3313:3315 gaggle <> :::'ℕ' not
+def 3332:3349 Letter to_atomic_skeleton
+R3356:3370 gaggle Letter Atomic_Skeleton class
+binder 3352:3352 <> P:51
+R3384:3384 gaggle <> P:51 var
+R3398:3404 gaggle Letter sk_sign meth
+R3398:3404 gaggle Letter sk_sign meth
+R3398:3404 gaggle Letter sk_sign meth
+R3412:3428 gaggle Letter sk_quantification meth
+R3412:3428 gaggle Letter sk_quantification meth
+R3436:3449 gaggle Letter sk_type_output meth
+R3436:3449 gaggle Letter sk_type_output meth
+R3468:3495 gaggle <> Build_Atomic_Skeleton constr
+R3506:3510 mathcomp.ssreflect.tuple <> Tuple constr
+R3516:3518 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_']' not
+R3520:3520 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_']' not
+R3523:3529 mathcomp.ssreflect.eqtype <> eq_refl thm
+R3539:3543 mathcomp.ssreflect.tuple <> Tuple constr
+R3549:3551 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_']' not
+R3553:3553 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_']' not
+R3556:3562 mathcomp.ssreflect.eqtype <> eq_refl thm
+rec 3581:3590 Letter Connective
+proj 3619:3621 Letter var
+proj 3645:3652 Letter skeleton
+proj 3677:3679 Letter min
+R3597:3607 gaggle <> Connectives class
+binder 3593:3593 <> A:53
+R3625:3638 gaggle <> connective_set meth
+R3657:3666 gaggle <> assignment meth
+R3668:3670 gaggle <> var:55 meth
+R3691:3693 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3683:3690 gaggle <> sk_arity meth
+def 3710:3722 Letter to_connective
+binder 3725:3725 <> A:58
+R3735:3744 gaggle Letter Connective class
+binder 3731:3731 <> P:59
+R3749:3765 gaggle <> Connective class
+R3780:3780 gaggle <> P:59 var
+R3796:3798 gaggle Letter var meth
+R3796:3798 gaggle Letter var meth
+R3796:3798 gaggle Letter var meth
+R3809:3811 gaggle Letter min meth
+R3809:3811 gaggle Letter min meth
+R3825:3847 gaggle <> Build_Connective constr
+R3849:3849 gaggle <> A:58 var
+R3870:3875 gaggle Letter <> mod
+R3878:3956 gaggle <> to_atomic_skeleton def
+R3959:4022 gaggle <> to_connective def
+mod 4033:4038 <> Strict
+rec 4047:4056 Strict Connective
+proj 4085:4087 Strict var
+proj 4111:4118 Strict skeleton
+proj 4143:4145 Strict pos
+R4063:4073 gaggle <> Connectives class
+binder 4059:4059 <> A:61
+R4091:4104 gaggle <> connective_set meth
+R4123:4132 gaggle <> assignment meth
+R4134:4136 gaggle <> var:63 meth
+R4157:4159 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'>'_x not
+R4149:4156 gaggle <> sk_arity meth
+def 4178:4190 Strict to_connective
+R4197:4207 gaggle <> Connectives class
+binder 4193:4193 <> A:66
+R4217:4226 gaggle Strict Connective class
+binder 4213:4213 <> P:67
+R4231:4247 gaggle <> Connective class
+R4260:4260 gaggle <> P:67 var
+R4274:4283 gaggle Strict var meth
+R4274:4283 gaggle Strict var meth
+R4274:4283 gaggle Strict var meth
+R4294:4303 gaggle Strict pos meth
+R4294:4303 gaggle Strict pos meth
+R4333:4342 gaggle <> var meth
+R4333:4342 gaggle <> var meth
+R4333:4342 gaggle <> var meth
+R4372:4377 gaggle Strict <> mod
+R4380:4443 gaggle <> to_connective def
+ind 4457:4469 <> typed_Formula
+constr 4510:4520 <> composition
+R4476:4486 gaggle <> Connectives class
+binder 4472:4472 <> A:69
+R4494:4497 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4491:4493 gaggle <> :::'ℕ' not
+R4543:4552 gaggle <> Connective class
+R4554:4554 gaggle <> A:69 var
+binder 4538:4538 <> C:72
+R4564:4564 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4639:4649 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4576:4579 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R4590:4590 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R4581:4585 gaggle <> arity def
+R4587:4587 gaggle <> A:69 var
+R4589:4589 gaggle <> C:72 var
+binder 4572:4572 <> i:73
+R4593:4605 gaggle <> typed_Formula:70 ind
+R4608:4611 mathcomp.ssreflect.tuple <> tnth def
+R4623:4626 mathcomp.ssreflect.fintype <> lift def
+R4636:4636 gaggle <> i:73 var
+R4628:4634 mathcomp.ssreflect.fintype <> ord_max def
+R4614:4617 gaggle <> type def
+R4619:4619 gaggle <> C:72 var
+R4650:4662 gaggle <> typed_Formula:70 ind
+R4665:4668 mathcomp.ssreflect.tuple <> tnth def
+R4679:4685 mathcomp.ssreflect.fintype <> ord_max def
+R4671:4674 gaggle <> type def
+R4676:4676 gaggle <> C:72 var
+def 4701:4707 <> Formula
+R4714:4724 gaggle <> Connectives class
+binder 4710:4710 <> A:74
+R4730:4730 Coq.Init.Specif <> ::type_scope:'{'_x_'&'_x_'}' not
+R4732:4734 Coq.Init.Specif <> ::type_scope:'{'_x_'&'_x_'}' not
+R4750:4750 Coq.Init.Specif <> ::type_scope:'{'_x_'&'_x_'}' not
+binder 4731:4731 <> k:75
+R4735:4747 gaggle <> typed_Formula ind
+R4749:4749 gaggle <> k:75 var
+ind 4764:4769 <> Signed
+constr 4780:4785 <> signed
+binder 4771:4771 <> T:76
+R4791:4794 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4789:4790 gaggle <> Z2 def
+R4796:4799 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4795:4795 gaggle <> T:76 var
+R4800:4805 gaggle <> Signed:77 ind
+R4807:4807 gaggle <> T:76 var
+def 4823:4838 <> Boolean_Negation
+R4845:4859 gaggle <> Atomic_Skeleton class
+binder 4841:4841 <> C:79
+R4864:4878 gaggle <> Atomic_Skeleton class
+R4891:4891 gaggle <> C:79 var
+R4911:4918 gaggle <> sk_arity meth
+R4911:4918 gaggle <> sk_arity meth
+R4911:4918 gaggle <> sk_arity meth
+R4933:4946 gaggle <> sk_permutation meth
+R4933:4946 gaggle <> sk_permutation meth
+R4961:4967 gaggle <> sk_sign meth
+R4961:4967 gaggle <> sk_sign meth
+R4981:4997 gaggle <> sk_quantification meth
+R4981:4997 gaggle <> sk_quantification meth
+R5011:5017 gaggle <> sk_type meth
+R5011:5017 gaggle <> sk_type meth
+R5055:5062 gaggle <> sk_arity meth
+R5055:5062 gaggle <> sk_arity meth
+R5055:5062 gaggle <> sk_arity meth
+R5081:5094 gaggle <> sk_permutation meth
+R5081:5094 gaggle <> sk_permutation meth
+R5113:5119 gaggle <> sk_sign meth
+R5113:5119 gaggle <> sk_sign meth
+R5166:5182 gaggle <> sk_quantification meth
+R5166:5182 gaggle <> sk_quantification meth
+R5206:5212 gaggle <> sk_type meth
+R5206:5212 gaggle <> sk_type meth
+R5124:5132 mathcomp.ssreflect.tuple <> map_tuple canonstruc
+binder 5139:5139 <> x:81
+R5147:5149 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R5144:5146 gaggle <> :::'─' not
+R5150:5150 gaggle <> x:81 var
+R5190:5192 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R5187:5189 gaggle <> :::'─' not
+def 5253:5266 <> Boolean_Action
+R5273:5283 gaggle <> Connectives class
+binder 5269:5269 <> A:82
+R5288:5298 gaggle <> Connectives class
+R5310:5323 gaggle <> connective_set meth
+R5310:5323 gaggle <> connective_set meth
+R5310:5323 gaggle <> connective_set meth
+R5353:5362 gaggle <> assignment meth
+R5353:5362 gaggle <> assignment meth
+R5328:5333 gaggle <> Signed ind
+R5335:5348 gaggle <> connective_set meth
+R5380:5385 gaggle <> Signed ind
+R5387:5400 gaggle <> connective_set meth
+binder 5375:5376 <> sC:83
+R5415:5416 gaggle <> sC:83 var
+R5430:5435 gaggle <> signed constr
+R5441:5447 mathcomp.ssreflect.fintype <> Ordinal constr
+R5461:5470 gaggle <> assignment meth
+R5481:5486 gaggle <> signed constr
+R5492:5498 mathcomp.ssreflect.fintype <> Ordinal constr
+R5503:5505 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R5523:5538 gaggle <> Boolean_Negation def
+R5541:5550 gaggle <> assignment meth
+def 5616:5627 <> and_skeleton
+R5631:5645 gaggle <> Atomic_Skeleton class
+R5659:5666 gaggle <> sk_arity meth
+R5659:5666 gaggle <> sk_arity meth
+R5659:5666 gaggle <> sk_arity meth
+R5678:5691 gaggle <> sk_permutation meth
+R5678:5691 gaggle <> sk_permutation meth
+R5703:5709 gaggle <> sk_sign meth
+R5703:5709 gaggle <> sk_sign meth
+R5763:5779 gaggle <> sk_quantification meth
+R5763:5779 gaggle <> sk_quantification meth
+R5793:5799 gaggle <> sk_type meth
+R5793:5799 gaggle <> sk_type meth
+R5715:5719 mathcomp.ssreflect.tuple <> Tuple constr
+R5725:5728 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5732:5733 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5737:5738 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5742:5742 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5729:5731 gaggle <> :::'⊹' not
+R5734:5736 gaggle <> :::'⊹' not
+R5739:5741 gaggle <> :::'⊹' not
+R5747:5753 mathcomp.ssreflect.eqtype <> eq_refl thm
+R5784:5786 gaggle <> :::'∃' not
+R5805:5809 mathcomp.ssreflect.tuple <> Tuple constr
+R5815:5818 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5820:5821 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5823:5824 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5826:5826 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5829:5835 mathcomp.ssreflect.eqtype <> eq_refl thm
+def 5858:5868 <> or_skeleton
+R5872:5886 gaggle <> Atomic_Skeleton class
+R5900:5907 gaggle <> sk_arity meth
+R5900:5907 gaggle <> sk_arity meth
+R5900:5907 gaggle <> sk_arity meth
+R5919:5932 gaggle <> sk_permutation meth
+R5919:5932 gaggle <> sk_permutation meth
+R5944:5950 gaggle <> sk_sign meth
+R5944:5950 gaggle <> sk_sign meth
+R6004:6020 gaggle <> sk_quantification meth
+R6004:6020 gaggle <> sk_quantification meth
+R6034:6040 gaggle <> sk_type meth
+R6034:6040 gaggle <> sk_type meth
+R5956:5960 mathcomp.ssreflect.tuple <> Tuple constr
+R5966:5969 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5973:5974 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5978:5979 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5983:5983 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R5970:5972 gaggle <> :::'─' not
+R5975:5977 gaggle <> :::'─' not
+R5980:5982 gaggle <> :::'─' not
+R5988:5994 mathcomp.ssreflect.eqtype <> eq_refl thm
+R6025:6027 gaggle <> :::'∀' not
+R6046:6050 mathcomp.ssreflect.tuple <> Tuple constr
+R6056:6059 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6061:6062 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6064:6065 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6067:6067 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6070:6076 mathcomp.ssreflect.eqtype <> eq_refl thm
+def 6099:6111 <> lres_skeleton
+R6115:6129 gaggle <> Atomic_Skeleton class
+R6143:6150 gaggle <> sk_arity meth
+R6143:6150 gaggle <> sk_arity meth
+R6143:6150 gaggle <> sk_arity meth
+R6162:6175 gaggle <> sk_permutation meth
+R6162:6175 gaggle <> sk_permutation meth
+R6245:6251 gaggle <> sk_sign meth
+R6245:6251 gaggle <> sk_sign meth
+R6305:6321 gaggle <> sk_quantification meth
+R6305:6321 gaggle <> sk_quantification meth
+R6335:6341 gaggle <> sk_type meth
+R6335:6341 gaggle <> sk_type meth
+R6180:6184 mathcomp.fingroup.perm <> tperm def
+R6215:6221 mathcomp.ssreflect.fintype <> Ordinal constr
+R6228:6234 mathcomp.ssreflect.eqtype <> eq_refl thm
+R6188:6194 mathcomp.ssreflect.fintype <> Ordinal constr
+R6201:6207 mathcomp.ssreflect.eqtype <> eq_refl thm
+R6257:6261 mathcomp.ssreflect.tuple <> Tuple constr
+R6267:6270 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6274:6275 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6279:6280 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6284:6284 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6271:6273 gaggle <> :::'⊹' not
+R6276:6278 gaggle <> :::'─' not
+R6281:6283 gaggle <> :::'─' not
+R6289:6295 mathcomp.ssreflect.eqtype <> eq_refl thm
+R6326:6328 gaggle <> :::'∀' not
+R6347:6351 mathcomp.ssreflect.tuple <> Tuple constr
+R6357:6360 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6362:6363 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6365:6366 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6368:6368 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_x_';'_x_';'_'..'_';'_x_']' not
+R6371:6377 mathcomp.ssreflect.eqtype <> eq_refl thm
+def 6401:6414 <> and_connective
+R6418:6428 gaggle <> Connectives class
+R6442:6455 gaggle <> connective_set meth
+R6442:6455 gaggle <> connective_set meth
+R6442:6455 gaggle <> connective_set meth
+R6470:6479 gaggle <> assignment meth
+R6470:6479 gaggle <> assignment meth
+R6460:6462 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R6500:6511 gaggle <> and_skeleton def
+def 6531:6543 <> or_connective
+R6547:6557 gaggle <> Connectives class
+R6571:6584 gaggle <> connective_set meth
+R6571:6584 gaggle <> connective_set meth
+R6571:6584 gaggle <> connective_set meth
+R6599:6608 gaggle <> assignment meth
+R6599:6608 gaggle <> assignment meth
+R6589:6591 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R6629:6639 gaggle <> or_skeleton def
+def 6659:6673 <> lres_connective
+R6677:6687 gaggle <> Connectives class
+R6701:6714 gaggle <> connective_set meth
+R6701:6714 gaggle <> connective_set meth
+R6701:6714 gaggle <> connective_set meth
+R6729:6738 gaggle <> assignment meth
+R6729:6738 gaggle <> assignment meth
+R6719:6721 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R6759:6771 gaggle <> lres_skeleton def
+def 6781:6911 <> Unnamed_thm3
+R6879:6881 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6787:6796 gaggle <> assignment meth
+R6799:6812 gaggle <> Boolean_Action def
+R6814:6827 gaggle <> and_connective def
+R6831:6836 gaggle <> signed constr
+R6840:6853 gaggle <> connective_set meth
+R6855:6868 gaggle <> and_connective def
+R6871:6873 gaggle <> :::'⊹' not
+R6883:6892 gaggle <> assignment meth
+R6894:6907 gaggle <> and_connective def
+def 7028:7157 <> Unnamed_thm4
+R7126:7128 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7034:7043 gaggle <> assignment meth
+R7046:7059 gaggle <> Boolean_Action def
+R7061:7074 gaggle <> and_connective def
+R7078:7083 gaggle <> signed constr
+R7087:7100 gaggle <> connective_set meth
+R7102:7115 gaggle <> and_connective def
+R7118:7120 gaggle <> :::'─' not
+R7130:7139 gaggle <> assignment meth
+R7141:7153 gaggle <> or_connective def
+R7180:7191 gaggle <> and_skeleton def
+R7193:7203 gaggle <> or_skeleton def
+R7180:7191 gaggle <> and_skeleton def
+R7180:7191 gaggle <> and_skeleton def
+R7193:7203 gaggle <> or_skeleton def
+R7193:7203 gaggle <> or_skeleton def
+R7229:7240 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R7229:7240 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R7260:7267 mathcomp.ssreflect.tuple <> tnth_map thm
+R7260:7267 mathcomp.ssreflect.tuple <> tnth_map thm
+R7260:7267 mathcomp.ssreflect.tuple <> tnth_map thm
+R7320:7332 mathcomp.algebra.ssralg GRing mulrnDr thm
+R7334:7340 mathcomp.algebra.zmodp <> char_Zp thm
+R7320:7332 mathcomp.algebra.ssralg GRing mulrnDr thm
+R7320:7332 mathcomp.algebra.ssralg GRing mulrnDr thm
+R7334:7340 mathcomp.algebra.zmodp <> char_Zp thm
+R7334:7340 mathcomp.algebra.zmodp <> char_Zp thm
+def 7788:7799 <> fun_of_cycle
+R7806:7811 mathcomp.ssreflect.eqtype Equality.Exports eqType abbrev
+binder 7802:7802 <> T:85
+R7820:7822 mathcomp.ssreflect.seq <> seq abbrev
+R7824:7824 gaggle <> T:85 var
+binder 7815:7816 <> xs:86
+R7832:7832 gaggle <> T:85 var
+binder 7828:7828 <> x:87
+R7837:7837 gaggle <> T:85 var
+R7844:7846 mathcomp.ssreflect.seq <> nth def
+R7862:7866 mathcomp.ssreflect.seq <> index def
+R7870:7871 gaggle <> xs:86 var
+R7868:7868 gaggle <> x:87 var
+R7851:7853 mathcomp.ssreflect.seq <> rot def
+R7857:7858 gaggle <> xs:86 var
+R7848:7848 gaggle <> x:87 var
+prf 7882:7891 <> index_rot1
+binder 7894:7894 <> T:88
+binder 7897:7897 <> l:89
+binder 7899:7899 <> x:90
+R7909:7912 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R7903:7906 mathcomp.ssreflect.seq <> uniq def
+R7908:7908 gaggle <> l:89 var
+R7920:7923 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R7914:7918 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R7913:7913 gaggle <> x:90 var
+R7919:7919 gaggle <> l:89 var
+R7924:7924 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7934:7937 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7925:7929 mathcomp.ssreflect.seq <> index def
+R7933:7933 gaggle <> l:89 var
+R7931:7931 gaggle <> x:90 var
+R7949:7953 mathcomp.ssreflect.seq <> index def
+R7955:7955 gaggle <> T:88 var
+R7957:7957 gaggle <> x:90 var
+R7960:7962 mathcomp.ssreflect.seq <> rot def
+R7966:7966 gaggle <> l:89 var
+binder 7942:7942 <> n:91
+R7973:7976 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R7993:7999 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R8001:8006 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R7978:7981 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R7977:7977 gaggle <> n:91 var
+R7982:7982 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.-1' not
+R7989:7992 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.-1' not
+R7983:7986 mathcomp.ssreflect.seq <> size def
+R7988:7988 gaggle <> l:89 var
+R8008:8010 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R8007:8007 gaggle <> n:91 var
+R8073:8076 Coq.ssr.ssrbool <> andP thm
+R8100:8102 mathcomp.ssreflect.seq <> rot def
+R8107:8111 mathcomp.ssreflect.seq <> drop0 thm
+R8113:8117 mathcomp.ssreflect.seq <> take0 thm
+R8100:8102 mathcomp.ssreflect.seq <> rot def
+R8100:8102 mathcomp.ssreflect.seq <> rot def
+R8107:8111 mathcomp.ssreflect.seq <> drop0 thm
+R8107:8111 mathcomp.ssreflect.seq <> drop0 thm
+R8113:8117 mathcomp.ssreflect.seq <> take0 thm
+R8113:8117 mathcomp.ssreflect.seq <> take0 thm
+R8130:8136 mathcomp.ssreflect.seq <> in_cons thm
+R8130:8136 mathcomp.ssreflect.seq <> in_cons thm
+R8130:8136 mathcomp.ssreflect.seq <> in_cons thm
+R8158:8160 Coq.ssr.ssrbool <> orP thm
+R8164:8166 mathcomp.ssreflect.eqtype <> eqP def
+R8198:8204 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8198:8204 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8198:8204 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8198:8204 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8219:8227 mathcomp.ssreflect.seq <> index_cat thm
+R8219:8227 mathcomp.ssreflect.seq <> index_cat thm
+R8219:8227 mathcomp.ssreflect.seq <> index_cat thm
+R8236:8241 Coq.ssr.ssrbool <> negbTE thm
+R8236:8241 Coq.ssr.ssrbool <> negbTE thm
+R8275:8281 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8283:8287 mathcomp.ssreflect.ssrnat <> addn0 thm
+R8289:8295 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8275:8281 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8275:8281 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8283:8287 mathcomp.ssreflect.ssrnat <> addn0 thm
+R8283:8287 mathcomp.ssreflect.ssrnat <> addn0 thm
+R8289:8295 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8289:8295 mathcomp.ssreflect.eqtype <> eq_refl thm
+R8312:8315 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8312:8315 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8312:8315 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8340:8342 mathcomp.ssreflect.eqtype <> eqP def
+R8340:8342 mathcomp.ssreflect.eqtype <> eqP def
+R8340:8342 mathcomp.ssreflect.eqtype <> eqP def
+R8368:8373 Coq.ssr.ssrbool <> negbTE thm
+R8368:8373 Coq.ssr.ssrbool <> negbTE thm
+R8434:8442 mathcomp.ssreflect.seq <> index_cat thm
+R8434:8442 mathcomp.ssreflect.seq <> index_cat thm
+R8434:8442 mathcomp.ssreflect.seq <> index_cat thm
+R8459:8467 mathcomp.ssreflect.seq <> index_mem thm
+R8459:8467 mathcomp.ssreflect.seq <> index_mem thm
+R8459:8467 mathcomp.ssreflect.seq <> index_mem thm
+R8484:8490 mathcomp.ssreflect.ssrnat <> ltn_eqF thm
+R8484:8490 mathcomp.ssreflect.ssrnat <> ltn_eqF thm
+prf 8605:8636 <> connective_set_default_index_inj
+R8643:8648 mathcomp.ssreflect.eqtype Equality.Exports eqType abbrev
+binder 8639:8639 <> T:92
+binder 8652:8652 <> l:93
+R8662:8662 gaggle <> T:92 var
+binder 8656:8656 <> x:94
+binder 8658:8658 <> y:95
+R8674:8677 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R8668:8672 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R8667:8667 gaggle <> x:94 var
+R8673:8673 gaggle <> l:93 var
+R8685:8688 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R8679:8683 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R8678:8678 gaggle <> y:95 var
+R8684:8684 gaggle <> l:93 var
+R8710:8713 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R8698:8700 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8689:8693 mathcomp.ssreflect.seq <> index def
+R8697:8697 gaggle <> l:93 var
+R8695:8695 gaggle <> x:94 var
+R8701:8705 mathcomp.ssreflect.seq <> index def
+R8709:8709 gaggle <> l:93 var
+R8707:8707 gaggle <> y:95 var
+R8715:8717 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8714:8714 gaggle <> x:94 var
+R8718:8718 gaggle <> y:95 var
+R8788:8791 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8810:8813 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8829:8833 mathcomp.ssreflect.seq <> cat1s thm
+R8835:8841 mathcomp.ssreflect.seq <> mem_cat thm
+R8858:8865 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8885:8889 mathcomp.ssreflect.seq <> cat1s thm
+R8891:8897 mathcomp.ssreflect.seq <> mem_cat thm
+R8914:8921 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8788:8791 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8788:8791 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8810:8813 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8810:8813 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8810:8813 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8810:8813 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R8829:8833 mathcomp.ssreflect.seq <> cat1s thm
+R8829:8833 mathcomp.ssreflect.seq <> cat1s thm
+R8835:8841 mathcomp.ssreflect.seq <> mem_cat thm
+R8835:8841 mathcomp.ssreflect.seq <> mem_cat thm
+R8829:8833 mathcomp.ssreflect.seq <> cat1s thm
+R8829:8833 mathcomp.ssreflect.seq <> cat1s thm
+R8835:8841 mathcomp.ssreflect.seq <> mem_cat thm
+R8835:8841 mathcomp.ssreflect.seq <> mem_cat thm
+R8829:8833 mathcomp.ssreflect.seq <> cat1s thm
+R8829:8833 mathcomp.ssreflect.seq <> cat1s thm
+R8835:8841 mathcomp.ssreflect.seq <> mem_cat thm
+R8835:8841 mathcomp.ssreflect.seq <> mem_cat thm
+R8829:8833 mathcomp.ssreflect.seq <> cat1s thm
+R8829:8833 mathcomp.ssreflect.seq <> cat1s thm
+R8835:8841 mathcomp.ssreflect.seq <> mem_cat thm
+R8835:8841 mathcomp.ssreflect.seq <> mem_cat thm
+R8858:8865 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8858:8865 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8858:8865 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8858:8865 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8858:8865 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8858:8865 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8858:8865 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8858:8865 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8885:8889 mathcomp.ssreflect.seq <> cat1s thm
+R8885:8889 mathcomp.ssreflect.seq <> cat1s thm
+R8891:8897 mathcomp.ssreflect.seq <> mem_cat thm
+R8891:8897 mathcomp.ssreflect.seq <> mem_cat thm
+R8885:8889 mathcomp.ssreflect.seq <> cat1s thm
+R8885:8889 mathcomp.ssreflect.seq <> cat1s thm
+R8891:8897 mathcomp.ssreflect.seq <> mem_cat thm
+R8891:8897 mathcomp.ssreflect.seq <> mem_cat thm
+R8885:8889 mathcomp.ssreflect.seq <> cat1s thm
+R8885:8889 mathcomp.ssreflect.seq <> cat1s thm
+R8891:8897 mathcomp.ssreflect.seq <> mem_cat thm
+R8891:8897 mathcomp.ssreflect.seq <> mem_cat thm
+R8885:8889 mathcomp.ssreflect.seq <> cat1s thm
+R8885:8889 mathcomp.ssreflect.seq <> cat1s thm
+R8891:8897 mathcomp.ssreflect.seq <> mem_cat thm
+R8891:8897 mathcomp.ssreflect.seq <> mem_cat thm
+R8914:8921 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8914:8921 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8914:8921 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8914:8921 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8914:8921 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8914:8921 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8914:8921 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8914:8921 mathcomp.ssreflect.seq <> mem_seq1 thm
+R8944:8946 mathcomp.ssreflect.eqtype <> eqP def
+R8944:8946 mathcomp.ssreflect.eqtype <> eqP def
+R8944:8946 mathcomp.ssreflect.eqtype <> eqP def
+R8977:8979 mathcomp.ssreflect.eqtype <> eqP def
+R8977:8979 mathcomp.ssreflect.eqtype <> eqP def
+R9001:9006 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9001:9006 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9001:9006 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9026:9031 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9026:9031 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9026:9031 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9089:9094 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9089:9094 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9089:9094 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9114:9119 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9114:9119 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9114:9119 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9220:9235 Coq.Bool.Bool <> orb_false_l thm
+R9220:9235 Coq.Bool.Bool <> orb_false_l thm
+R9220:9235 Coq.Bool.Bool <> orb_false_l thm
+R9220:9235 Coq.Bool.Bool <> orb_false_l thm
+R9220:9235 Coq.Bool.Bool <> orb_false_l thm
+R9257:9262 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9257:9262 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9257:9262 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9282:9287 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9282:9287 mathcomp.ssreflect.eqtype <> eq_sym thm
+R9282:9287 mathcomp.ssreflect.eqtype <> eq_sym thm
+ind 9389:9393 <> cycle
+constr 9411:9415 <> Cycle
+R9400:9405 mathcomp.ssreflect.eqtype Equality.Exports eqType abbrev
+binder 9396:9396 <> T:96
+binder 9417:9417 <> l:99
+R9424:9427 mathcomp.ssreflect.seq <> uniq def
+R9429:9429 gaggle <> T:96 var
+R9431:9431 gaggle <> l:99 var
+def 9444:9455 <> seq_of_cycle
+R9462:9467 mathcomp.ssreflect.eqtype Equality.Exports eqType abbrev
+binder 9458:9458 <> T:100
+R9475:9479 gaggle <> cycle ind
+R9481:9481 gaggle <> T:100 var
+binder 9471:9471 <> c:101
+R9505:9505 gaggle <> c:101 var
+R9492:9496 gaggle <> Cycle constr
+binder 9540:9540 <> T:103
+R9546:9555 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'isSub'_'of'_x_'for'_x_']' not
+R9563:9567 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'isSub'_'of'_x_'for'_x_']' not
+R9580:9580 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'isSub'_'of'_x_'for'_x_']' not
+R9556:9560 gaggle <> cycle ind
+R9562:9562 gaggle <> T:103 var
+R9568:9579 gaggle <> seq_of_cycle coe
+binder 9609:9609 <> T:104
+R9615:9626 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'eqMixin'_'of'_x_'by'_'<:'_']' not
+R9634:9640 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'eqMixin'_'of'_x_'by'_'<:'_']' not
+R9627:9631 gaggle <> cycle ind
+R9633:9633 gaggle <> T:104 var
+prf 9812:9822 <> cycle_proof
+R9829:9835 mathcomp.ssreflect.fintype Finite.Exports finType abbrev
+binder 9825:9825 <> T:105
+R9843:9847 gaggle <> cycle ind
+R9849:9849 gaggle <> T:105 var
+binder 9839:9839 <> l:106
+R9854:9862 Coq.ssr.ssrfun <> injective def
+R9864:9868 Coq.ssr.ssrfun <> ::fun_scope:'['_'fun'_x_'=>'_x_']' not
+R9870:9873 Coq.ssr.ssrfun <> ::fun_scope:'['_'fun'_x_'=>'_x_']' not
+R9892:9892 Coq.ssr.ssrfun <> ::fun_scope:'['_'fun'_x_'=>'_x_']' not
+binder 9869:9869 <> z:107
+R9874:9885 gaggle <> fun_of_cycle def
+R9887:9887 gaggle <> T:105 var
+R9889:9889 gaggle <> l:106 var
+R9891:9891 gaggle <> z:107 var
+R9941:9952 gaggle <> fun_of_cycle def
+R9941:9952 gaggle <> fun_of_cycle def
+R9941:9952 gaggle <> fun_of_cycle def
+R9970:9973 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R9991:9994 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R9970:9973 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R9970:9973 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R9991:9994 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R9991:9994 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R10005:10007 mathcomp.ssreflect.eqtype <> eqP def
+R10005:10007 mathcomp.ssreflect.eqtype <> eqP def
+R9991:9994 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R9991:9994 Coq.ssr.ssrbool <> ::bool_scope:x_'\in'_x not
+R10005:10007 mathcomp.ssreflect.eqtype <> eqP def
+R10005:10007 mathcomp.ssreflect.eqtype <> eqP def
+R10024:10031 mathcomp.ssreflect.seq <> rot_uniq thm
+R10024:10031 mathcomp.ssreflect.seq <> rot_uniq thm
+R10024:10031 mathcomp.ssreflect.seq <> rot_uniq thm
+R10056:10070 mathcomp.ssreflect.seq <> set_nth_default thm
+R10079:10086 mathcomp.ssreflect.seq <> nth_uniq thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10056:10070 mathcomp.ssreflect.seq <> set_nth_default thm
+R10056:10070 mathcomp.ssreflect.seq <> set_nth_default thm
+R10079:10086 mathcomp.ssreflect.seq <> nth_uniq thm
+R10079:10086 mathcomp.ssreflect.seq <> nth_uniq thm
+R10079:10086 mathcomp.ssreflect.seq <> nth_uniq thm
+R10079:10086 mathcomp.ssreflect.seq <> nth_uniq thm
+R10079:10086 mathcomp.ssreflect.seq <> nth_uniq thm
+R10079:10086 mathcomp.ssreflect.seq <> nth_uniq thm
+R10079:10086 mathcomp.ssreflect.seq <> nth_uniq thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10099:10106 mathcomp.ssreflect.seq <> size_rot thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10109:10117 mathcomp.ssreflect.seq <> index_mem thm
+R10126:10128 mathcomp.ssreflect.eqtype <> eqP def
+R10142:10173 gaggle <> connective_set_default_index_inj thm
+R10142:10173 gaggle <> connective_set_default_index_inj thm
+R10201:10209 mathcomp.ssreflect.seq <> index_mem thm
+R10216:10223 mathcomp.ssreflect.seq <> size_rot thm
+R10201:10209 mathcomp.ssreflect.seq <> index_mem thm
+R10201:10209 mathcomp.ssreflect.seq <> index_mem thm
+R10216:10223 mathcomp.ssreflect.seq <> size_rot thm
+R10216:10223 mathcomp.ssreflect.seq <> size_rot thm
+R10248:10254 mathcomp.ssreflect.seq <> mem_nth thm
+R10248:10254 mathcomp.ssreflect.seq <> mem_nth thm
+R10293:10295 mathcomp.ssreflect.eqtype <> eqP def
+R10293:10295 mathcomp.ssreflect.eqtype <> eqP def
+R10293:10295 mathcomp.ssreflect.eqtype <> eqP def
+R10326:10332 mathcomp.ssreflect.seq <> mem_rot thm
+R10326:10332 mathcomp.ssreflect.seq <> mem_rot thm
+R10326:10332 mathcomp.ssreflect.seq <> mem_rot thm
+R10355:10365 mathcomp.ssreflect.seq <> nth_default thm
+R10355:10365 mathcomp.ssreflect.seq <> nth_default thm
+R10355:10365 mathcomp.ssreflect.seq <> nth_default thm
+R10437:10445 mathcomp.ssreflect.seq <> index_mem thm
+R10447:10452 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10437:10445 mathcomp.ssreflect.seq <> index_mem thm
+R10437:10445 mathcomp.ssreflect.seq <> index_mem thm
+R10447:10452 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10447:10452 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10475:10482 mathcomp.ssreflect.seq <> size_rot thm
+R10475:10482 mathcomp.ssreflect.seq <> size_rot thm
+R10475:10482 mathcomp.ssreflect.seq <> size_rot thm
+R10497:10502 Coq.ssr.ssrbool <> negbFE thm
+R10497:10502 Coq.ssr.ssrbool <> negbFE thm
+R10525:10533 mathcomp.ssreflect.seq <> index_mem thm
+R10540:10547 mathcomp.ssreflect.seq <> size_rot thm
+R10525:10533 mathcomp.ssreflect.seq <> index_mem thm
+R10525:10533 mathcomp.ssreflect.seq <> index_mem thm
+R10540:10547 mathcomp.ssreflect.seq <> size_rot thm
+R10540:10547 mathcomp.ssreflect.seq <> size_rot thm
+R10572:10578 mathcomp.ssreflect.seq <> mem_nth thm
+R10572:10578 mathcomp.ssreflect.seq <> mem_nth thm
+R10618:10620 mathcomp.ssreflect.eqtype <> eqP def
+R10618:10620 mathcomp.ssreflect.eqtype <> eqP def
+R10618:10620 mathcomp.ssreflect.eqtype <> eqP def
+R10651:10657 mathcomp.ssreflect.seq <> mem_rot thm
+R10651:10657 mathcomp.ssreflect.seq <> mem_rot thm
+R10651:10657 mathcomp.ssreflect.seq <> mem_rot thm
+R10680:10690 mathcomp.ssreflect.seq <> nth_default thm
+R10680:10690 mathcomp.ssreflect.seq <> nth_default thm
+R10680:10690 mathcomp.ssreflect.seq <> nth_default thm
+R10762:10770 mathcomp.ssreflect.seq <> index_mem thm
+R10772:10777 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10762:10770 mathcomp.ssreflect.seq <> index_mem thm
+R10762:10770 mathcomp.ssreflect.seq <> index_mem thm
+R10772:10777 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10772:10777 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10800:10807 mathcomp.ssreflect.seq <> size_rot thm
+R10800:10807 mathcomp.ssreflect.seq <> size_rot thm
+R10800:10807 mathcomp.ssreflect.seq <> size_rot thm
+R10822:10827 Coq.ssr.ssrbool <> negbFE thm
+R10822:10827 Coq.ssr.ssrbool <> negbFE thm
+R10848:10858 mathcomp.ssreflect.seq <> nth_default thm
+R10848:10858 mathcomp.ssreflect.seq <> nth_default thm
+R10848:10858 mathcomp.ssreflect.seq <> nth_default thm
+R10848:10858 mathcomp.ssreflect.seq <> nth_default thm
+R10848:10858 mathcomp.ssreflect.seq <> nth_default thm
+R10848:10858 mathcomp.ssreflect.seq <> nth_default thm
+R10848:10858 mathcomp.ssreflect.seq <> nth_default thm
+R10868:10870 mathcomp.ssreflect.eqtype <> eqP def
+R10868:10870 mathcomp.ssreflect.eqtype <> eqP def
+R10886:10894 mathcomp.ssreflect.seq <> index_mem thm
+R10896:10901 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10886:10894 mathcomp.ssreflect.seq <> index_mem thm
+R10886:10894 mathcomp.ssreflect.seq <> index_mem thm
+R10896:10901 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10896:10901 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10924:10931 mathcomp.ssreflect.seq <> size_rot thm
+R10924:10931 mathcomp.ssreflect.seq <> size_rot thm
+R10924:10931 mathcomp.ssreflect.seq <> size_rot thm
+R10946:10951 Coq.ssr.ssrbool <> negbFE thm
+R10946:10951 Coq.ssr.ssrbool <> negbFE thm
+R10971:10979 mathcomp.ssreflect.seq <> index_mem thm
+R10981:10986 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10971:10979 mathcomp.ssreflect.seq <> index_mem thm
+R10971:10979 mathcomp.ssreflect.seq <> index_mem thm
+R10981:10986 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R10981:10986 mathcomp.ssreflect.ssrnat <> ltnNge thm
+R11007:11014 mathcomp.ssreflect.seq <> size_rot thm
+R11007:11014 mathcomp.ssreflect.seq <> size_rot thm
+R11007:11014 mathcomp.ssreflect.seq <> size_rot thm
+R11027:11032 Coq.ssr.ssrbool <> negbFE thm
+R11027:11032 Coq.ssr.ssrbool <> negbFE thm
+def 11107:11111 <> cperm
+R11118:11124 mathcomp.ssreflect.fintype Finite.Exports finType abbrev
+binder 11114:11114 <> T:108
+R11132:11136 gaggle <> cycle ind
+R11138:11138 gaggle <> T:108 var
+binder 11128:11128 <> l:109
+R11144:11147 mathcomp.fingroup.perm <> perm abbrev
+R11150:11160 gaggle <> cycle_proof thm
+R11162:11162 gaggle <> l:109 var
+def 11178:11187 <> tpermJ_res
+binder 11190:11190 <> n:110
+R11200:11202 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R11203:11203 gaggle <> n:110 var
+binder 11194:11194 <> i:111
+binder 11196:11196 <> j:112
+R11208:11208 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11215:11221 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11210:11213 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R11209:11209 gaggle <> i:111 var
+R11214:11214 gaggle <> j:112 var
+R11233:11236 mathcomp.ssreflect.fintype <> lift def
+R11248:11248 gaggle <> i:111 var
+R11239:11245 mathcomp.ssreflect.fintype <> ord_max def
+binder 11226:11227 <> i':113
+R11265:11268 mathcomp.ssreflect.fintype <> lift def
+R11280:11280 gaggle <> j:112 var
+R11271:11277 mathcomp.ssreflect.fintype <> ord_max def
+binder 11258:11259 <> j':114
+R11331:11333 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R11307:11309 mathcomp.fingroup.fingroup <> ::group_scope:x_'^'_x not
+R11289:11293 mathcomp.fingroup.perm <> tperm def
+R11299:11305 mathcomp.ssreflect.fintype <> ord_max def
+R11295:11296 gaggle <> i':113 var
+R11310:11314 mathcomp.fingroup.perm <> tperm def
+R11320:11326 mathcomp.ssreflect.fintype <> ord_max def
+R11316:11317 gaggle <> j':114 var
+R11334:11338 mathcomp.fingroup.perm <> tperm def
+R11343:11344 gaggle <> j':114 var
+R11340:11341 gaggle <> i':113 var
+R11393:11398 mathcomp.fingroup.perm <> tpermJ thm
+R11400:11405 mathcomp.fingroup.perm <> tpermR thm
+R11407:11412 mathcomp.fingroup.perm <> tpermD thm
+R11393:11398 mathcomp.fingroup.perm <> tpermJ thm
+R11393:11398 mathcomp.fingroup.perm <> tpermJ thm
+R11400:11405 mathcomp.fingroup.perm <> tpermR thm
+R11400:11405 mathcomp.fingroup.perm <> tpermR thm
+R11407:11412 mathcomp.fingroup.perm <> tpermD thm
+R11407:11412 mathcomp.fingroup.perm <> tpermD thm
+R11442:11445 Coq.ssr.ssrbool <> negP thm
+R11442:11445 Coq.ssr.ssrbool <> negP thm
+R11451:11453 mathcomp.ssreflect.eqtype <> eqP def
+R11464:11473 Coq.ssr.ssrbool <> contra_not thm
+R11464:11473 Coq.ssr.ssrbool <> contra_not thm
+R11503:11510 mathcomp.ssreflect.fintype <> lift_inj thm
+R11503:11510 mathcomp.ssreflect.fintype <> lift_inj thm
+R11527:11534 mathcomp.ssreflect.fintype <> neq_lift thm
+R11527:11534 mathcomp.ssreflect.fintype <> neq_lift thm
+def 11587:11600 <> sk_Residuation
+R11607:11621 gaggle <> Atomic_Skeleton class
+binder 11603:11603 <> C:115
+R11629:11631 mathcomp.fingroup.perm <> :::'''S_'_x not
+R11640:11642 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R11632:11639 gaggle <> sk_arity meth
+binder 11625:11625 <> p:116
+R11647:11661 gaggle <> Atomic_Skeleton class
+R11682:11688 mathcomp.ssreflect.fintype <> ord_max def
+R11690:11697 gaggle <> sk_arity meth
+R11716:11716 gaggle <> p:116 var
+R11737:11740 mathcomp.ssreflect.tuple <> tnth def
+R11742:11748 gaggle <> sk_sign meth
+R11771:11773 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R11770:11770 gaggle <> p:116 var
+R11774:11778 mathcomp.fingroup.perm <> tperm def
+R11789:11789 gaggle <> p:116 var
+R11791:11797 mathcomp.ssreflect.fintype <> ord_max def
+R11780:11786 mathcomp.ssreflect.fintype <> ord_max def
+R11815:11822 gaggle <> sk_arity meth
+R11815:11822 gaggle <> sk_arity meth
+R11815:11822 gaggle <> sk_arity meth
+R11841:11854 gaggle <> sk_permutation meth
+R11841:11854 gaggle <> sk_permutation meth
+R11883:11889 gaggle <> sk_sign meth
+R11883:11889 gaggle <> sk_sign meth
+R12049:12065 gaggle <> sk_quantification meth
+R12049:12065 gaggle <> sk_quantification meth
+R12163:12169 gaggle <> sk_type meth
+R12163:12169 gaggle <> sk_type meth
+R11827:11834 gaggle <> sk_arity meth
+R11873:11875 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R11859:11872 gaggle <> sk_permutation meth
+R11876:11876 gaggle <> p:116 var
+R11900:11903 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R11910:11924 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R12024:12035 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R11905:11908 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R11925:11931 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R12005:12007 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R12009:12011 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R12023:12023 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R12020:12022 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R12012:12019 gaggle <> sk_arity meth
+binder 12008:12008 <> j:117
+R11932:11934 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R11941:11957 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R11987:12003 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R11936:11939 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R11935:11935 gaggle <> j:117 var
+R11965:11967 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R11961:11963 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R11958:11960 gaggle <> :::'─' not
+R11968:11971 mathcomp.ssreflect.tuple <> tnth def
+R11985:11985 gaggle <> j:117 var
+R11973:11979 gaggle <> sk_sign meth
+R12036:12042 gaggle <> sk_sign meth
+R12076:12079 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R12086:12100 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R12128:12139 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R12081:12084 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R12108:12110 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R12104:12106 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R12101:12103 gaggle <> :::'─' not
+R12111:12127 gaggle <> sk_quantification meth
+R12140:12156 gaggle <> sk_quantification meth
+R12180:12186 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R12205:12207 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R12209:12211 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R12223:12223 mathcomp.ssreflect.tuple <> ::form_scope:'['_'tuple'_x_'|'_x_'<'_x_']' not
+R12220:12222 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R12212:12219 gaggle <> sk_arity meth
+binder 12208:12208 <> i:118
+R12187:12190 mathcomp.ssreflect.tuple <> tnth def
+R12201:12201 gaggle <> p:116 var
+R12203:12203 gaggle <> i:118 var
+R12192:12198 gaggle <> sk_type meth
+def 12245:12254 <> unlift_seq
+binder 12257:12257 <> n:119
+R12266:12268 mathcomp.ssreflect.seq <> seq abbrev
+R12270:12272 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R12273:12273 gaggle <> n:119 var
+binder 12261:12262 <> cs:120
+R12281:12283 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R12284:12284 gaggle <> n:119 var
+binder 12277:12277 <> x:121
+R12292:12294 mathcomp.ssreflect.seq <> map def
+R12307:12308 gaggle <> cs:120 var
+R12297:12302 mathcomp.ssreflect.fintype <> unlift def
+R12304:12304 gaggle <> x:121 var
+prf 12318:12332 <> unlift_some_seq
+binder 12335:12335 <> n:122
+R12343:12345 mathcomp.ssreflect.seq <> seq abbrev
+R12347:12349 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R12350:12350 gaggle <> n:122 var
+binder 12339:12339 <> c:123
+R12358:12360 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R12361:12361 gaggle <> n:122 var
+binder 12354:12354 <> x:124
+R12377:12382 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R12369:12375 Coq.ssr.ssrbool <> ::bool_scope:x_'\notin'_x not
+R12368:12368 gaggle <> x:124 var
+R12376:12376 gaggle <> c:123 var
+R12383:12383 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R12385:12387 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R12399:12405 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R12424:12426 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R12456:12456 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R12388:12390 mathcomp.ssreflect.seq <> seq abbrev
+R12392:12394 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R12396:12398 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.-1' not
+R12395:12395 gaggle <> n:122 var
+binder 12384:12384 <> d:125
+R12407:12409 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12406:12406 gaggle <> c:123 var
+R12410:12412 mathcomp.ssreflect.seq <> map def
+R12423:12423 gaggle <> d:125 var
+R12415:12418 mathcomp.ssreflect.fintype <> lift def
+R12420:12420 gaggle <> x:124 var
+binder 12384:12384 <> d:126
+R12443:12445 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12427:12429 mathcomp.ssreflect.seq <> map def
+R12442:12442 gaggle <> c:123 var
+R12432:12437 mathcomp.ssreflect.fintype <> unlift def
+R12439:12439 gaggle <> x:124 var
+R12446:12448 mathcomp.ssreflect.seq <> map def
+R12455:12455 gaggle <> d:126 var
+R12450:12453 Coq.Init.Datatypes <> Some constr
+R12511:12516 Coq.Init.Specif <> exist2 constr
+R12522:12525 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_']' not
+R12511:12516 Coq.Init.Specif <> exist2 constr
+R12522:12525 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_']' not
+R12549:12555 mathcomp.ssreflect.seq <> in_cons thm
+R12557:12563 Coq.ssr.ssrbool <> negb_or thm
+R12549:12555 mathcomp.ssreflect.seq <> in_cons thm
+R12549:12555 mathcomp.ssreflect.seq <> in_cons thm
+R12557:12563 Coq.ssr.ssrbool <> negb_or thm
+R12557:12563 Coq.ssr.ssrbool <> negb_or thm
+R12569:12572 Coq.ssr.ssrbool <> andP thm
+R12576:12586 mathcomp.ssreflect.fintype <> unlift_some thm
+R12612:12617 Coq.Init.Specif <> exist2 constr
+R12624:12624 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R12637:12642 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R12657:12657 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R12625:12633 Coq.Init.Specif <> proj1_sig def
+R12643:12651 Coq.Init.Specif <> proj1_sig def
+R12612:12617 Coq.Init.Specif <> exist2 constr
+R12624:12624 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R12637:12642 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R12657:12657 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R12625:12633 Coq.Init.Specif <> proj1_sig def
+R12643:12651 Coq.Init.Specif <> proj1_sig def
+R12688:12688 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R12701:12703 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R12689:12697 Coq.Init.Specif <> proj2_sig def
+R12688:12688 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R12701:12703 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R12689:12697 Coq.Init.Specif <> proj2_sig def
+R12713:12713 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R12728:12730 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R12714:12722 Coq.Init.Specif <> proj2_sig def
+R12713:12713 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R12728:12730 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R12714:12722 Coq.Init.Specif <> proj2_sig def
+R12751:12751 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R12764:12766 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R12752:12760 Coq.Init.Specif <> proj2_sig def
+R12751:12751 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R12764:12766 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R12752:12760 Coq.Init.Specif <> proj2_sig def
+R12776:12776 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R12791:12793 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R12777:12785 Coq.Init.Specif <> proj2_sig def
+R12776:12776 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R12791:12793 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R12777:12785 Coq.Init.Specif <> proj2_sig def
+prf 12808:12826 <> unlift_some_seq_seq
+binder 12829:12829 <> n:127
+R12838:12840 mathcomp.ssreflect.seq <> seq abbrev
+R12843:12845 mathcomp.ssreflect.seq <> seq abbrev
+R12847:12849 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R12850:12850 gaggle <> n:127 var
+binder 12833:12834 <> cs:128
+R12859:12861 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R12862:12862 gaggle <> n:127 var
+binder 12855:12855 <> x:129
+R12896:12899 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R12869:12871 mathcomp.ssreflect.seq <> all def
+R12894:12895 gaggle <> cs:128 var
+binder 12878:12878 <> c:130
+R12884:12890 Coq.ssr.ssrbool <> ::bool_scope:x_'\notin'_x not
+R12883:12883 gaggle <> x:129 var
+R12891:12891 gaggle <> c:130 var
+R12900:12900 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R12904:12906 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R12924:12926 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R12954:12956 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R13001:13001 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R12907:12909 mathcomp.ssreflect.seq <> seq abbrev
+R12912:12914 mathcomp.ssreflect.seq <> seq abbrev
+R12916:12918 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R12920:12922 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.-1' not
+R12919:12919 gaggle <> n:127 var
+binder 12901:12903 <> cs':131
+R12929:12931 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12927:12928 gaggle <> cs:128 var
+R12932:12934 mathcomp.ssreflect.seq <> map def
+R12951:12953 gaggle <> cs':131 var
+R12937:12939 mathcomp.ssreflect.seq <> map def
+R12942:12945 mathcomp.ssreflect.fintype <> lift def
+R12947:12947 gaggle <> x:129 var
+binder 12901:12903 <> cs':132
+R12980:12982 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12957:12959 mathcomp.ssreflect.seq <> map def
+R12978:12979 gaggle <> cs:128 var
+R12962:12964 mathcomp.ssreflect.seq <> map def
+R12967:12972 mathcomp.ssreflect.fintype <> unlift def
+R12974:12974 gaggle <> x:129 var
+R12983:12985 mathcomp.ssreflect.seq <> map def
+R12998:13000 gaggle <> cs':132 var
+R12988:12990 mathcomp.ssreflect.seq <> map def
+R12992:12995 Coq.Init.Datatypes <> Some constr
+R13057:13062 Coq.Init.Specif <> exist2 constr
+R13068:13071 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_']' not
+R13057:13062 Coq.Init.Specif <> exist2 constr
+R13068:13071 mathcomp.ssreflect.seq <> ::seq_scope:'['_'::'_']' not
+R13090:13093 Coq.ssr.ssrbool <> andP thm
+R13097:13111 gaggle <> unlift_some_seq thm
+R13137:13142 Coq.Init.Specif <> exist2 constr
+R13149:13149 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R13162:13167 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R13182:13182 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R13150:13158 Coq.Init.Specif <> proj1_sig def
+R13168:13176 Coq.Init.Specif <> proj1_sig def
+R13137:13142 Coq.Init.Specif <> exist2 constr
+R13149:13149 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R13162:13167 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R13182:13182 mathcomp.ssreflect.seq <> ::seq_scope:x_'::'_x not
+R13150:13158 Coq.Init.Specif <> proj1_sig def
+R13168:13176 Coq.Init.Specif <> proj1_sig def
+R13213:13213 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R13226:13228 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R13214:13222 Coq.Init.Specif <> proj2_sig def
+R13213:13213 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R13226:13228 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R13214:13222 Coq.Init.Specif <> proj2_sig def
+R13238:13238 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R13253:13255 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R13239:13247 Coq.Init.Specif <> proj2_sig def
+R13238:13238 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R13253:13255 Coq.ssr.ssrfun <> ::pair_scope:x_'.1' not
+R13239:13247 Coq.Init.Specif <> proj2_sig def
+R13276:13276 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R13289:13291 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R13277:13285 Coq.Init.Specif <> proj2_sig def
+R13276:13276 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R13289:13291 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R13277:13285 Coq.Init.Specif <> proj2_sig def
+R13301:13301 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R13316:13318 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R13302:13310 Coq.Init.Specif <> proj2_sig def
+R13301:13301 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R13316:13318 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R13302:13310 Coq.Init.Specif <> proj2_sig def
+prf 13333:13342 <> unlift_inj
+binder 13345:13345 <> n:133
+R13353:13355 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R13356:13356 gaggle <> n:133 var
+binder 13349:13349 <> h:134
+R13368:13370 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R13371:13371 gaggle <> n:133 var
+binder 13360:13361 <> i1:135
+binder 13363:13364 <> i2:136
+R13401:13404 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R13387:13389 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13376:13381 mathcomp.ssreflect.fintype <> unlift def
+R13385:13386 gaggle <> i1:135 var
+R13383:13383 gaggle <> h:134 var
+R13390:13395 mathcomp.ssreflect.fintype <> unlift def
+R13399:13400 gaggle <> i2:136 var
+R13397:13397 gaggle <> h:134 var
+R13407:13409 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13405:13406 gaggle <> i1:135 var
+R13410:13411 gaggle <> i2:136 var
+R13430:13436 mathcomp.ssreflect.fintype <> unliftP thm
+R13463:13469 mathcomp.ssreflect.fintype <> unliftP thm
+R13430:13436 mathcomp.ssreflect.fintype <> unliftP thm
+R13430:13436 mathcomp.ssreflect.fintype <> unliftP thm
+R13463:13469 mathcomp.ssreflect.fintype <> unliftP thm
+R13463:13469 mathcomp.ssreflect.fintype <> unliftP thm
+R13463:13469 mathcomp.ssreflect.fintype <> unliftP thm
+R13463:13469 mathcomp.ssreflect.fintype <> unliftP thm
+prf 13573:13580 <> Some_inj
+binder 13583:13583 <> A:137
+R13595:13603 Coq.ssr.ssrfun <> injective def
+R13607:13610 Coq.Init.Datatypes <> Some constr
+R13612:13612 gaggle <> A:137 var
+R13634:13642 Coq.ssr.ssrfun <> injective def
+R13634:13642 Coq.ssr.ssrfun <> injective def
+R13634:13642 Coq.ssr.ssrfun <> injective def
+def 13689:13703 <> unlift_perm_fun
+binder 13706:13706 <> n:138
+binder 13709:13709 <> i:139
+binder 13711:13711 <> j:140
+R13718:13720 mathcomp.fingroup.perm <> :::'''S_'_x not
+R13721:13721 gaggle <> n:138 var
+binder 13714:13714 <> s:141
+binder 13724:13724 <> k:142
+R13734:13734 gaggle <> k:142 var
+R13739:13742 Coq.Init.Datatypes <> Some constr
+R13754:13759 mathcomp.ssreflect.fintype <> unlift def
+R13764:13764 gaggle <> s:141 var
+R13767:13770 mathcomp.ssreflect.fintype <> lift def
+R13772:13772 gaggle <> i:139 var
+R13761:13761 gaggle <> j:140 var
+R13786:13791 mathcomp.ssreflect.fintype <> unlift def
+R13796:13796 gaggle <> s:141 var
+R13798:13798 gaggle <> i:139 var
+R13793:13793 gaggle <> j:140 var
+prf 13809:13827 <> unlift_perm_fun_inj
+binder 13830:13830 <> n:144
+binder 13833:13833 <> i:145
+binder 13835:13835 <> j:146
+R13842:13844 mathcomp.fingroup.perm <> :::'''S_'_x not
+R13845:13845 gaggle <> n:144 var
+binder 13838:13838 <> s:147
+R13850:13858 Coq.ssr.ssrfun <> injective def
+R13861:13875 gaggle <> unlift_perm_fun def
+R13881:13881 gaggle <> s:147 var
+R13879:13879 gaggle <> j:146 var
+R13877:13877 gaggle <> i:145 var
+R13903:13917 gaggle <> unlift_perm_fun def
+R13903:13917 gaggle <> unlift_perm_fun def
+R13903:13917 gaggle <> unlift_perm_fun def
+R14067:14074 mathcomp.ssreflect.fintype <> lift_eqF thm
+R14079:14084 mathcomp.ssreflect.eqtype <> eq_sym thm
+R14086:14093 mathcomp.ssreflect.fintype <> lift_eqF thm
+R13986:13995 gaggle <> unlift_inj thm
+R13997:14004 mathcomp.fingroup.perm <> perm_inj thm
+R14006:14013 mathcomp.ssreflect.fintype <> lift_inj thm
+R14030:14039 gaggle <> unlift_inj thm
+R14041:14048 mathcomp.fingroup.perm <> perm_inj thm
+R14050:14052 mathcomp.ssreflect.eqtype <> eqP def
+R14030:14039 gaggle <> unlift_inj thm
+R14041:14048 mathcomp.fingroup.perm <> perm_inj thm
+R14050:14052 mathcomp.ssreflect.eqtype <> eqP def
+R14067:14074 mathcomp.ssreflect.fintype <> lift_eqF thm
+R14067:14074 mathcomp.ssreflect.fintype <> lift_eqF thm
+R14067:14074 mathcomp.ssreflect.fintype <> lift_eqF thm
+R14067:14074 mathcomp.ssreflect.fintype <> lift_eqF thm
+R14067:14074 mathcomp.ssreflect.fintype <> lift_eqF thm
+R14079:14084 mathcomp.ssreflect.eqtype <> eq_sym thm
+R14079:14084 mathcomp.ssreflect.eqtype <> eq_sym thm
+R14086:14093 mathcomp.ssreflect.fintype <> lift_eqF thm
+R14086:14093 mathcomp.ssreflect.fintype <> lift_eqF thm
+def 14113:14123 <> unlift_perm
+binder 14126:14126 <> n:148
+binder 14129:14129 <> i:149
+binder 14131:14131 <> j:150
+R14138:14140 mathcomp.fingroup.perm <> :::'''S_'_x not
+R14141:14141 gaggle <> n:148 var
+binder 14134:14134 <> s:151
+R14149:14152 mathcomp.fingroup.perm <> perm abbrev
+R14155:14173 gaggle <> unlift_perm_fun_inj thm
+R14179:14179 gaggle <> s:151 var
+R14177:14177 gaggle <> j:150 var
+R14175:14175 gaggle <> i:149 var
+def 14195:14209 <> option_perm_fun
+R14216:14222 mathcomp.ssreflect.fintype Finite.Exports finType abbrev
+binder 14212:14212 <> T:152
+R14230:14235 mathcomp.fingroup.perm <> ::type_scope:'{'_'perm'_x_'}' not
+R14237:14237 mathcomp.fingroup.perm <> ::type_scope:'{'_'perm'_x_'}' not
+R14236:14236 gaggle <> T:152 var
+binder 14226:14226 <> p:153
+binder 14240:14240 <> k:154
+R14250:14250 gaggle <> k:154 var
+R14255:14258 Coq.Init.Datatypes <> Some constr
+R14270:14273 Coq.Init.Datatypes <> Some constr
+R14276:14276 gaggle <> p:153 var
+R14289:14292 Coq.Init.Datatypes <> None constr
+def 14307:14325 <> option_perm_fun_inj
+R14332:14338 mathcomp.ssreflect.fintype Finite.Exports finType abbrev
+binder 14328:14328 <> T:156
+R14346:14351 mathcomp.fingroup.perm <> ::type_scope:'{'_'perm'_x_'}' not
+R14353:14353 mathcomp.fingroup.perm <> ::type_scope:'{'_'perm'_x_'}' not
+R14352:14352 gaggle <> T:156 var
+binder 14342:14342 <> p:157
+R14358:14366 Coq.ssr.ssrfun <> injective def
+R14369:14383 gaggle <> option_perm_fun def
+R14385:14385 gaggle <> p:157 var
+R14407:14421 gaggle <> option_perm_fun def
+R14407:14421 gaggle <> option_perm_fun def
+R14407:14421 gaggle <> option_perm_fun def
+R14469:14476 gaggle <> Some_inj thm
+R14469:14476 gaggle <> Some_inj thm
+R14492:14499 mathcomp.fingroup.perm <> perm_inj thm
+R14492:14499 mathcomp.fingroup.perm <> perm_inj thm
+def 14538:14548 <> option_perm
+R14555:14561 mathcomp.ssreflect.fintype Finite.Exports finType abbrev
+binder 14551:14551 <> T:158
+R14569:14574 mathcomp.fingroup.perm <> ::type_scope:'{'_'perm'_x_'}' not
+R14576:14576 mathcomp.fingroup.perm <> ::type_scope:'{'_'perm'_x_'}' not
+R14575:14575 gaggle <> T:158 var
+binder 14565:14565 <> p:159
+R14584:14587 mathcomp.fingroup.perm <> perm abbrev
+R14590:14608 gaggle <> option_perm_fun_inj def
+R14610:14610 gaggle <> p:159 var
+prf 14621:14634 <> unlift_inj_iff
+binder 14637:14637 <> n:160
+binder 14639:14639 <> m:161
+R14651:14654 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14647:14649 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R14650:14650 gaggle <> n:160 var
+R14655:14657 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R14658:14658 gaggle <> m:161 var
+binder 14643:14643 <> f:162
+R14670:14678 Coq.ssr.ssrfun <> injective def
+R14680:14680 gaggle <> f:162 var
+binder 14662:14666 <> f_inj:163
+binder 14683:14683 <> x:164
+binder 14685:14685 <> y:165
+R14701:14705 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R14691:14696 mathcomp.ssreflect.fintype <> unlift def
+R14700:14700 gaggle <> y:165 var
+R14698:14698 gaggle <> x:164 var
+R14706:14711 mathcomp.ssreflect.fintype <> unlift def
+R14720:14720 gaggle <> f:162 var
+R14722:14722 gaggle <> y:165 var
+R14714:14714 gaggle <> f:162 var
+R14716:14716 gaggle <> x:164 var
+R14743:14745 mathcomp.ssreflect.eqtype <> eqP def
+R14743:14745 mathcomp.ssreflect.eqtype <> eqP def
+R14743:14745 mathcomp.ssreflect.eqtype <> eqP def
+R14784:14794 mathcomp.ssreflect.fintype <> unlift_none thm
+R14784:14794 mathcomp.ssreflect.fintype <> unlift_none thm
+R14784:14794 mathcomp.ssreflect.fintype <> unlift_none thm
+R14784:14794 mathcomp.ssreflect.fintype <> unlift_none thm
+R14784:14794 mathcomp.ssreflect.fintype <> unlift_none thm
+R14816:14819 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R14816:14819 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R14835:14837 mathcomp.ssreflect.eqtype <> eqP def
+R14835:14837 mathcomp.ssreflect.eqtype <> eqP def
+R14874:14874 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14902:14904 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14875:14883 Coq.Init.Specif <> proj2_sig def
+R14886:14896 mathcomp.ssreflect.fintype <> unlift_some thm
+R14874:14874 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14902:14904 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14875:14883 Coq.Init.Specif <> proj2_sig def
+R14886:14896 mathcomp.ssreflect.fintype <> unlift_some thm
+R14874:14874 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14902:14904 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14875:14883 Coq.Init.Specif <> proj2_sig def
+R14886:14896 mathcomp.ssreflect.fintype <> unlift_some thm
+R14922:14924 mathcomp.ssreflect.eqtype <> eqP def
+R14943:14943 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14970:14972 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14944:14952 Coq.Init.Specif <> proj2_sig def
+R14955:14965 mathcomp.ssreflect.fintype <> unlift_some thm
+R14943:14943 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14970:14972 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14944:14952 Coq.Init.Specif <> proj2_sig def
+R14955:14965 mathcomp.ssreflect.fintype <> unlift_some thm
+R14943:14943 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14970:14972 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R14944:14952 Coq.Init.Specif <> proj2_sig def
+R14955:14965 mathcomp.ssreflect.fintype <> unlift_some thm
+prf 14987:15003 <> option_some_proof
+binder 15006:15006 <> T:166
+binder 15008:15008 <> U:167
+R15031:15034 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R15023:15028 Coq.Init.Datatypes <> option ind
+R15030:15030 gaggle <> T:166 var
+R15035:15040 Coq.Init.Datatypes <> option ind
+R15042:15042 gaggle <> U:167 var
+binder 15019:15019 <> f:168
+R15064:15069 Coq.Init.Datatypes <> option ind
+R15071:15071 gaggle <> T:166 var
+binder 15060:15060 <> x:169
+R15075:15078 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R15074:15074 gaggle <> x:169 var
+R15079:15079 gaggle <> f:168 var
+R15081:15081 gaggle <> x:169 var
+binder 15046:15049 <> f_wd:170
+binder 15084:15084 <> x:171
+R15088:15090 Coq.Init.Logic <> ::type_scope:'~'_x not
+R15108:15108 Coq.Init.Logic <> ::type_scope:'~'_x not
+R15101:15103 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15091:15091 gaggle <> f:168 var
+R15094:15097 Coq.Init.Datatypes <> Some constr
+R15099:15099 gaggle <> x:171 var
+R15104:15107 Coq.Init.Datatypes <> None constr
+R15127:15130 Coq.Init.Datatypes <> Some constr
+R15127:15130 Coq.Init.Datatypes <> Some constr
+R15127:15130 Coq.Init.Datatypes <> Some constr
+R15161:15164 Coq.Init.Datatypes <> Some constr
+R15170:15176 mathcomp.ssreflect.eqtype <> eq_refl thm
+R15178:15181 Coq.Init.Datatypes <> true constr
+R15161:15164 Coq.Init.Datatypes <> Some constr
+R15170:15176 mathcomp.ssreflect.eqtype <> eq_refl thm
+R15178:15181 Coq.Init.Datatypes <> true constr
+R15161:15164 Coq.Init.Datatypes <> Some constr
+R15170:15176 mathcomp.ssreflect.eqtype <> eq_refl thm
+R15178:15181 Coq.Init.Datatypes <> true constr
+def 15221:15231 <> option_some
+binder 15234:15234 <> T:172
+binder 15236:15236 <> U:173
+R15259:15262 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R15251:15256 Coq.Init.Datatypes <> option ind
+R15258:15258 gaggle <> T:172 var
+R15263:15268 Coq.Init.Datatypes <> option ind
+R15270:15270 gaggle <> U:173 var
+binder 15247:15247 <> f:174
+R15292:15297 Coq.Init.Datatypes <> option ind
+R15299:15299 gaggle <> T:172 var
+binder 15288:15288 <> x:175
+R15303:15306 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R15302:15302 gaggle <> x:175 var
+R15307:15307 gaggle <> f:174 var
+R15309:15309 gaggle <> x:175 var
+binder 15274:15277 <> f_wd:176
+R15315:15318 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R15314:15314 gaggle <> T:172 var
+R15319:15319 gaggle <> U:173 var
+binder 15332:15332 <> x:177
+R15348:15348 gaggle <> f:174 var
+R15351:15354 Coq.Init.Datatypes <> Some constr
+R15356:15356 gaggle <> x:177 var
+R15385:15388 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R15381:15383 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15371:15371 gaggle <> f:174 var
+R15374:15377 Coq.Init.Datatypes <> Some constr
+R15379:15379 gaggle <> x:177 var
+R15384:15384 gaggle <> o:178 var
+R15389:15389 gaggle <> U:173 var
+R15402:15405 Coq.Init.Datatypes <> Some constr
+R15412:15417 Coq.ssr.ssrfun <> ::fun_scope:'fun'_'=>'_x not
+R15426:15429 Coq.Init.Datatypes <> None constr
+binder 15438:15439 <> Ho:179
+R15444:15453 Coq.Init.Logic <> False_rect scheme
+R15458:15474 gaggle <> option_some_proof thm
+R15485:15486 gaggle <> Ho:179 var
+R15483:15483 gaggle <> x:177 var
+R15478:15481 gaggle <> f_wd:176 var
+R15476:15476 gaggle <> f:174 var
+R15455:15455 gaggle <> U:173 var
+R15499:15503 Coq.ssr.ssrfun <> erefl abbrev
+def 15521:15540 <> option_match_some_rw
+binder 15543:15543 <> A:180
+binder 15545:15545 <> P:181
+binder 15547:15551 <> vSome:182
+binder 15553:15557 <> vNone:183
+binder 15559:15559 <> o:184
+R15565:15565 gaggle <> A:180 var
+binder 15563:15563 <> x:185
+R15577:15579 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15571:15574 Coq.Init.Datatypes <> Some constr
+R15576:15576 gaggle <> x:185 var
+R15580:15580 gaggle <> o:184 var
+binder 15569:15569 <> H:186
+R15648:15651 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15593:15593 gaggle <> o:184 var
+R15602:15602 gaggle <> P:181 var
+R15604:15604 gaggle <> o:187 var
+R15611:15614 Coq.Init.Datatypes <> None constr
+R15619:15623 gaggle <> vNone:183 var
+R15627:15630 Coq.Init.Datatypes <> Some constr
+R15637:15641 gaggle <> vSome:182 var
+R15652:15656 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+R15658:15659 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+R15661:15664 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+R15657:15657 gaggle <> P:181 var
+R15665:15669 gaggle <> vSome:182 var
+R15671:15671 gaggle <> x:185 var
+R15660:15660 gaggle <> H:186 var
+R15684:15684 gaggle <> H:186 var
+R15691:15695 Coq.ssr.ssrfun <> erefl abbrev
+R15700:15704 Coq.ssr.ssrfun <> erefl abbrev
+def 15723:15742 <> option_match_none_rw
+binder 15745:15745 <> A:189
+binder 15747:15747 <> P:190
+binder 15749:15753 <> vSome:191
+binder 15755:15759 <> vNone:192
+R15767:15772 Coq.Init.Datatypes <> option ind
+R15774:15774 gaggle <> A:189 var
+binder 15763:15763 <> o:193
+R15784:15786 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15780:15783 Coq.Init.Datatypes <> None constr
+R15787:15787 gaggle <> o:193 var
+binder 15778:15778 <> H:194
+R15855:15858 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15800:15800 gaggle <> o:193 var
+R15809:15809 gaggle <> P:190 var
+R15811:15811 gaggle <> o:195 var
+R15818:15821 Coq.Init.Datatypes <> None constr
+R15826:15830 gaggle <> vNone:192 var
+R15834:15837 Coq.Init.Datatypes <> Some constr
+R15844:15848 gaggle <> vSome:191 var
+R15859:15863 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+R15865:15866 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+R15868:15871 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+R15864:15864 gaggle <> P:190 var
+R15872:15876 gaggle <> vNone:192 var
+R15867:15867 gaggle <> H:194 var
+R15889:15889 gaggle <> H:194 var
+R15896:15900 Coq.ssr.ssrfun <> erefl abbrev
+R15905:15909 Coq.ssr.ssrfun <> erefl abbrev
+def 15928:15938 <> constant_rw
+binder 15940:15940 <> T:197
+binder 15942:15942 <> P:198
+R15949:15949 gaggle <> T:197 var
+binder 15945:15945 <> x:199
+binder 15947:15947 <> y:200
+R15956:15956 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15955:15955 gaggle <> x:199 var
+R15957:15957 gaggle <> y:200 var
+binder 15953:15953 <> H:201
+binder 15960:15960 <> B:202
+binder 15962:15962 <> b:203
+R16009:16011 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15968:15972 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+R15990:15991 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+R15993:15997 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+R16008:16008 Coq.Init.Logic EqNotations :::'rew'_'['_x_']'_x_'in'_x not
+binder 15977:15977 <> z:204
+R15985:15988 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R15982:15982 gaggle <> P:198 var
+R15984:15984 gaggle <> z:204 var
+R15989:15989 gaggle <> B:202 var
+R16007:16007 gaggle <> b:203 var
+R15992:15992 gaggle <> H:201 var
+R16021:16021 gaggle <> b:203 var
+R16034:16034 gaggle <> H:201 var
+R16041:16045 Coq.ssr.ssrfun <> erefl abbrev
+R16050:16054 Coq.ssr.ssrfun <> erefl abbrev
+prf 16068:16081 <> option_some_wf
+binder 16084:16084 <> T:206
+binder 16086:16086 <> U:207
+R16109:16112 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R16101:16106 Coq.Init.Datatypes <> option ind
+R16108:16108 gaggle <> T:206 var
+R16113:16118 Coq.Init.Datatypes <> option ind
+R16120:16120 gaggle <> U:207 var
+binder 16097:16097 <> f:208
+R16142:16147 Coq.Init.Datatypes <> option ind
+R16149:16149 gaggle <> T:206 var
+binder 16138:16138 <> x:209
+R16153:16156 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R16152:16152 gaggle <> x:209 var
+R16157:16157 gaggle <> f:208 var
+R16159:16159 gaggle <> x:209 var
+binder 16124:16127 <> f_wd:210
+binder 16162:16162 <> x:211
+R16176:16178 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R16166:16166 gaggle <> f:208 var
+R16169:16172 Coq.Init.Datatypes <> Some constr
+R16174:16174 gaggle <> x:211 var
+R16179:16182 Coq.Init.Datatypes <> Some constr
+R16185:16195 gaggle <> option_some def
+R16204:16204 gaggle <> x:211 var
+R16199:16202 gaggle <> f_wd:210 var
+R16197:16197 gaggle <> f:208 var
+R16231:16234 Coq.Init.Datatypes <> Some constr
+R16231:16234 Coq.Init.Datatypes <> Some constr
+R16231:16234 Coq.Init.Datatypes <> Some constr
+R16262:16272 gaggle <> option_some def
+R16275:16294 gaggle <> option_match_some_rw def
+R16297:16300 Coq.ssr.ssrfun <> esym def
+R16262:16272 gaggle <> option_some def
+R16262:16272 gaggle <> option_some def
+R16275:16294 gaggle <> option_match_some_rw def
+R16297:16300 Coq.ssr.ssrfun <> esym def
+R16275:16294 gaggle <> option_match_some_rw def
+R16297:16300 Coq.ssr.ssrfun <> esym def
+R16324:16334 gaggle <> constant_rw def
+R16324:16334 gaggle <> constant_rw def
+R16324:16334 gaggle <> constant_rw def
+R16348:16364 gaggle <> option_some_proof thm
+R16348:16364 gaggle <> option_some_proof thm
+prf 16386:16401 <> option_some_finj
+binder 16404:16404 <> T:212
+R16427:16430 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R16419:16424 Coq.Init.Datatypes <> option ind
+R16426:16426 gaggle <> T:212 var
+R16431:16436 Coq.Init.Datatypes <> option ind
+R16438:16438 gaggle <> T:212 var
+binder 16415:16415 <> f:213
+R16460:16465 Coq.Init.Datatypes <> option ind
+R16467:16467 gaggle <> T:212 var
+binder 16456:16456 <> x:214
+R16471:16474 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R16470:16470 gaggle <> x:214 var
+R16475:16475 gaggle <> f:213 var
+R16477:16477 gaggle <> x:214 var
+binder 16442:16445 <> f_wd:215
+R16489:16497 Coq.ssr.ssrfun <> injective def
+R16499:16499 gaggle <> f:213 var
+binder 16481:16485 <> f_inj:216
+R16504:16512 Coq.ssr.ssrfun <> injective def
+R16515:16525 gaggle <> option_some def
+R16529:16532 gaggle <> f_wd:215 var
+R16527:16527 gaggle <> f:213 var
+R16576:16579 Coq.Init.Datatypes <> Some constr
+R16610:16613 Coq.Init.Datatypes <> Some constr
+R16576:16579 Coq.Init.Datatypes <> Some constr
+R16576:16579 Coq.Init.Datatypes <> Some constr
+R16610:16613 Coq.Init.Datatypes <> Some constr
+R16610:16613 Coq.Init.Datatypes <> Some constr
+R16610:16613 Coq.Init.Datatypes <> Some constr
+R16610:16613 Coq.Init.Datatypes <> Some constr
+R16641:16651 gaggle <> option_some def
+R16641:16651 gaggle <> option_some def
+R16641:16651 gaggle <> option_some def
+R16667:16686 gaggle <> option_match_some_rw def
+R16689:16692 Coq.ssr.ssrfun <> esym def
+R16667:16686 gaggle <> option_match_some_rw def
+R16689:16692 Coq.ssr.ssrfun <> esym def
+R16667:16686 gaggle <> option_match_some_rw def
+R16689:16692 Coq.ssr.ssrfun <> esym def
+R16715:16734 gaggle <> option_match_some_rw def
+R16737:16740 Coq.ssr.ssrfun <> esym def
+R16715:16734 gaggle <> option_match_some_rw def
+R16737:16740 Coq.ssr.ssrfun <> esym def
+R16715:16734 gaggle <> option_match_some_rw def
+R16737:16740 Coq.ssr.ssrfun <> esym def
+R16763:16773 gaggle <> constant_rw def
+R16763:16773 gaggle <> constant_rw def
+R16763:16773 gaggle <> constant_rw def
+R16763:16773 gaggle <> constant_rw def
+R16763:16773 gaggle <> constant_rw def
+R16861:16868 gaggle <> Some_inj thm
+R16861:16868 gaggle <> Some_inj thm
+R16898:16901 Coq.Init.Datatypes <> Some constr
+R16907:16913 mathcomp.ssreflect.eqtype <> eq_refl thm
+R16915:16918 Coq.Init.Datatypes <> true constr
+R16898:16901 Coq.Init.Datatypes <> Some constr
+R16907:16913 mathcomp.ssreflect.eqtype <> eq_refl thm
+R16915:16918 Coq.Init.Datatypes <> true constr
+R16898:16901 Coq.Init.Datatypes <> Some constr
+R16907:16913 mathcomp.ssreflect.eqtype <> eq_refl thm
+R16915:16918 Coq.Init.Datatypes <> true constr
+R16961:16964 Coq.Init.Datatypes <> Some constr
+R16970:16976 mathcomp.ssreflect.eqtype <> eq_refl thm
+R16978:16981 Coq.Init.Datatypes <> true constr
+R16961:16964 Coq.Init.Datatypes <> Some constr
+R16970:16976 mathcomp.ssreflect.eqtype <> eq_refl thm
+R16978:16981 Coq.Init.Datatypes <> true constr
+R16961:16964 Coq.Init.Datatypes <> Some constr
+R16970:16976 mathcomp.ssreflect.eqtype <> eq_refl thm
+R16978:16981 Coq.Init.Datatypes <> true constr
+R17072:17079 gaggle <> Some_inj thm
+R17072:17079 gaggle <> Some_inj thm
+prf 17102:17119 <> unlift_perm_unlift
+R17126:17128 gaggle <> :::'ℕ' not
+binder 17122:17122 <> n:217
+R17138:17140 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R17141:17141 gaggle <> n:217 var
+binder 17132:17132 <> i:218
+binder 17134:17134 <> j:219
+R17149:17151 mathcomp.fingroup.perm <> :::'''S_'_x not
+R17152:17152 gaggle <> n:217 var
+binder 17145:17145 <> s:220
+R17160:17162 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R17163:17163 gaggle <> n:217 var
+binder 17156:17156 <> k:221
+R17199:17201 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17169:17179 gaggle <> unlift_perm def
+R17188:17193 mathcomp.ssreflect.fintype <> unlift def
+R17197:17197 gaggle <> k:221 var
+R17195:17195 gaggle <> i:218 var
+R17185:17185 gaggle <> s:220 var
+R17183:17183 gaggle <> j:219 var
+R17181:17181 gaggle <> i:218 var
+R17202:17207 mathcomp.ssreflect.fintype <> unlift def
+R17212:17212 gaggle <> s:220 var
+R17214:17214 gaggle <> k:221 var
+R17209:17209 gaggle <> j:219 var
+R17235:17239 mathcomp.fingroup.perm <> permE thm
+R17241:17255 gaggle <> unlift_perm_fun def
+R17235:17239 mathcomp.fingroup.perm <> permE thm
+R17235:17239 mathcomp.fingroup.perm <> permE thm
+R17241:17255 gaggle <> unlift_perm_fun def
+R17241:17255 gaggle <> unlift_perm_fun def
+R17268:17270 mathcomp.ssreflect.eqtype <> eqP def
+R17268:17270 mathcomp.ssreflect.eqtype <> eqP def
+R17268:17270 mathcomp.ssreflect.eqtype <> eqP def
+R17289:17291 mathcomp.ssreflect.eqtype <> eqP def
+R17315:17325 mathcomp.ssreflect.fintype <> unlift_none thm
+R17315:17325 mathcomp.ssreflect.fintype <> unlift_none thm
+R17315:17325 mathcomp.ssreflect.fintype <> unlift_none thm
+R17337:17347 mathcomp.ssreflect.fintype <> unlift_some thm
+R17337:17347 mathcomp.ssreflect.fintype <> unlift_some thm
+R17337:17347 mathcomp.ssreflect.fintype <> unlift_some thm
+prf 17419:17434 <> unlift_some_perm
+binder 17437:17437 <> n:222
+R17447:17449 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R17451:17453 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R17450:17450 gaggle <> n:222 var
+binder 17441:17441 <> i:223
+binder 17443:17443 <> j:224
+R17461:17463 mathcomp.fingroup.perm <> :::'''S_'_x not
+R17465:17467 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R17464:17464 gaggle <> n:222 var
+binder 17457:17457 <> s:225
+R17474:17474 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R17482:17486 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R17478:17480 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17475:17475 gaggle <> s:225 var
+R17477:17477 gaggle <> i:223 var
+R17481:17481 gaggle <> j:224 var
+R17487:17487 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R17489:17491 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R17496:17498 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R17518:17520 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R17554:17554 Coq.Init.Specif <> ::type_scope:'{'_x_':'_x_'|'_x_'&'_x_'}' not
+R17492:17494 mathcomp.fingroup.perm <> :::'''S_'_x not
+R17495:17495 gaggle <> n:222 var
+binder 17488:17488 <> p:226
+R17500:17502 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17499:17499 gaggle <> s:225 var
+R17503:17511 mathcomp.fingroup.perm <> lift_perm def
+R17517:17517 gaggle <> p:226 var
+R17515:17515 gaggle <> j:224 var
+R17513:17513 gaggle <> i:223 var
+binder 17488:17488 <> p:227
+R17538:17540 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17521:17531 gaggle <> unlift_perm def
+R17537:17537 gaggle <> s:225 var
+R17535:17535 gaggle <> j:224 var
+R17533:17533 gaggle <> i:223 var
+R17541:17551 gaggle <> option_perm def
+R17553:17553 gaggle <> p:227 var
+R17611:17616 Coq.Init.Datatypes <> option ind
+R17618:17620 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+binder 17607:17607 <> x:228
+R17626:17630 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R17650:17650 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R17625:17625 gaggle <> x:228 var
+R17631:17641 gaggle <> unlift_perm def
+R17649:17649 gaggle <> x:228 var
+R17611:17616 Coq.Init.Datatypes <> option ind
+R17618:17620 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+binder 17607:17607 <> x:229
+R17626:17630 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R17650:17650 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R17625:17625 gaggle <> x:229 var
+R17631:17641 gaggle <> unlift_perm def
+R17649:17649 gaggle <> x:229 var
+R17678:17688 gaggle <> unlift_perm def
+R17690:17694 mathcomp.fingroup.perm <> permE thm
+R17696:17710 gaggle <> unlift_perm_fun def
+R17678:17688 gaggle <> unlift_perm def
+R17678:17688 gaggle <> unlift_perm def
+R17690:17694 mathcomp.fingroup.perm <> permE thm
+R17690:17694 mathcomp.fingroup.perm <> permE thm
+R17696:17710 gaggle <> unlift_perm_fun def
+R17696:17710 gaggle <> unlift_perm_fun def
+R17756:17769 gaggle <> unlift_inj_iff thm
+R17773:17780 mathcomp.fingroup.perm <> perm_inj thm
+R17756:17769 gaggle <> unlift_inj_iff thm
+R17773:17780 mathcomp.fingroup.perm <> perm_inj thm
+R17756:17769 gaggle <> unlift_inj_iff thm
+R17773:17780 mathcomp.fingroup.perm <> perm_inj thm
+R17799:17799 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R17838:17840 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R17800:17808 Coq.Init.Specif <> proj2_sig def
+R17811:17821 mathcomp.ssreflect.fintype <> unlift_some thm
+R17824:17831 mathcomp.ssreflect.fintype <> neq_lift thm
+R17799:17799 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R17838:17840 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R17800:17808 Coq.Init.Specif <> proj2_sig def
+R17811:17821 mathcomp.ssreflect.fintype <> unlift_some thm
+R17824:17831 mathcomp.ssreflect.fintype <> neq_lift thm
+R17799:17799 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R17838:17840 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R17800:17808 Coq.Init.Specif <> proj2_sig def
+R17811:17821 mathcomp.ssreflect.fintype <> unlift_some thm
+R17824:17831 mathcomp.ssreflect.fintype <> neq_lift thm
+R17852:17857 Coq.Init.Specif <> exist2 constr
+R17864:17867 mathcomp.fingroup.perm <> perm abbrev
+R17870:17885 gaggle <> option_some_finj thm
+R17899:17906 mathcomp.fingroup.perm <> perm_inj thm
+R17852:17857 Coq.Init.Specif <> exist2 constr
+R17864:17867 mathcomp.fingroup.perm <> perm abbrev
+R17870:17885 gaggle <> option_some_finj thm
+R17899:17906 mathcomp.fingroup.perm <> perm_inj thm
+R17925:17929 mathcomp.fingroup.perm <> permP thm
+R17925:17929 mathcomp.fingroup.perm <> permP thm
+R17925:17929 mathcomp.fingroup.perm <> permP thm
+R17949:17953 mathcomp.fingroup.perm <> permE thm
+R17955:17967 mathcomp.fingroup.perm <> lift_perm_fun def
+R17949:17953 mathcomp.fingroup.perm <> permE thm
+R17949:17953 mathcomp.fingroup.perm <> permE thm
+R17955:17967 mathcomp.fingroup.perm <> lift_perm_fun def
+R17955:17967 mathcomp.fingroup.perm <> lift_perm_fun def
+R17982:17984 mathcomp.ssreflect.eqtype <> eqP def
+R17982:17984 mathcomp.ssreflect.eqtype <> eqP def
+R17982:17984 mathcomp.ssreflect.eqtype <> eqP def
+R18023:18033 mathcomp.ssreflect.fintype <> unlift_none thm
+R18023:18033 mathcomp.ssreflect.fintype <> unlift_none thm
+R18023:18033 mathcomp.ssreflect.fintype <> unlift_none thm
+R18054:18056 mathcomp.ssreflect.eqtype <> eqP def
+R18074:18084 mathcomp.ssreflect.fintype <> unlift_some thm
+R18074:18084 mathcomp.ssreflect.fintype <> unlift_some thm
+R18074:18084 mathcomp.ssreflect.fintype <> unlift_some thm
+R18133:18137 mathcomp.fingroup.perm <> permE thm
+R18133:18137 mathcomp.fingroup.perm <> permE thm
+R18133:18137 mathcomp.fingroup.perm <> permE thm
+R18169:18179 gaggle <> unlift_perm def
+R18188:18191 Coq.Init.Datatypes <> Some constr
+R18169:18179 gaggle <> unlift_perm def
+R18188:18191 Coq.Init.Datatypes <> Some constr
+R18169:18179 gaggle <> unlift_perm def
+R18188:18191 Coq.Init.Datatypes <> Some constr
+R18221:18231 gaggle <> option_some def
+R18221:18231 gaggle <> option_some def
+R18221:18231 gaggle <> option_some def
+R18249:18268 gaggle <> option_match_some_rw def
+R18271:18274 Coq.ssr.ssrfun <> esym def
+R18284:18294 gaggle <> constant_rw def
+R18249:18268 gaggle <> option_match_some_rw def
+R18271:18274 Coq.ssr.ssrfun <> esym def
+R18249:18268 gaggle <> option_match_some_rw def
+R18271:18274 Coq.ssr.ssrfun <> esym def
+R18284:18294 gaggle <> constant_rw def
+R18284:18294 gaggle <> constant_rw def
+R18320:18337 gaggle <> unlift_perm_unlift thm
+R18320:18337 gaggle <> unlift_perm_unlift thm
+R18320:18337 gaggle <> unlift_perm_unlift thm
+R18406:18408 mathcomp.ssreflect.eqtype <> eqP def
+R18411:18420 Coq.ssr.ssrbool <> contra_not thm
+R18424:18431 mathcomp.fingroup.perm <> perm_inj thm
+R18443:18445 mathcomp.ssreflect.eqtype <> eqP def
+R18461:18471 mathcomp.ssreflect.fintype <> unlift_some thm
+R18569:18576 gaggle <> Some_inj thm
+R18569:18576 gaggle <> Some_inj thm
+R18569:18576 gaggle <> Some_inj thm
+R18614:18631 gaggle <> unlift_perm_unlift thm
+R18614:18631 gaggle <> unlift_perm_unlift thm
+R18614:18631 gaggle <> unlift_perm_unlift thm
+R18696:18698 mathcomp.ssreflect.eqtype <> eqP def
+R18701:18710 Coq.ssr.ssrbool <> contra_not thm
+R18714:18721 mathcomp.fingroup.perm <> perm_inj thm
+R18733:18735 mathcomp.ssreflect.eqtype <> eqP def
+R18757:18757 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R18785:18787 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R18758:18766 Coq.Init.Specif <> proj2_sig def
+R18769:18779 mathcomp.ssreflect.fintype <> unlift_some thm
+R18757:18757 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R18785:18787 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R18758:18766 Coq.Init.Specif <> proj2_sig def
+R18769:18779 mathcomp.ssreflect.fintype <> unlift_some thm
+R18757:18757 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R18785:18787 Coq.ssr.ssrfun <> ::pair_scope:x_'.2' not
+R18758:18766 Coq.Init.Specif <> proj2_sig def
+R18769:18779 mathcomp.ssreflect.fintype <> unlift_some thm
+R18813:18817 mathcomp.fingroup.perm <> permP thm
+R18813:18817 mathcomp.fingroup.perm <> permP thm
+R18813:18817 mathcomp.fingroup.perm <> permP thm
+R18836:18840 mathcomp.fingroup.perm <> permE thm
+R18842:18856 gaggle <> unlift_perm_fun def
+R18858:18872 gaggle <> option_perm_fun def
+R18836:18840 mathcomp.fingroup.perm <> permE thm
+R18836:18840 mathcomp.fingroup.perm <> permE thm
+R18836:18840 mathcomp.fingroup.perm <> permE thm
+R18836:18840 mathcomp.fingroup.perm <> permE thm
+R18842:18856 gaggle <> unlift_perm_fun def
+R18842:18856 gaggle <> unlift_perm_fun def
+R18858:18872 gaggle <> option_perm_fun def
+R18858:18872 gaggle <> option_perm_fun def
+R18906:18910 mathcomp.fingroup.perm <> permE thm
+R18906:18910 mathcomp.fingroup.perm <> permE thm
+R18906:18910 mathcomp.fingroup.perm <> permE thm
+R18931:18941 gaggle <> unlift_perm def
+R18950:18953 Coq.Init.Datatypes <> Some constr
+R18931:18941 gaggle <> unlift_perm def
+R18950:18953 Coq.Init.Datatypes <> Some constr
+R18931:18941 gaggle <> unlift_perm def
+R18950:18953 Coq.Init.Datatypes <> Some constr
+R18983:18993 gaggle <> option_some def
+R18983:18993 gaggle <> option_some def
+R18983:18993 gaggle <> option_some def
+R19011:19030 gaggle <> option_match_some_rw def
+R19033:19036 Coq.ssr.ssrfun <> esym def
+R19011:19030 gaggle <> option_match_some_rw def
+R19033:19036 Coq.ssr.ssrfun <> esym def
+R19011:19030 gaggle <> option_match_some_rw def
+R19033:19036 Coq.ssr.ssrfun <> esym def
+R19061:19071 gaggle <> constant_rw def
+R19061:19071 gaggle <> constant_rw def
+R19061:19071 gaggle <> constant_rw def
+R19091:19095 mathcomp.fingroup.perm <> permE thm
+R19091:19095 mathcomp.fingroup.perm <> permE thm
+R19091:19095 mathcomp.fingroup.perm <> permE thm
+R19122:19126 mathcomp.fingroup.perm <> permE thm
+R19122:19126 mathcomp.fingroup.perm <> permE thm
+R19122:19126 mathcomp.fingroup.perm <> permE thm
+R19151:19158 mathcomp.ssreflect.fintype <> neq_lift thm
+R19151:19158 mathcomp.ssreflect.fintype <> neq_lift thm
+R19151:19158 mathcomp.ssreflect.fintype <> neq_lift thm
+R19169:19171 mathcomp.ssreflect.eqtype <> eqP def
+R19174:19183 Coq.ssr.ssrbool <> contra_not thm
+R19187:19194 mathcomp.fingroup.perm <> perm_inj thm
+R19206:19208 mathcomp.ssreflect.eqtype <> eqP def
+R19226:19236 mathcomp.ssreflect.fintype <> unlift_some thm
+R19226:19236 mathcomp.ssreflect.fintype <> unlift_some thm
+R19226:19236 mathcomp.ssreflect.fintype <> unlift_some thm
+R19316:19326 mathcomp.ssreflect.fintype <> unlift_none thm
+R19316:19326 mathcomp.ssreflect.fintype <> unlift_none thm
+R19316:19326 mathcomp.ssreflect.fintype <> unlift_none thm
+prf 19341:19357 <> ord_max_residuate
+R19364:19370 mathcomp.ssreflect.fintype Finite.Exports finType abbrev
+binder 19360:19360 <> T:230
+R19378:19383 mathcomp.fingroup.perm <> ::type_scope:'{'_'perm'_x_'}' not
+R19385:19385 mathcomp.fingroup.perm <> ::type_scope:'{'_'perm'_x_'}' not
+R19384:19384 gaggle <> T:230 var
+binder 19374:19374 <> s:231
+binder 19388:19388 <> x:232
+R19417:19419 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R19394:19397 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R19411:19411 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R19393:19393 gaggle <> s:231 var
+R19398:19402 mathcomp.fingroup.perm <> tperm def
+R19407:19407 gaggle <> s:231 var
+R19409:19409 gaggle <> x:232 var
+R19404:19404 gaggle <> x:232 var
+R19416:19416 gaggle <> x:232 var
+R19420:19420 gaggle <> x:232 var
+R19443:19447 mathcomp.fingroup.perm <> permE thm
+R19452:19457 mathcomp.fingroup.perm <> tpermR thm
+R19443:19447 mathcomp.fingroup.perm <> permE thm
+R19443:19447 mathcomp.fingroup.perm <> permE thm
+R19452:19457 mathcomp.fingroup.perm <> tpermR thm
+R19452:19457 mathcomp.fingroup.perm <> tpermR thm
+prf 19472:19475 <> neqP
+R19482:19487 mathcomp.ssreflect.eqtype Equality.Exports eqType abbrev
+binder 19478:19478 <> A:233
+R19497:19497 gaggle <> A:233 var
+binder 19491:19491 <> a:234
+binder 19493:19493 <> b:235
+R19516:19519 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R19508:19510 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R19503:19506 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R19502:19502 gaggle <> a:234 var
+R19507:19507 gaggle <> b:235 var
+R19511:19515 Coq.Init.Datatypes <> false constr
+R19521:19524 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R19520:19520 gaggle <> a:234 var
+R19525:19525 gaggle <> b:235 var
+R19549:19551 mathcomp.ssreflect.eqtype <> eqP def
+R19553:19555 mathcomp.ssreflect.eqtype <> eqP def
+sec 19573:19580 <> Of_arity
+var 19592:19592 Of_arity n
+R19596:19598 Coq.Init.Datatypes <> nat ind
+rec 19608:19619 <> ary_Skeleton
+proj 19630:19631 <> sa
+proj 19657:19665 <> eqs_arity
+R19636:19650 gaggle <> Atomic_Skeleton class
+R19670:19673 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R19669:19669 gaggle <> Of_arity.n var
+R19674:19681 gaggle <> sk_arity meth
+rec 19694:19707 <> ary_Connective
+proj 19736:19737 <> ca
+proj 19760:19768 <> eqc_arity
+R19714:19724 gaggle <> Connectives class
+binder 19710:19710 <> A:240
+R19742:19751 gaggle <> Connective class
+R19753:19753 gaggle <> A:240 var
+R19773:19776 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'=='_x not
+R19772:19772 gaggle <> Of_arity.n var
+R19778:19785 gaggle <> sk_arity meth
+R19787:19794 gaggle <> skeleton meth
+R19799:19841 gaggle <> ca meth
+R19844:19889 gaggle <> sa meth
+def 19904:19918 <> ska_Residuation
+R19927:19938 gaggle <> ary_Skeleton class
+binder 19923:19923 <> C:244
+R19946:19948 mathcomp.fingroup.perm <> :::'''S_'_x not
+R19950:19952 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R19949:19949 gaggle <> Of_arity.n var
+binder 19942:19942 <> s:245
+R19963:19964 gaggle <> sa meth
+R19963:19964 gaggle <> sa meth
+R19963:19964 gaggle <> sa meth
+R20033:20041 gaggle <> eqs_arity meth
+R20033:20041 gaggle <> eqs_arity meth
+R19969:19982 gaggle <> sk_Residuation def
+R19984:19984 gaggle <> C:244 var
+R19987:19995 mathcomp.fingroup.perm <> cast_perm def
+R20025:20025 gaggle <> s:245 var
+R19998:20004 Coq.Init.Logic <> f_equal thm
+R20009:20011 mathcomp.ssreflect.eqtype <> eqP def
+R20013:20021 gaggle <> eqs_arity meth
+R20006:20006 Coq.Init.Datatypes <> S constr
+R20046:20054 gaggle <> eqs_arity meth
+R20066:20073 gaggle Of_arity <> sec
+R20107:20109 Coq.Init.Datatypes <> nat ind
+binder 20103:20103 <> n:246
+R20115:20125 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'isSub'_'of'_x_'for'_x_']' not
+R20140:20145 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'isSub'_'of'_x_'for'_x_']' not
+R20151:20151 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'isSub'_'of'_x_'for'_x_']' not
+R20126:20137 gaggle <> ary_Skeleton class
+R20139:20139 gaggle <> n:246 var
+R20147:20148 gaggle <> sa meth
+R20150:20150 gaggle <> n:246 var
+R20184:20194 gaggle <> Connectives class
+binder 20180:20180 <> A:247
+R20202:20204 Coq.Init.Datatypes <> nat ind
+binder 20198:20198 <> n:248
+R20210:20220 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'isSub'_'of'_x_'for'_x_']' not
+R20237:20242 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'isSub'_'of'_x_'for'_x_']' not
+R20250:20250 mathcomp.ssreflect.eqtype <> ::form_scope:'['_'isSub'_'of'_x_'for'_x_']' not
+R20221:20234 gaggle <> ary_Connective class
+R20236:20236 gaggle <> n:248 var
+R20244:20245 gaggle <> ca meth
+R20247:20247 gaggle <> n:248 var
+R20249:20249 gaggle <> A:247 var
+def 20647:20657 <> cast_ary_sk
+binder 20660:20660 <> m:249
+binder 20664:20664 <> n:250
+R20677:20679 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R20676:20676 gaggle <> m:249 var
+R20680:20680 gaggle <> n:250 var
+binder 20668:20672 <> eq_mn:251
+R20688:20699 gaggle <> ary_Skeleton class
+R20701:20701 gaggle <> m:249 var
+binder 20684:20684 <> C:252
+R20732:20736 gaggle <> eq_mn:251 var
+R20724:20726 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R20745:20756 gaggle <> ary_Skeleton class
+R20758:20758 gaggle <> n:254 var
+R20714:20718 Coq.ssr.ssrfun <> erefl abbrev
+R20763:20763 gaggle <> C:252 var
+prf 20773:20778 <> sa_inj
+binder 20781:20781 <> n:255
+R20786:20794 Coq.ssr.ssrfun <> injective def
+R20798:20799 gaggle <> sa meth
+R20801:20801 gaggle <> n:255 var
+R20837:20843 mathcomp.ssreflect.eqtype <> val_inj thm
+R20837:20843 mathcomp.ssreflect.eqtype <> val_inj thm
+prf 20870:20875 <> ca_inj
+binder 20878:20878 <> A:256
+binder 20882:20882 <> n:257
+R20887:20895 Coq.ssr.ssrfun <> injective def
+R20899:20900 gaggle <> ca meth
+R20902:20902 gaggle <> A:256 var
+R20904:20904 gaggle <> n:257 var
+R20940:20946 mathcomp.ssreflect.eqtype <> val_inj thm
+R20940:20946 mathcomp.ssreflect.eqtype <> val_inj thm
+def 20967:21084 <> Unnamed_thm5
+R20974:20974 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R21066:21071 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R20975:20988 gaggle <> sk_Residuation def
+R20990:21001 gaggle <> and_skeleton def
+R21006:21010 mathcomp.fingroup.perm <> tperm def
+R21041:21047 mathcomp.ssreflect.fintype <> Ordinal constr
+R21054:21060 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21014:21020 mathcomp.ssreflect.fintype <> Ordinal constr
+R21027:21033 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21072:21084 gaggle <> lres_skeleton def
+R21105:21118 gaggle <> sk_Residuation def
+R21120:21131 gaggle <> and_skeleton def
+R21133:21145 gaggle <> lres_skeleton def
+R21105:21118 gaggle <> sk_Residuation def
+R21105:21118 gaggle <> sk_Residuation def
+R21120:21131 gaggle <> and_skeleton def
+R21120:21131 gaggle <> and_skeleton def
+R21133:21145 gaggle <> lres_skeleton def
+R21133:21145 gaggle <> lres_skeleton def
+R21178:21191 gaggle <> sk_permutation meth
+R21193:21197 mathcomp.fingroup.fingroup <> mul1g thm
+R21178:21191 gaggle <> sk_permutation meth
+R21178:21191 gaggle <> sk_permutation meth
+R21193:21197 mathcomp.fingroup.fingroup <> mul1g thm
+R21193:21197 mathcomp.fingroup.fingroup <> mul1g thm
+R21210:21221 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R21210:21221 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R21242:21246 mathcomp.fingroup.perm <> permE thm
+R21252:21259 mathcomp.ssreflect.tuple <> tnth_map thm
+R21242:21246 mathcomp.fingroup.perm <> permE thm
+R21242:21246 mathcomp.fingroup.perm <> permE thm
+R21242:21246 mathcomp.fingroup.perm <> permE thm
+R21252:21259 mathcomp.ssreflect.tuple <> tnth_map thm
+R21252:21259 mathcomp.ssreflect.tuple <> tnth_map thm
+R21252:21259 mathcomp.ssreflect.tuple <> tnth_map thm
+R21274:21287 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21274:21287 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21274:21287 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21368:21375 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21379:21385 mathcomp.ssreflect.fintype <> Ordinal constr
+R21392:21398 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21368:21375 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21379:21385 mathcomp.ssreflect.fintype <> Ordinal constr
+R21392:21398 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21368:21375 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21379:21385 mathcomp.ssreflect.fintype <> Ordinal constr
+R21392:21398 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21368:21375 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21379:21385 mathcomp.ssreflect.fintype <> Ordinal constr
+R21392:21398 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21368:21375 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21379:21385 mathcomp.ssreflect.fintype <> Ordinal constr
+R21392:21398 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21368:21375 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21379:21385 mathcomp.ssreflect.fintype <> Ordinal constr
+R21392:21398 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21427:21433 mathcomp.ssreflect.fintype <> ord_max def
+R21436:21440 mathcomp.fingroup.perm <> permE thm
+R21445:21450 mathcomp.fingroup.perm <> tpermD thm
+R21452:21457 mathcomp.fingroup.perm <> tpermD thm
+R21427:21433 mathcomp.ssreflect.fintype <> ord_max def
+R21427:21433 mathcomp.ssreflect.fintype <> ord_max def
+R21436:21440 mathcomp.fingroup.perm <> permE thm
+R21436:21440 mathcomp.fingroup.perm <> permE thm
+R21436:21440 mathcomp.fingroup.perm <> permE thm
+R21445:21450 mathcomp.fingroup.perm <> tpermD thm
+R21445:21450 mathcomp.fingroup.perm <> tpermD thm
+R21452:21457 mathcomp.fingroup.perm <> tpermD thm
+R21452:21457 mathcomp.fingroup.perm <> tpermD thm
+R21452:21457 mathcomp.fingroup.perm <> tpermD thm
+R21452:21457 mathcomp.fingroup.perm <> tpermD thm
+R21452:21457 mathcomp.fingroup.perm <> tpermD thm
+R21452:21457 mathcomp.fingroup.perm <> tpermD thm
+R21474:21481 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21485:21491 mathcomp.ssreflect.fintype <> Ordinal constr
+R21498:21504 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21512:21516 mathcomp.fingroup.perm <> permE thm
+R21474:21481 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21485:21491 mathcomp.ssreflect.fintype <> Ordinal constr
+R21498:21504 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21474:21481 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21485:21491 mathcomp.ssreflect.fintype <> Ordinal constr
+R21498:21504 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21474:21481 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21485:21491 mathcomp.ssreflect.fintype <> Ordinal constr
+R21498:21504 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21474:21481 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21485:21491 mathcomp.ssreflect.fintype <> Ordinal constr
+R21498:21504 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21474:21481 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21485:21491 mathcomp.ssreflect.fintype <> Ordinal constr
+R21498:21504 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21512:21516 mathcomp.fingroup.perm <> permE thm
+R21512:21516 mathcomp.fingroup.perm <> permE thm
+R21512:21516 mathcomp.fingroup.perm <> permE thm
+R21560:21562 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R21537:21543 mathcomp.ssreflect.fintype <> Ordinal constr
+R21550:21556 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21563:21569 mathcomp.ssreflect.fintype <> Ordinal constr
+R21587:21593 mathcomp.ssreflect.fintype <> ord_inj thm
+R21587:21593 mathcomp.ssreflect.fintype <> ord_inj thm
+R21612:21617 mathcomp.fingroup.perm <> tpermR thm
+R21623:21633 mathcomp.algebra.ssralg GRing addr0 thm
+R21612:21617 mathcomp.fingroup.perm <> tpermR thm
+R21612:21617 mathcomp.fingroup.perm <> tpermR thm
+R21612:21617 mathcomp.fingroup.perm <> tpermR thm
+R21612:21617 mathcomp.fingroup.perm <> tpermR thm
+R21623:21633 mathcomp.algebra.ssralg GRing addr0 thm
+R21623:21633 mathcomp.algebra.ssralg GRing addr0 thm
+R21623:21633 mathcomp.algebra.ssralg GRing addr0 thm
+R21623:21633 mathcomp.algebra.ssralg GRing addr0 thm
+R21657:21659 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R21650:21656 mathcomp.ssreflect.fintype <> ord_max def
+R21661:21667 mathcomp.ssreflect.fintype <> Ordinal constr
+R21674:21680 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21694:21700 mathcomp.ssreflect.fintype <> ord_inj thm
+R21694:21700 mathcomp.ssreflect.fintype <> ord_inj thm
+R21715:21720 mathcomp.fingroup.perm <> tpermR thm
+R21726:21733 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21737:21743 mathcomp.ssreflect.fintype <> Ordinal constr
+R21750:21756 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21715:21720 mathcomp.fingroup.perm <> tpermR thm
+R21715:21720 mathcomp.fingroup.perm <> tpermR thm
+R21726:21733 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21737:21743 mathcomp.ssreflect.fintype <> Ordinal constr
+R21750:21756 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21726:21733 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21737:21743 mathcomp.ssreflect.fintype <> Ordinal constr
+R21750:21756 mathcomp.ssreflect.eqtype <> eq_refl thm
+R21782:21792 mathcomp.algebra.ssralg GRing addr0 thm
+R21795:21807 mathcomp.algebra.ssralg GRing mulrnDr thm
+R21809:21815 mathcomp.algebra.zmodp <> char_Zp thm
+R21782:21792 mathcomp.algebra.ssralg GRing addr0 thm
+R21782:21792 mathcomp.algebra.ssralg GRing addr0 thm
+R21795:21807 mathcomp.algebra.ssralg GRing mulrnDr thm
+R21795:21807 mathcomp.algebra.ssralg GRing mulrnDr thm
+R21809:21815 mathcomp.algebra.zmodp <> char_Zp thm
+R21809:21815 mathcomp.algebra.zmodp <> char_Zp thm
+R21826:21837 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R21826:21837 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R21855:21862 mathcomp.ssreflect.tuple <> tnth_map thm
+R21855:21862 mathcomp.ssreflect.tuple <> tnth_map thm
+R21855:21862 mathcomp.ssreflect.tuple <> tnth_map thm
+R21930:21943 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21930:21943 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21930:21943 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21930:21943 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21930:21943 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21930:21943 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21930:21943 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21947:21954 mathcomp.ssreflect.tuple <> tnth_nth thm
+R21991:21993 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R21977:21983 mathcomp.ssreflect.fintype <> Ordinal constr
+R21995:22001 mathcomp.ssreflect.fintype <> Ordinal constr
+R22008:22014 mathcomp.ssreflect.eqtype <> eq_refl thm
+R22028:22034 mathcomp.ssreflect.fintype <> ord_inj thm
+R22028:22034 mathcomp.ssreflect.fintype <> ord_inj thm
+R22052:22057 mathcomp.fingroup.perm <> tpermL thm
+R22052:22057 mathcomp.fingroup.perm <> tpermL thm
+R22052:22057 mathcomp.fingroup.perm <> tpermL thm
+R22088:22090 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R22074:22080 mathcomp.ssreflect.fintype <> Ordinal constr
+R22092:22098 mathcomp.ssreflect.fintype <> Ordinal constr
+R22105:22111 mathcomp.ssreflect.eqtype <> eq_refl thm
+R22125:22131 mathcomp.ssreflect.fintype <> ord_inj thm
+R22125:22131 mathcomp.ssreflect.fintype <> ord_inj thm
+R22149:22154 mathcomp.fingroup.perm <> tpermD thm
+R22149:22154 mathcomp.fingroup.perm <> tpermD thm
+R22149:22154 mathcomp.fingroup.perm <> tpermD thm
+R22183:22185 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R22169:22175 mathcomp.ssreflect.fintype <> Ordinal constr
+R22187:22193 mathcomp.ssreflect.fintype <> Ordinal constr
+R22200:22206 mathcomp.ssreflect.eqtype <> eq_refl thm
+R22220:22226 mathcomp.ssreflect.fintype <> ord_inj thm
+R22220:22226 mathcomp.ssreflect.fintype <> ord_inj thm
+R22242:22247 mathcomp.fingroup.perm <> tpermR thm
+R22242:22247 mathcomp.fingroup.perm <> tpermR thm
+R22242:22247 mathcomp.fingroup.perm <> tpermR thm
+prf 22264:22278 <> sk_α_is_action
+binder 22281:22281 <> n:258
+R22286:22294 mathcomp.fingroup.action <> is_action def
+R22312:22326 gaggle <> ska_Residuation def
+R22328:22328 gaggle <> n:258 var
+R22296:22301 mathcomp.ssreflect.finset <> ::set_scope:'['_'set'_':'_x_']' not
+R22309:22309 mathcomp.ssreflect.finset <> ::set_scope:'['_'set'_':'_x_']' not
+R22302:22304 mathcomp.fingroup.perm <> :::'''S_'_x not
+R22306:22308 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R22305:22305 gaggle <> n:258 var
+R22350:22364 gaggle <> ska_Residuation def
+R22366:22379 gaggle <> sk_Residuation def
+R22350:22364 gaggle <> ska_Residuation def
+R22350:22364 gaggle <> ska_Residuation def
+R22366:22379 gaggle <> sk_Residuation def
+R22366:22379 gaggle <> sk_Residuation def
+R22391:22405 mathcomp.fingroup.action <> is_total_action thm
+R22455:22460 gaggle <> sa_inj thm
+R22391:22405 mathcomp.fingroup.action <> is_total_action thm
+R22455:22460 gaggle <> sa_inj thm
+R22455:22460 gaggle <> sa_inj thm
+R22532:22536 mathcomp.fingroup.perm <> permP thm
+R22532:22536 mathcomp.fingroup.perm <> permP thm
+R22532:22536 mathcomp.fingroup.perm <> permP thm
+R22561:22565 mathcomp.fingroup.perm <> permE thm
+R22570:22579 mathcomp.fingroup.perm <> cast_permE thm
+R22581:22585 mathcomp.fingroup.perm <> permE thm
+R22590:22599 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22561:22565 mathcomp.fingroup.perm <> permE thm
+R22561:22565 mathcomp.fingroup.perm <> permE thm
+R22570:22579 mathcomp.fingroup.perm <> cast_permE thm
+R22570:22579 mathcomp.fingroup.perm <> cast_permE thm
+R22581:22585 mathcomp.fingroup.perm <> permE thm
+R22581:22585 mathcomp.fingroup.perm <> permE thm
+R22590:22599 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22590:22599 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22622:22631 mathcomp.fingroup.perm <> cast_permE thm
+R22633:22637 mathcomp.fingroup.perm <> permE thm
+R22642:22651 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22653:22659 mathcomp.ssreflect.eqtype <> eq_refl thm
+R22622:22631 mathcomp.fingroup.perm <> cast_permE thm
+R22622:22631 mathcomp.fingroup.perm <> cast_permE thm
+R22633:22637 mathcomp.fingroup.perm <> permE thm
+R22633:22637 mathcomp.fingroup.perm <> permE thm
+R22642:22651 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22642:22651 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22653:22659 mathcomp.ssreflect.eqtype <> eq_refl thm
+R22653:22659 mathcomp.ssreflect.eqtype <> eq_refl thm
+R22679:22688 mathcomp.fingroup.perm <> cast_permE thm
+R22690:22694 mathcomp.fingroup.perm <> permE thm
+R22699:22708 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22710:22716 mathcomp.ssreflect.eqtype <> eq_refl thm
+R22679:22688 mathcomp.fingroup.perm <> cast_permE thm
+R22679:22688 mathcomp.fingroup.perm <> cast_permE thm
+R22690:22694 mathcomp.fingroup.perm <> permE thm
+R22690:22694 mathcomp.fingroup.perm <> permE thm
+R22699:22708 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22699:22708 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22710:22716 mathcomp.ssreflect.eqtype <> eq_refl thm
+R22710:22716 mathcomp.ssreflect.eqtype <> eq_refl thm
+R22731:22742 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R22731:22742 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R22764:22771 mathcomp.ssreflect.tuple <> tnth_map thm
+R22764:22771 mathcomp.ssreflect.tuple <> tnth_map thm
+R22764:22771 mathcomp.ssreflect.tuple <> tnth_map thm
+R22808:22815 mathcomp.fingroup.perm <> perm_inj thm
+R22820:22828 mathcomp.fingroup.perm <> cast_perm def
+R22831:22837 Coq.Init.Logic <> f_equal thm
+R22842:22844 mathcomp.ssreflect.eqtype <> eqP def
+R22839:22839 Coq.Init.Datatypes <> S constr
+R22808:22815 mathcomp.fingroup.perm <> perm_inj thm
+R22820:22828 mathcomp.fingroup.perm <> cast_perm def
+R22831:22837 Coq.Init.Logic <> f_equal thm
+R22842:22844 mathcomp.ssreflect.eqtype <> eqP def
+R22839:22839 Coq.Init.Datatypes <> S constr
+R22876:22885 mathcomp.fingroup.perm <> cast_permE thm
+R22887:22891 mathcomp.fingroup.perm <> permE thm
+R22896:22905 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22907:22920 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R22876:22885 mathcomp.fingroup.perm <> cast_permE thm
+R22876:22885 mathcomp.fingroup.perm <> cast_permE thm
+R22887:22891 mathcomp.fingroup.perm <> permE thm
+R22887:22891 mathcomp.fingroup.perm <> permE thm
+R22896:22905 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22896:22905 mathcomp.ssreflect.fintype <> cast_ordKV thm
+R22907:22920 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R22907:22920 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R22989:22992 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R22936:22944 mathcomp.fingroup.perm <> cast_perm def
+R22982:22988 mathcomp.ssreflect.fintype <> ord_max def
+R22975:22977 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R22947:22953 Coq.Init.Logic <> f_equal thm
+R22962:22964 mathcomp.ssreflect.eqtype <> eqP def
+R22955:22959 mathcomp.ssreflect.ssrnat <> succn abbrev
+R22993:22999 mathcomp.ssreflect.fintype <> ord_max def
+R23095:23098 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23049:23057 mathcomp.fingroup.perm <> cast_perm def
+R23088:23094 mathcomp.ssreflect.fintype <> ord_max def
+R23060:23066 Coq.Init.Logic <> f_equal thm
+R23075:23077 mathcomp.ssreflect.eqtype <> eqP def
+R23068:23072 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23099:23105 mathcomp.ssreflect.fintype <> ord_max def
+R23179:23182 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23133:23141 mathcomp.fingroup.perm <> cast_perm def
+R23172:23178 mathcomp.ssreflect.fintype <> ord_max def
+R23144:23150 Coq.Init.Logic <> f_equal thm
+R23159:23161 mathcomp.ssreflect.eqtype <> eqP def
+R23152:23156 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23183:23189 mathcomp.ssreflect.fintype <> ord_max def
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R22989:22992 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R22936:22944 mathcomp.fingroup.perm <> cast_perm def
+R22982:22988 mathcomp.ssreflect.fintype <> ord_max def
+R22975:22977 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R22947:22953 Coq.Init.Logic <> f_equal thm
+R22962:22964 mathcomp.ssreflect.eqtype <> eqP def
+R22955:22959 mathcomp.ssreflect.ssrnat <> succn abbrev
+R22993:22999 mathcomp.ssreflect.fintype <> ord_max def
+R22989:22992 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R22936:22944 mathcomp.fingroup.perm <> cast_perm def
+R22982:22988 mathcomp.ssreflect.fintype <> ord_max def
+R22975:22977 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R22947:22953 Coq.Init.Logic <> f_equal thm
+R22962:22964 mathcomp.ssreflect.eqtype <> eqP def
+R22955:22959 mathcomp.ssreflect.ssrnat <> succn abbrev
+R22993:22999 mathcomp.ssreflect.fintype <> ord_max def
+R23025:23027 mathcomp.ssreflect.eqtype <> eqP def
+R23095:23098 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23049:23057 mathcomp.fingroup.perm <> cast_perm def
+R23088:23094 mathcomp.ssreflect.fintype <> ord_max def
+R23060:23066 Coq.Init.Logic <> f_equal thm
+R23075:23077 mathcomp.ssreflect.eqtype <> eqP def
+R23068:23072 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23099:23105 mathcomp.ssreflect.fintype <> ord_max def
+R23095:23098 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23049:23057 mathcomp.fingroup.perm <> cast_perm def
+R23088:23094 mathcomp.ssreflect.fintype <> ord_max def
+R23060:23066 Coq.Init.Logic <> f_equal thm
+R23075:23077 mathcomp.ssreflect.eqtype <> eqP def
+R23068:23072 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23099:23105 mathcomp.ssreflect.fintype <> ord_max def
+R23179:23182 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23133:23141 mathcomp.fingroup.perm <> cast_perm def
+R23172:23178 mathcomp.ssreflect.fintype <> ord_max def
+R23144:23150 Coq.Init.Logic <> f_equal thm
+R23159:23161 mathcomp.ssreflect.eqtype <> eqP def
+R23152:23156 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23183:23189 mathcomp.ssreflect.fintype <> ord_max def
+R23179:23182 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23133:23141 mathcomp.fingroup.perm <> cast_perm def
+R23172:23178 mathcomp.ssreflect.fintype <> ord_max def
+R23144:23150 Coq.Init.Logic <> f_equal thm
+R23159:23161 mathcomp.ssreflect.eqtype <> eqP def
+R23152:23156 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23183:23189 mathcomp.ssreflect.fintype <> ord_max def
+R23220:23222 mathcomp.ssreflect.eqtype <> eqP def
+R23253:23255 mathcomp.ssreflect.eqtype <> eqP def
+R23095:23098 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23049:23057 mathcomp.fingroup.perm <> cast_perm def
+R23088:23094 mathcomp.ssreflect.fintype <> ord_max def
+R23060:23066 Coq.Init.Logic <> f_equal thm
+R23075:23077 mathcomp.ssreflect.eqtype <> eqP def
+R23068:23072 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23099:23105 mathcomp.ssreflect.fintype <> ord_max def
+R23095:23098 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23049:23057 mathcomp.fingroup.perm <> cast_perm def
+R23088:23094 mathcomp.ssreflect.fintype <> ord_max def
+R23060:23066 Coq.Init.Logic <> f_equal thm
+R23075:23077 mathcomp.ssreflect.eqtype <> eqP def
+R23068:23072 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23099:23105 mathcomp.ssreflect.fintype <> ord_max def
+R23179:23182 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23133:23141 mathcomp.fingroup.perm <> cast_perm def
+R23172:23178 mathcomp.ssreflect.fintype <> ord_max def
+R23144:23150 Coq.Init.Logic <> f_equal thm
+R23159:23161 mathcomp.ssreflect.eqtype <> eqP def
+R23152:23156 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23183:23189 mathcomp.ssreflect.fintype <> ord_max def
+R23179:23182 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23133:23141 mathcomp.fingroup.perm <> cast_perm def
+R23172:23178 mathcomp.ssreflect.fintype <> ord_max def
+R23144:23150 Coq.Init.Logic <> f_equal thm
+R23159:23161 mathcomp.ssreflect.eqtype <> eqP def
+R23152:23156 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23183:23189 mathcomp.ssreflect.fintype <> ord_max def
+R23220:23222 mathcomp.ssreflect.eqtype <> eqP def
+R23253:23255 mathcomp.ssreflect.eqtype <> eqP def
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23304:23308 mathcomp.fingroup.fingroup <> mulgA thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23310:23325 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23356:23367 mathcomp.ssreflect.tuple <> eq_from_tnth thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23392:23399 mathcomp.ssreflect.tuple <> tnth_map thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23402:23415 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R23437:23440 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23441:23449 mathcomp.fingroup.perm <> cast_perm def
+R23487:23493 mathcomp.ssreflect.fintype <> ord_max def
+R23480:23482 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R23452:23458 Coq.Init.Logic <> f_equal thm
+R23467:23469 mathcomp.ssreflect.eqtype <> eqP def
+R23460:23464 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23515:23518 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23519:23527 mathcomp.fingroup.perm <> cast_perm def
+R23558:23564 mathcomp.ssreflect.fintype <> ord_max def
+R23530:23536 Coq.Init.Logic <> f_equal thm
+R23545:23547 mathcomp.ssreflect.eqtype <> eqP def
+R23538:23542 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23654:23679 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23608:23616 mathcomp.fingroup.perm <> cast_perm def
+R23647:23653 mathcomp.ssreflect.fintype <> ord_max def
+R23619:23625 Coq.Init.Logic <> f_equal thm
+R23634:23636 mathcomp.ssreflect.eqtype <> eqP def
+R23627:23631 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23680:23688 mathcomp.fingroup.perm <> cast_perm def
+R23719:23725 mathcomp.ssreflect.fintype <> ord_max def
+R23691:23697 Coq.Init.Logic <> f_equal thm
+R23706:23708 mathcomp.ssreflect.eqtype <> eqP def
+R23699:23703 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23437:23440 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23441:23449 mathcomp.fingroup.perm <> cast_perm def
+R23487:23493 mathcomp.ssreflect.fintype <> ord_max def
+R23480:23482 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R23452:23458 Coq.Init.Logic <> f_equal thm
+R23467:23469 mathcomp.ssreflect.eqtype <> eqP def
+R23460:23464 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23437:23440 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23441:23449 mathcomp.fingroup.perm <> cast_perm def
+R23487:23493 mathcomp.ssreflect.fintype <> ord_max def
+R23480:23482 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R23452:23458 Coq.Init.Logic <> f_equal thm
+R23467:23469 mathcomp.ssreflect.eqtype <> eqP def
+R23460:23464 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23515:23518 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23519:23527 mathcomp.fingroup.perm <> cast_perm def
+R23558:23564 mathcomp.ssreflect.fintype <> ord_max def
+R23530:23536 Coq.Init.Logic <> f_equal thm
+R23545:23547 mathcomp.ssreflect.eqtype <> eqP def
+R23538:23542 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23515:23518 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23519:23527 mathcomp.fingroup.perm <> cast_perm def
+R23558:23564 mathcomp.ssreflect.fintype <> ord_max def
+R23530:23536 Coq.Init.Logic <> f_equal thm
+R23545:23547 mathcomp.ssreflect.eqtype <> eqP def
+R23538:23542 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23515:23518 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23519:23527 mathcomp.fingroup.perm <> cast_perm def
+R23558:23564 mathcomp.ssreflect.fintype <> ord_max def
+R23530:23536 Coq.Init.Logic <> f_equal thm
+R23545:23547 mathcomp.ssreflect.eqtype <> eqP def
+R23538:23542 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23515:23518 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23519:23527 mathcomp.fingroup.perm <> cast_perm def
+R23558:23564 mathcomp.ssreflect.fintype <> ord_max def
+R23530:23536 Coq.Init.Logic <> f_equal thm
+R23545:23547 mathcomp.ssreflect.eqtype <> eqP def
+R23538:23542 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23654:23679 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23608:23616 mathcomp.fingroup.perm <> cast_perm def
+R23647:23653 mathcomp.ssreflect.fintype <> ord_max def
+R23619:23625 Coq.Init.Logic <> f_equal thm
+R23634:23636 mathcomp.ssreflect.eqtype <> eqP def
+R23627:23631 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23680:23688 mathcomp.fingroup.perm <> cast_perm def
+R23719:23725 mathcomp.ssreflect.fintype <> ord_max def
+R23691:23697 Coq.Init.Logic <> f_equal thm
+R23706:23708 mathcomp.ssreflect.eqtype <> eqP def
+R23699:23703 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23654:23679 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23608:23616 mathcomp.fingroup.perm <> cast_perm def
+R23647:23653 mathcomp.ssreflect.fintype <> ord_max def
+R23619:23625 Coq.Init.Logic <> f_equal thm
+R23634:23636 mathcomp.ssreflect.eqtype <> eqP def
+R23627:23631 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23680:23688 mathcomp.fingroup.perm <> cast_perm def
+R23719:23725 mathcomp.ssreflect.fintype <> ord_max def
+R23691:23697 Coq.Init.Logic <> f_equal thm
+R23706:23708 mathcomp.ssreflect.eqtype <> eqP def
+R23699:23703 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23654:23679 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23608:23616 mathcomp.fingroup.perm <> cast_perm def
+R23647:23653 mathcomp.ssreflect.fintype <> ord_max def
+R23619:23625 Coq.Init.Logic <> f_equal thm
+R23634:23636 mathcomp.ssreflect.eqtype <> eqP def
+R23627:23631 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23680:23688 mathcomp.fingroup.perm <> cast_perm def
+R23719:23725 mathcomp.ssreflect.fintype <> ord_max def
+R23691:23697 Coq.Init.Logic <> f_equal thm
+R23706:23708 mathcomp.ssreflect.eqtype <> eqP def
+R23699:23703 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23654:23679 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23608:23616 mathcomp.fingroup.perm <> cast_perm def
+R23647:23653 mathcomp.ssreflect.fintype <> ord_max def
+R23619:23625 Coq.Init.Logic <> f_equal thm
+R23634:23636 mathcomp.ssreflect.eqtype <> eqP def
+R23627:23631 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23680:23688 mathcomp.fingroup.perm <> cast_perm def
+R23719:23725 mathcomp.ssreflect.fintype <> ord_max def
+R23691:23697 Coq.Init.Logic <> f_equal thm
+R23706:23708 mathcomp.ssreflect.eqtype <> eqP def
+R23699:23703 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23654:23679 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23608:23616 mathcomp.fingroup.perm <> cast_perm def
+R23647:23653 mathcomp.ssreflect.fintype <> ord_max def
+R23619:23625 Coq.Init.Logic <> f_equal thm
+R23634:23636 mathcomp.ssreflect.eqtype <> eqP def
+R23627:23631 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23680:23688 mathcomp.fingroup.perm <> cast_perm def
+R23719:23725 mathcomp.ssreflect.fintype <> ord_max def
+R23691:23697 Coq.Init.Logic <> f_equal thm
+R23706:23708 mathcomp.ssreflect.eqtype <> eqP def
+R23699:23703 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23654:23679 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23608:23616 mathcomp.fingroup.perm <> cast_perm def
+R23647:23653 mathcomp.ssreflect.fintype <> ord_max def
+R23619:23625 Coq.Init.Logic <> f_equal thm
+R23634:23636 mathcomp.ssreflect.eqtype <> eqP def
+R23627:23631 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23680:23688 mathcomp.fingroup.perm <> cast_perm def
+R23719:23725 mathcomp.ssreflect.fintype <> ord_max def
+R23691:23697 Coq.Init.Logic <> f_equal thm
+R23706:23708 mathcomp.ssreflect.eqtype <> eqP def
+R23699:23703 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23654:23679 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23608:23616 mathcomp.fingroup.perm <> cast_perm def
+R23647:23653 mathcomp.ssreflect.fintype <> ord_max def
+R23619:23625 Coq.Init.Logic <> f_equal thm
+R23634:23636 mathcomp.ssreflect.eqtype <> eqP def
+R23627:23631 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23680:23688 mathcomp.fingroup.perm <> cast_perm def
+R23719:23725 mathcomp.ssreflect.fintype <> ord_max def
+R23691:23697 Coq.Init.Logic <> f_equal thm
+R23706:23708 mathcomp.ssreflect.eqtype <> eqP def
+R23699:23703 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23654:23679 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23608:23616 mathcomp.fingroup.perm <> cast_perm def
+R23647:23653 mathcomp.ssreflect.fintype <> ord_max def
+R23619:23625 Coq.Init.Logic <> f_equal thm
+R23634:23636 mathcomp.ssreflect.eqtype <> eqP def
+R23627:23631 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23680:23688 mathcomp.fingroup.perm <> cast_perm def
+R23719:23725 mathcomp.ssreflect.fintype <> ord_max def
+R23691:23697 Coq.Init.Logic <> f_equal thm
+R23706:23708 mathcomp.ssreflect.eqtype <> eqP def
+R23699:23703 mathcomp.ssreflect.ssrnat <> succn abbrev
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23747:23750 mathcomp.ssreflect.eqtype <> ::bool_scope:x_'!='_x not
+R23751:23757 mathcomp.ssreflect.fintype <> ord_max def
+R23776:23780 mathcomp.fingroup.perm <> permE thm
+R23776:23780 mathcomp.fingroup.perm <> permE thm
+R23776:23780 mathcomp.fingroup.perm <> permE thm
+R23776:23780 mathcomp.fingroup.perm <> permE thm
+R23776:23780 mathcomp.fingroup.perm <> permE thm
+R23776:23780 mathcomp.fingroup.perm <> permE thm
+R23776:23780 mathcomp.fingroup.perm <> permE thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23795:23800 mathcomp.fingroup.perm <> tpermD thm
+R23811:23820 mathcomp.fingroup.perm <> cast_permE thm
+R23822:23826 mathcomp.fingroup.perm <> permE thm
+R23811:23820 mathcomp.fingroup.perm <> cast_permE thm
+R23811:23820 mathcomp.fingroup.perm <> cast_permE thm
+R23822:23826 mathcomp.fingroup.perm <> permE thm
+R23822:23826 mathcomp.fingroup.perm <> permE thm
+def 24845:24849 <> sk_α
+binder 24852:24852 <> n:259
+R24858:24863 mathcomp.fingroup.action <> Action constr
+R24866:24880 gaggle <> sk_α_is_action prfax
+R24886:24886 gaggle <> n:259 var
+prf 24898:24928 <> ska_Residuation_arity_invariant
+R24935:24949 gaggle <> Atomic_Skeleton class
+binder 24931:24931 <> C:260
+R24957:24959 mathcomp.fingroup.perm <> :::'''S_'_x not
+R24968:24970 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R24960:24967 gaggle <> sk_arity meth
+binder 24953:24953 <> p:261
+R24986:24988 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R24976:24983 gaggle <> sk_arity meth
+R24985:24985 gaggle <> C:260 var
+R24990:24997 gaggle <> sk_arity meth
+R25001:25015 gaggle <> ska_Residuation def
+R25022:25023 gaggle <> sa meth
+R25022:25023 gaggle <> sa meth
+R25022:25023 gaggle <> sa meth
+R25030:25038 gaggle <> eqs_arity meth
+R25030:25038 gaggle <> eqs_arity meth
+R25027:25027 gaggle <> C:260 var
+R25043:25049 mathcomp.ssreflect.eqtype <> eq_refl thm
+R25055:25055 gaggle <> p:261 var
+R25078:25092 gaggle <> ska_Residuation def
+R25078:25092 gaggle <> ska_Residuation def
+R25078:25092 gaggle <> ska_Residuation def
+R25110:25115 mathcomp.ssreflect.fintype <> unlift def
+R25128:25134 mathcomp.ssreflect.fintype <> ord_max def
+R25117:25123 mathcomp.ssreflect.fintype <> ord_max def
+R25110:25115 mathcomp.ssreflect.fintype <> unlift def
+R25128:25134 mathcomp.ssreflect.fintype <> ord_max def
+R25117:25123 mathcomp.ssreflect.fintype <> ord_max def
+R25110:25115 mathcomp.ssreflect.fintype <> unlift def
+R25128:25134 mathcomp.ssreflect.fintype <> ord_max def
+R25117:25123 mathcomp.ssreflect.fintype <> ord_max def
+rec 25475:25484 <> Structures
+proj 25515:25527 <> structure_set
+proj 25555:25574 <> structure_assignment
+R25491:25501 gaggle <> Connectives class
+binder 25487:25487 <> A:262
+R25533:25546 gaggle <> connective_set meth
+R25548:25548 gaggle <> A:262 var
+R25580:25589 gaggle <> assignment meth
+R25591:25591 gaggle <> A:262 var
+rec 25604:25612 <> Structure
+proj 25663:25675 <> structure_var
+proj 25699:25716 <> structure_skeleton
+R25619:25629 gaggle <> Connectives class
+binder 25615:25615 <> A:266
+R25638:25647 gaggle <> Structures class
+R25649:25649 gaggle <> A:266 var
+binder 25633:25633 <> S:267
+R25679:25692 gaggle <> connective_set meth
+R25721:25730 gaggle <> assignment meth
+R25732:25744 gaggle <> structure_var:269 meth
+def 25762:25768 <> C_of_Ss
+binder 25771:25771 <> A:271
+R25780:25789 gaggle <> Structures class
+R25791:25791 gaggle <> A:271 var
+binder 25775:25775 <> S:272
+R25797:25797 gaggle <> A:271 var
+def 25811:25817 <> S_of_Cs
+R25825:25835 gaggle <> Connectives class
+binder 25820:25820 <> C:273
+R25842:25857 gaggle <> Build_Structures constr
+R25859:25859 gaggle <> C:273 var
+def 25873:25878 <> C_of_S
+R25885:25895 gaggle <> Connectives class
+binder 25881:25881 <> A:274
+binder 25899:25899 <> B:275
+R25908:25916 gaggle <> Structure class
+R25920:25920 gaggle <> B:275 var
+binder 25903:25903 <> S:276
+R25926:25935 gaggle <> Connective class
+R25938:25944 gaggle <> C_of_Ss def
+R25946:25946 gaggle <> B:275 var
+R25961:25963 gaggle <> var meth
+R25961:25963 gaggle <> var meth
+R25961:25963 gaggle <> var meth
+R25968:25980 gaggle <> structure_var meth
+def 25999:26004 <> S_of_C
+binder 26007:26007 <> A:277
+R26016:26025 gaggle <> Connective class
+R26027:26027 gaggle <> A:277 var
+binder 26011:26011 <> C:278
+R26033:26041 gaggle <> Structure class
+R26043:26043 gaggle <> A:277 var
+R26046:26052 gaggle <> S_of_Cs def
+R26054:26054 gaggle <> A:277 var
+R26069:26081 gaggle <> structure_var meth
+R26069:26081 gaggle <> structure_var meth
+R26069:26081 gaggle <> structure_var meth
+R26086:26088 gaggle <> var meth
+ind 26292:26315 <> typed_Structural_Formula
+constr 26373:26384 <> from_formula
+constr 26445:26466 <> structural_composition
+R26322:26332 gaggle <> Connectives class
+binder 26318:26318 <> A:279
+R26340:26349 gaggle <> Structures class
+binder 26336:26336 <> S:280
+R26357:26360 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R26354:26356 gaggle <> :::'ℕ' not
+binder 26387:26387 <> k:283
+R26410:26413 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R26393:26405 gaggle <> typed_Formula ind
+R26407:26407 gaggle <> A:279 var
+R26409:26409 gaggle <> k:283 var
+R26414:26437 gaggle <> typed_Structural_Formula:281 ind
+R26439:26439 gaggle <> k:283 var
+R26485:26493 gaggle <> Structure class
+binder 26481:26481 <> C:284
+R26502:26502 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R26667:26677 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R26514:26517 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R26555:26555 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R26519:26526 gaggle <> sk_arity meth
+R26530:26547 gaggle <> structure_skeleton meth
+R26553:26553 gaggle <> C:284 var
+binder 26510:26510 <> i:285
+R26568:26591 gaggle <> typed_Structural_Formula:281 ind
+R26606:26609 mathcomp.ssreflect.tuple <> tnth def
+R26651:26654 mathcomp.ssreflect.fintype <> lift def
+R26664:26664 gaggle <> i:285 var
+R26656:26662 mathcomp.ssreflect.fintype <> ord_max def
+R26613:26619 gaggle <> sk_type meth
+R26623:26640 gaggle <> structure_skeleton meth
+R26646:26646 gaggle <> C:284 var
+R26678:26701 gaggle <> typed_Structural_Formula:281 ind
+R26704:26707 mathcomp.ssreflect.tuple <> tnth def
+R26748:26754 mathcomp.ssreflect.fintype <> ord_max def
+R26711:26717 gaggle <> sk_type meth
+R26721:26738 gaggle <> structure_skeleton meth
+R26744:26744 gaggle <> C:284 var
+def 26769:26786 <> Structural_Formula
+R26793:26803 gaggle <> Connectives class
+binder 26789:26789 <> A:286
+R26811:26820 gaggle <> Structures class
+binder 26807:26807 <> S:287
+R26826:26829 Coq.Init.Specif <> sigT ind
+R26831:26854 gaggle <> typed_Structural_Formula ind
+def 26869:26885 <> orbit_of_skeleton
+R26892:26906 gaggle <> Atomic_Skeleton class
+binder 26888:26888 <> C:288
+R26911:26921 gaggle <> Connectives class
+R26935:26948 gaggle <> connective_set meth
+R26935:26948 gaggle <> connective_set meth
+R26935:26948 gaggle <> connective_set meth
+R26973:26982 gaggle <> assignment meth
+R26973:26982 gaggle <> assignment meth
+R26953:26955 mathcomp.fingroup.perm <> :::'''S_'_x not
+R26964:26966 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R26956:26963 gaggle <> sk_arity meth
+binder 26991:26991 <> p:289
+R26997:27001 gaggle <> sk_α def
+R27006:27007 gaggle <> sa meth
+R27006:27007 gaggle <> sa meth
+R27006:27007 gaggle <> sa meth
+R27014:27022 gaggle <> eqs_arity meth
+R27014:27022 gaggle <> eqs_arity meth
+R27011:27011 gaggle <> C:288 var
+R27027:27033 mathcomp.ssreflect.eqtype <> eq_refl thm
+R27039:27039 gaggle <> p:289 var
+prf 27055:27065 <> orbit_arity
+R27072:27086 gaggle <> Atomic_Skeleton class
+binder 27068:27068 <> C:290
+R27097:27106 gaggle <> Connective class
+R27109:27125 gaggle <> orbit_of_skeleton def
+R27127:27127 gaggle <> C:290 var
+binder 27092:27092 <> D:291
+R27146:27148 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R27136:27143 gaggle <> sk_arity meth
+R27145:27145 gaggle <> C:290 var
+R27150:27157 gaggle <> sk_arity meth
+R27161:27168 gaggle <> skeleton meth
+R27172:27172 gaggle <> D:291 var
+prf 27201:27209 <> orbit_set
+R27216:27230 gaggle <> Atomic_Skeleton class
+binder 27212:27212 <> C:292
+R27274:27276 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R27238:27251 gaggle <> connective_set meth
+R27254:27270 gaggle <> orbit_of_skeleton def
+R27272:27272 gaggle <> C:292 var
+R27277:27279 mathcomp.fingroup.perm <> :::'''S_'_x not
+R27288:27290 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R27280:27287 gaggle <> sk_arity meth
+rec 27318:27326 <> sig_Class
+proj 27366:27372 <> sig_fst
+proj 27383:27389 <> sig_snd
+binder 27329:27329 <> A:293
+R27345:27348 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R27344:27344 gaggle <> A:293 var
+binder 27340:27340 <> B:294
+R27376:27376 gaggle <> A:293 var
+R27393:27393 gaggle <> B:294 var
+R27395:27401 gaggle <> sig_fst:296 meth
+def 27507:27522 <> full_Connectives
+R27538:27548 gaggle <> Connectives class
+binder 27525:27534 <> Generators:298
+R27563:27576 gaggle <> connective_set meth
+R27563:27576 gaggle <> connective_set meth
+R27563:27576 gaggle <> connective_set meth
+R27648:27657 gaggle <> assignment meth
+R27648:27657 gaggle <> assignment meth
+R27582:27590 gaggle <> sig_Class class
+R27594:27603 gaggle <> Connective class
+R27605:27614 gaggle <> Generators:298 var
+binder 27622:27622 <> C:299
+R27627:27629 mathcomp.fingroup.perm <> :::'''S_'_x not
+R27638:27640 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R27630:27637 gaggle <> sk_arity meth
+binder 27672:27673 <> Cp:300
+R27695:27699 gaggle <> sk_α def
+R27704:27705 gaggle <> sa meth
+R27704:27705 gaggle <> sa meth
+R27704:27705 gaggle <> sa meth
+R27719:27727 gaggle <> eqs_arity meth
+R27719:27727 gaggle <> eqs_arity meth
+R27709:27716 gaggle <> skeleton meth
+R27732:27738 mathcomp.ssreflect.eqtype <> eq_refl thm
+R27746:27752 gaggle <> sig_snd meth
+R27758:27759 gaggle <> Cp:300 var
+def 27781:27789 <> generator
+R27805:27815 gaggle <> Connectives class
+binder 27792:27801 <> Generators:301
+R27824:27833 gaggle <> Connective class
+R27835:27844 gaggle <> Generators:301 var
+binder 27819:27819 <> C:302
+R27852:27861 gaggle <> Connective class
+R27864:27879 gaggle <> full_Connectives def
+R27881:27890 gaggle <> Generators:301 var
+R27905:27907 gaggle <> var meth
+R27905:27907 gaggle <> var meth
+R27905:27907 gaggle <> var meth
+R27918:27928 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R27985:27996 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R27998:28011 gaggle <> connective_set meth
+R28014:28029 gaggle <> full_Connectives def
+R28031:28040 gaggle <> Generators:301 var
+R27929:27935 gaggle <> sig_fst meth
+R27929:27935 gaggle <> sig_fst meth
+R27929:27935 gaggle <> sig_fst meth
+R27951:27957 gaggle <> sig_snd meth
+R27951:27957 gaggle <> sig_snd meth
+R27940:27940 gaggle <> C:302 var
+R27966:27968 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R27969:27971 mathcomp.fingroup.perm <> :::'''S_'_x not
+R27972:27972 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R27980:27983 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R27973:27977 gaggle <> arity def
+R27979:27979 gaggle <> C:302 var
+rec 28205:28213 <> Singleton
+proj 28252:28258 <> element
+binder 28216:28216 <> T:303
+R28231:28231 gaggle <> T:303 var
+binder 28227:28227 <> a:304
+R28263:28263 gaggle <> a:304 var
+prf 28277:28298 <> Singleton_contractible
+binder 28301:28301 <> T:307
+R28316:28316 gaggle <> T:307 var
+binder 28312:28312 <> a:308
+R28328:28336 gaggle <> Singleton class
+R28338:28338 gaggle <> T:307 var
+R28340:28340 gaggle <> a:308 var
+binder 28320:28321 <> h1:309
+binder 28323:28324 <> h2:310
+R28347:28349 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R28345:28346 gaggle <> h1:309 var
+R28350:28351 gaggle <> h2:310 var
+prf 28398:28409 <> Singleton_eq
+binder 28412:28412 <> T:311
+R28427:28427 gaggle <> T:311 var
+binder 28423:28423 <> a:312
+R28435:28443 gaggle <> Singleton class
+R28445:28445 gaggle <> T:311 var
+R28447:28447 gaggle <> a:312 var
+binder 28431:28431 <> h:313
+R28452:28452 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R28467:28470 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R28454:28460 gaggle <> element meth
+R28466:28466 gaggle <> h:313 var
+R28471:28471 gaggle <> a:312 var
+def 28512:28521 <> arity_full
+R28537:28547 gaggle <> Connectives class
+binder 28524:28533 <> Generators:314
+R28556:28565 gaggle <> Connective class
+R28568:28583 gaggle <> full_Connectives def
+R28585:28594 gaggle <> Generators:314 var
+binder 28551:28551 <> C:315
+R28633:28635 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R28602:28606 gaggle <> arity def
+R28610:28616 gaggle <> sig_fst meth
+R28624:28626 gaggle <> var meth
+R28630:28630 gaggle <> C:315 var
+R28636:28640 gaggle <> arity def
+R28642:28642 gaggle <> C:315 var
+def 28801:28816 <> restricted_orbit
+R28832:28842 gaggle <> Connectives class
+binder 28819:28828 <> Generators:316
+R28853:28862 gaggle <> Connective class
+R28865:28880 gaggle <> full_Connectives def
+R28882:28891 gaggle <> Generators:316 var
+binder 28848:28848 <> C:317
+R28897:28907 gaggle <> Connectives class
+R28921:28934 gaggle <> connective_set meth
+R28921:28934 gaggle <> connective_set meth
+R28921:28934 gaggle <> connective_set meth
+R29067:29076 gaggle <> assignment meth
+R29067:29076 gaggle <> assignment meth
+R28946:28954 gaggle <> sig_Class class
+R28957:28965 gaggle <> Singleton class
+R28969:28978 gaggle <> Connective class
+R28980:28989 gaggle <> Generators:316 var
+R28994:29000 gaggle <> sig_fst meth
+R29008:29010 gaggle <> var meth
+R29014:29014 gaggle <> C:317 var
+binder 29024:29024 <> C:318
+R29029:29031 mathcomp.fingroup.perm <> :::'''S_'_x not
+R29032:29032 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R29056:29059 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R29033:29037 gaggle <> arity def
+R29041:29047 gaggle <> element meth
+R29054:29054 gaggle <> C:318 var
+binder 29091:29092 <> Cp:319
+R29109:29115 gaggle <> sig_fst meth
+R29121:29122 gaggle <> Cp:319 var
+R29138:29144 gaggle <> sig_snd meth
+R29150:29151 gaggle <> Cp:319 var
+R29173:29177 gaggle <> sk_α def
+R29182:29183 gaggle <> sa meth
+R29182:29183 gaggle <> sa meth
+R29182:29183 gaggle <> sa meth
+R29228:29236 gaggle <> eqs_arity meth
+R29228:29236 gaggle <> eqs_arity meth
+R29189:29196 gaggle <> skeleton meth
+R29202:29208 gaggle <> sig_fst meth
+R29216:29218 gaggle <> var meth
+R29222:29222 gaggle <> C:317 var
+R29241:29247 mathcomp.ssreflect.eqtype <> eq_refl thm
+def 29275:29294 <> restricted_of_full_C
+R29310:29320 gaggle <> Connectives class
+binder 29297:29306 <> Generators:320
+R29331:29340 gaggle <> Connective class
+R29343:29358 gaggle <> full_Connectives def
+R29360:29369 gaggle <> Generators:320 var
+binder 29326:29326 <> C:321
+R29376:29385 gaggle <> Connective class
+R29388:29403 gaggle <> restricted_orbit def
+R29405:29405 gaggle <> C:321 var
+R29420:29422 gaggle <> var meth
+R29420:29422 gaggle <> var meth
+R29420:29422 gaggle <> var meth
+R29433:29443 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R29546:29558 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R29595:29595 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R29560:29573 gaggle <> connective_set meth
+R29576:29591 gaggle <> restricted_orbit def
+R29593:29593 gaggle <> C:321 var
+R29444:29450 gaggle <> sig_fst meth
+R29444:29450 gaggle <> sig_fst meth
+R29444:29450 gaggle <> sig_fst meth
+R29510:29516 gaggle <> sig_snd meth
+R29510:29516 gaggle <> sig_snd meth
+R29456:29470 gaggle <> Build_Singleton constr
+R29476:29482 gaggle <> sig_fst meth
+R29490:29492 gaggle <> var meth
+R29496:29496 gaggle <> C:321 var
+R29523:29529 gaggle <> sig_snd meth
+R29537:29539 gaggle <> var meth
+R29543:29543 gaggle <> C:321 var
+def 29615:29634 <> full_of_restricted_C
+R29650:29660 gaggle <> Connectives class
+binder 29637:29646 <> Generators:322
+R29671:29680 gaggle <> Connective class
+R29683:29698 gaggle <> full_Connectives def
+R29700:29709 gaggle <> Generators:322 var
+binder 29666:29666 <> C:323
+R29719:29728 gaggle <> Connective class
+R29731:29746 gaggle <> restricted_orbit def
+R29748:29748 gaggle <> C:323 var
+binder 29714:29714 <> D:324
+R29757:29766 gaggle <> Connective class
+R29769:29784 gaggle <> full_Connectives def
+R29786:29795 gaggle <> Generators:322 var
+R29810:29812 gaggle <> var meth
+R29810:29812 gaggle <> var meth
+R29810:29812 gaggle <> var meth
+R29823:29833 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R29931:29943 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R29989:29989 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R29945:29958 gaggle <> connective_set meth
+R29961:29976 gaggle <> full_Connectives def
+R29978:29987 gaggle <> Generators:322 var
+R29834:29840 gaggle <> sig_fst meth
+R29834:29840 gaggle <> sig_fst meth
+R29834:29840 gaggle <> sig_fst meth
+R29895:29901 gaggle <> sig_snd meth
+R29895:29901 gaggle <> sig_snd meth
+R29847:29853 gaggle <> element meth
+R29861:29867 gaggle <> sig_fst meth
+R29875:29877 gaggle <> var meth
+R29881:29881 gaggle <> D:324 var
+R29908:29914 gaggle <> sig_snd meth
+R29922:29924 gaggle <> var meth
+R29928:29928 gaggle <> D:324 var
+def 30116:30127 <> Residuation'
+R30143:30153 gaggle <> Connectives class
+binder 30130:30139 <> Generators:325
+R30164:30172 gaggle <> Structure class
+R30177:30183 gaggle <> S_of_Cs def
+R30186:30201 gaggle <> full_Connectives def
+R30203:30212 gaggle <> Generators:325 var
+binder 30159:30159 <> C:326
+R30224:30226 mathcomp.fingroup.perm <> :::'''S_'_x not
+R30227:30227 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R30265:30268 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R30229:30236 gaggle <> sk_arity meth
+R30240:30257 gaggle <> structure_skeleton meth
+R30263:30263 gaggle <> C:326 var
+binder 30220:30220 <> p:327
+R30276:30284 gaggle <> Structure class
+R30289:30295 gaggle <> S_of_Cs def
+R30298:30313 gaggle <> full_Connectives def
+R30315:30324 gaggle <> Generators:325 var
+R30340:30352 gaggle <> structure_var meth
+R30340:30352 gaggle <> structure_var meth
+R30340:30352 gaggle <> structure_var meth
+R30363:30373 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R30486:30498 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R30544:30544 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R30500:30513 gaggle <> connective_set meth
+R30516:30531 gaggle <> full_Connectives def
+R30533:30542 gaggle <> Generators:325 var
+R30374:30380 gaggle <> sig_fst meth
+R30374:30380 gaggle <> sig_fst meth
+R30374:30380 gaggle <> sig_fst meth
+R30430:30436 gaggle <> sig_snd meth
+R30430:30436 gaggle <> sig_snd meth
+R30386:30392 gaggle <> sig_fst meth
+R30400:30412 gaggle <> structure_var meth
+R30418:30418 gaggle <> C:326 var
+R30443:30446 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R30482:30482 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R30442:30442 gaggle <> p:327 var
+R30448:30454 gaggle <> sig_snd meth
+R30462:30474 gaggle <> structure_var meth
+R30480:30480 gaggle <> C:326 var
+def 30564:30574 <> Residuation
+R30590:30600 gaggle <> Connectives class
+binder 30577:30586 <> Generators:328
+R30609:30618 gaggle <> Connective class
+R30621:30636 gaggle <> full_Connectives def
+R30638:30647 gaggle <> Generators:328 var
+binder 30604:30604 <> C:329
+R30659:30667 gaggle <> Structure class
+R30672:30678 gaggle <> S_of_Cs def
+R30681:30696 gaggle <> restricted_orbit def
+R30698:30698 gaggle <> C:329 var
+binder 30654:30654 <> D:330
+R30710:30712 mathcomp.fingroup.perm <> :::'''S_'_x not
+R30713:30713 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R30739:30742 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R30715:30722 gaggle <> sk_arity meth
+R30726:30733 gaggle <> skeleton meth
+R30737:30737 gaggle <> C:329 var
+binder 30706:30706 <> p:331
+R30750:30758 gaggle <> Structure class
+R30763:30769 gaggle <> S_of_Cs def
+R30772:30787 gaggle <> restricted_orbit def
+R30789:30789 gaggle <> C:329 var
+R30805:30817 gaggle <> structure_var meth
+R30805:30817 gaggle <> structure_var meth
+R30805:30817 gaggle <> structure_var meth
+R30828:30838 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R30960:30972 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R31009:31009 Coq.ssr.ssreflect <> ::core_scope:x_':'_x not
+R30974:30987 gaggle <> connective_set meth
+R30990:31005 gaggle <> restricted_orbit def
+R31007:31007 gaggle <> C:329 var
+R30839:30845 gaggle <> sig_fst meth
+R30839:30845 gaggle <> sig_fst meth
+R30839:30845 gaggle <> sig_fst meth
+R30904:30910 gaggle <> sig_snd meth
+R30904:30910 gaggle <> sig_snd meth
+R30850:30864 gaggle <> Build_Singleton constr
+R30870:30876 gaggle <> sig_fst meth
+R30884:30886 gaggle <> var meth
+R30891:30891 gaggle <> C:329 var
+R30917:30920 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R30956:30956 mathcomp.fingroup.fingroup Notations ::group_scope:x_'*'_x not
+R30916:30916 gaggle <> p:331 var
+R30922:30928 gaggle <> sig_snd meth
+R30936:30948 gaggle <> structure_var meth
+R30954:30954 gaggle <> D:330 var
+prf 31026:31037 <> α_is_action
+R31053:31063 gaggle <> Connectives class
+binder 31040:31049 <> Generators:332
+R31072:31081 gaggle <> Connective class
+R31084:31099 gaggle <> full_Connectives def
+R31101:31110 gaggle <> Generators:332 var
+binder 31067:31067 <> C:333
+R31118:31126 mathcomp.fingroup.action <> is_action def
+R31152:31162 gaggle <> Residuation def
+R31164:31164 gaggle <> C:333 var
+R31128:31133 mathcomp.ssreflect.finset <> ::set_scope:'['_'set'_':'_x_']' not
+R31149:31149 mathcomp.ssreflect.finset <> ::set_scope:'['_'set'_':'_x_']' not
+R31134:31136 mathcomp.fingroup.perm <> :::'''S_'_x not
+R31137:31137 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R31145:31148 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R31138:31142 gaggle <> arity def
+R31144:31144 gaggle <> C:333 var
+R31186:31196 gaggle <> Residuation def
+R31186:31196 gaggle <> Residuation def
+R31186:31196 gaggle <> Residuation def
+R31210:31218 mathcomp.fingroup.action <> is_action def
+R31210:31218 mathcomp.fingroup.action <> is_action def
+R31210:31218 mathcomp.fingroup.action <> is_action def
+def 31250:31251 <> α
+R31267:31277 gaggle <> Connectives class
+binder 31254:31263 <> Generators:334
+R31286:31295 gaggle <> Connective class
+R31298:31313 gaggle <> full_Connectives def
+R31315:31324 gaggle <> Generators:334 var
+binder 31281:31281 <> C:335
+R31333:31338 mathcomp.fingroup.action <> Action constr
+R31341:31352 gaggle <> α_is_action prfax
+R31358:31358 gaggle <> C:335 var
+prf 31370:31385 <> arity_restricted
+R31401:31411 gaggle <> Connectives class
+binder 31388:31397 <> Generators:336
+R31420:31429 gaggle <> Connective class
+R31432:31447 gaggle <> full_Connectives def
+R31449:31458 gaggle <> Generators:336 var
+binder 31415:31415 <> C:337
+R31470:31478 gaggle <> Structure class
+R31483:31489 gaggle <> S_of_Cs def
+R31492:31507 gaggle <> restricted_orbit def
+R31509:31509 gaggle <> C:337 var
+binder 31465:31465 <> D:338
+R31553:31555 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R31517:31524 gaggle <> sk_arity meth
+R31528:31545 gaggle <> structure_skeleton meth
+R31551:31551 gaggle <> D:338 var
+R31556:31560 gaggle <> arity def
+R31562:31562 gaggle <> C:337 var
+prf 31627:31638 <> arity_S_of_C
+R31645:31655 gaggle <> Connectives class
+binder 31641:31641 <> A:339
+R31663:31672 gaggle <> Connective class
+binder 31659:31659 <> C:340
+R31723:31725 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R31678:31685 gaggle <> sk_arity meth
+R31689:31706 gaggle <> structure_skeleton meth
+R31713:31718 gaggle <> S_of_C def
+R31720:31720 gaggle <> C:340 var
+R31726:31730 gaggle <> arity def
+R31732:31732 gaggle <> C:340 var
+prf 31762:31773 <> arity_C_of_S
+R31780:31790 gaggle <> Connectives class
+binder 31776:31776 <> A:341
+R31798:31807 gaggle <> Structures class
+binder 31794:31794 <> B:342
+R31815:31823 gaggle <> Structure class
+binder 31811:31811 <> C:343
+R31844:31847 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R31828:31832 gaggle <> arity def
+R31835:31840 gaggle <> C_of_S def
+R31842:31842 gaggle <> C:343 var
+R31849:31856 gaggle <> sk_arity meth
+R31860:31877 gaggle <> structure_skeleton meth
+R31883:31883 gaggle <> C:343 var
+prf 31914:31939 <> arity_full_of_restricted_C
+R31955:31965 gaggle <> Connectives class
+binder 31942:31951 <> Generators:344
+R31974:31983 gaggle <> Connective class
+R31986:32001 gaggle <> full_Connectives def
+R32003:32012 gaggle <> Generators:344 var
+binder 31969:31969 <> C:345
+binder 32016:32016 <> D:346
+R32052:32054 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R32020:32024 gaggle <> arity def
+R32027:32046 gaggle <> full_of_restricted_C def
+R32050:32050 gaggle <> D:346 var
+R32048:32048 gaggle <> C:345 var
+R32055:32059 gaggle <> arity def
+R32061:32061 gaggle <> C:345 var
+def 32669:32685 <> unsigned_function
+R32694:32695 gaggle <> :::'±' not
+binder 32690:32690 <> s:347
+R32703:32713 gaggle <> Connectives class
+binder 32699:32699 <> A:348
+R32721:32730 gaggle <> Structures class
+binder 32717:32717 <> S:349
+R32758:32761 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R32740:32757 gaggle <> Structural_Formula def
+R32780:32783 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R32762:32779 gaggle <> Structural_Formula def
+binder 32736:32736 <> f:350
+R32799:32816 gaggle <> Structural_Formula def
+binder 32793:32793 <> X:351
+binder 32795:32795 <> Y:352
+R32826:32826 gaggle <> f:350 var
+R32858:32860 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R32862:32867 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R32869:32874 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R32861:32861 gaggle <> s:347 var
+R32868:32868 gaggle <> X:351 var
+R32875:32875 gaggle <> Y:352 var
+R32833:32835 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R32837:32842 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R32844:32849 Coq.ssr.ssreflect <> ::boolean_if_scope:'if'_x_'then'_x_'else'_x not
+R32836:32836 gaggle <> s:347 var
+R32843:32843 gaggle <> Y:352 var
+R32850:32850 gaggle <> X:351 var
+def 32891:32917 <> unsigned_pivoted_function_S
+R32926:32936 gaggle <> Connectives class
+binder 32922:32922 <> A:353
+R32944:32953 gaggle <> Structures class
+binder 32940:32940 <> S:354
+R32981:32984 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R32963:32980 gaggle <> Structural_Formula def
+R33003:33006 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R32985:33002 gaggle <> Structural_Formula def
+binder 32959:32959 <> f:355
+R33019:33027 gaggle <> Structure class
+R33031:33031 gaggle <> S:354 var
+binder 33014:33014 <> C:356
+R33050:33053 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R33091:33091 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R33055:33062 gaggle <> sk_arity meth
+R33066:33083 gaggle <> structure_skeleton meth
+R33089:33089 gaggle <> C:356 var
+binder 33048:33048 <> i:357
+R33100:33123 gaggle <> typed_Structural_Formula ind
+R33126:33129 mathcomp.ssreflect.tuple <> tnth def
+R33140:33143 mathcomp.ssreflect.fintype <> lift def
+R33153:33153 gaggle <> i:357 var
+R33145:33151 mathcomp.ssreflect.fintype <> ord_max def
+R33131:33137 gaggle <> sk_type meth
+binder 33037:33037 <> X:358
+R33165:33182 gaggle <> Structural_Formula def
+binder 33161:33161 <> U:359
+R33192:33208 gaggle <> unsigned_function def
+R33265:33270 Coq.Init.Specif <> existT constr
+R33330:33351 gaggle <> structural_composition constr
+R33355:33355 gaggle <> X:358 var
+R33353:33353 gaggle <> C:356 var
+R33285:33298 gaggle <> sk_type_output def
+R33302:33319 gaggle <> structure_skeleton meth
+R33325:33325 gaggle <> C:356 var
+R33262:33262 gaggle <> U:359 var
+R33256:33256 gaggle <> f:355 var
+R33212:33225 gaggle <> sk_sign_output def
+R33229:33246 gaggle <> structure_skeleton meth
+R33252:33252 gaggle <> C:356 var
+def 33372:33398 <> unsigned_pivoted_function_C
+R33407:33417 gaggle <> Connectives class
+binder 33403:33403 <> A:360
+R33425:33434 gaggle <> Structures class
+binder 33421:33421 <> S:361
+R33462:33465 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R33444:33461 gaggle <> Structural_Formula def
+R33484:33487 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R33466:33483 gaggle <> Structural_Formula def
+binder 33440:33440 <> f:362
+R33500:33509 gaggle <> Connective class
+R33511:33511 gaggle <> A:360 var
+binder 33495:33495 <> C:363
+R33531:33534 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R33542:33542 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R33535:33539 gaggle <> arity def
+R33541:33541 gaggle <> C:363 var
+binder 33529:33529 <> i:364
+R33551:33563 gaggle <> typed_Formula ind
+R33566:33569 mathcomp.ssreflect.tuple <> tnth def
+R33581:33584 mathcomp.ssreflect.fintype <> lift def
+R33594:33594 gaggle <> i:364 var
+R33586:33592 mathcomp.ssreflect.fintype <> ord_max def
+R33572:33575 gaggle <> type def
+R33577:33577 gaggle <> C:363 var
+binder 33517:33518 <> φ:365
+R33606:33623 gaggle <> Structural_Formula def
+binder 33602:33602 <> U:366
+R33633:33649 gaggle <> unsigned_function def
+R33684:33689 Coq.Init.Specif <> existT constr
+R33727:33738 gaggle <> from_formula constr
+R33741:33751 gaggle <> composition constr
+R33755:33756 gaggle <> φ:365 var
+R33753:33753 gaggle <> C:363 var
+R33703:33706 mathcomp.ssreflect.tuple <> tnth def
+R33717:33723 mathcomp.ssreflect.fintype <> ord_max def
+R33709:33712 gaggle <> type def
+R33714:33714 gaggle <> C:363 var
+R33681:33681 gaggle <> U:366 var
+R33675:33675 gaggle <> f:362 var
+R33652:33655 mathcomp.ssreflect.tuple <> tnth def
+R33666:33672 mathcomp.ssreflect.fintype <> ord_max def
+R33658:33661 gaggle <> sign def
+R33663:33663 gaggle <> C:363 var
+prf 33979:33990 <> cast_Formula
+R33997:34007 gaggle <> Connectives class
+binder 33993:33993 <> A:367
+R34015:34024 gaggle <> Structures class
+binder 34011:34011 <> S:368
+R34034:34036 Coq.Init.Datatypes <> nat ind
+binder 34028:34028 <> n:369
+binder 34030:34030 <> m:370
+R34046:34049 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R34042:34044 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R34041:34041 gaggle <> m:370 var
+R34045:34045 gaggle <> n:369 var
+R34076:34079 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R34050:34073 gaggle <> typed_Structural_Formula ind
+R34075:34075 gaggle <> m:370 var
+R34080:34103 gaggle <> typed_Structural_Formula ind
+R34105:34105 gaggle <> n:369 var
+prf 34144:34159 <> calculus_type_wf
+R34175:34185 gaggle <> Connectives class
+binder 34162:34171 <> Generators:371
+R34206:34215 gaggle <> Connective class
+R34218:34233 gaggle <> full_Connectives def
+R34235:34244 gaggle <> Generators:371 var
+binder 34201:34201 <> C:372
+R34253:34255 mathcomp.fingroup.perm <> :::'''S_'_x not
+R34256:34256 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R34264:34267 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R34257:34261 gaggle <> arity def
+R34263:34263 gaggle <> C:372 var
+binder 34249:34249 <> p:373
+R34285:34288 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R34458:34458 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R34290:34297 gaggle <> sk_arity meth
+R34322:34339 gaggle <> structure_skeleton meth
+R34370:34375 gaggle <> S_of_C def
+R34378:34397 gaggle <> full_of_restricted_C def
+R34402:34407 gaggle <> C_of_S def
+R34411:34412 gaggle <> α def
+R34419:34424 gaggle <> S_of_C def
+R34427:34446 gaggle <> restricted_of_full_C def
+R34448:34448 gaggle <> C:372 var
+R34452:34452 gaggle <> p:373 var
+R34399:34399 gaggle <> C:372 var
+binder 34283:34283 <> i:374
+R34467:34467 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R34543:34553 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R34721:34721 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R34468:34471 mathcomp.ssreflect.tuple <> tnth def
+R34524:34524 gaggle <> p:373 var
+R34527:34530 mathcomp.ssreflect.fintype <> lift def
+R34540:34540 gaggle <> i:374 var
+R34532:34538 mathcomp.ssreflect.fintype <> ord_max def
+R34475:34481 gaggle <> sk_type meth
+R34485:34492 gaggle <> skeleton meth
+R34496:34496 gaggle <> C:372 var
+R34554:34557 mathcomp.ssreflect.tuple <> tnth def
+R34706:34709 mathcomp.ssreflect.fintype <> lift def
+R34719:34719 gaggle <> i:374 var
+R34711:34717 mathcomp.ssreflect.fintype <> ord_max def
+R34570:34576 gaggle <> sk_type meth
+R34580:34597 gaggle <> structure_skeleton meth
+R34615:34620 gaggle <> S_of_C def
+R34623:34642 gaggle <> full_of_restricted_C def
+R34647:34652 gaggle <> C_of_S def
+R34656:34657 gaggle <> α def
+R34664:34669 gaggle <> S_of_C def
+R34672:34691 gaggle <> restricted_of_full_C def
+R34693:34693 gaggle <> C:372 var
+R34697:34697 gaggle <> p:373 var
+R34644:34644 gaggle <> C:372 var
+R34733:34737 gaggle <> arity def
+R34733:34737 gaggle <> arity def
+R34733:34737 gaggle <> arity def
+R34807:34814 mathcomp.ssreflect.tuple <> tnth_map thm
+R34807:34814 mathcomp.ssreflect.tuple <> tnth_map thm
+R34807:34814 mathcomp.ssreflect.tuple <> tnth_map thm
+R34807:34814 mathcomp.ssreflect.tuple <> tnth_map thm
+R34807:34814 mathcomp.ssreflect.tuple <> tnth_map thm
+R34836:34851 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R34836:34851 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R34836:34851 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R34836:34851 mathcomp.fingroup.perm <> cast_perm_morphM thm
+R34863:34876 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R34879:34883 mathcomp.fingroup.perm <> permE thm
+R34863:34876 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R34863:34876 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R34863:34876 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R34863:34876 mathcomp.ssreflect.tuple <> tnth_ord_tuple thm
+R34879:34883 mathcomp.fingroup.perm <> permE thm
+R34879:34883 mathcomp.fingroup.perm <> permE thm
+R34879:34883 mathcomp.fingroup.perm <> permE thm
+R34909:34918 mathcomp.fingroup.perm <> cast_permE thm
+R34921:34931 mathcomp.ssreflect.fintype <> cast_ord_id thm
+R34909:34918 mathcomp.fingroup.perm <> cast_permE thm
+R34909:34918 mathcomp.fingroup.perm <> cast_permE thm
+R34921:34931 mathcomp.ssreflect.fintype <> cast_ord_id thm
+R34921:34931 mathcomp.ssreflect.fintype <> cast_ord_id thm
+R34921:34931 mathcomp.ssreflect.fintype <> cast_ord_id thm
+R34921:34931 mathcomp.ssreflect.fintype <> cast_ord_id thm
+ind 35018:35025 <> Calculus
+constr 35208:35212 <> LRule
+constr 35911:35915 <> RRule
+constr 36256:36258 <> dr1
+R35041:35051 gaggle <> Connectives class
+binder 35028:35037 <> Generators:375
+R35120:35127 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R35059:35076 gaggle <> Structural_Formula def
+R35081:35087 gaggle <> S_of_Cs def
+R35091:35106 gaggle <> full_Connectives def
+R35190:35193 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R35129:35146 gaggle <> Structural_Formula def
+R35151:35157 gaggle <> S_of_Cs def
+R35161:35176 gaggle <> full_Connectives def
+R35220:35229 gaggle <> Connective class
+R35233:35248 gaggle <> full_Connectives def
+R35250:35259 gaggle <> Generators:375 var
+binder 35215:35215 <> C:378
+R35290:35293 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R35301:35301 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R35294:35298 gaggle <> arity def
+R35300:35300 gaggle <> C:378 var
+binder 35288:35288 <> i:379
+R35314:35337 gaggle <> typed_Structural_Formula ind
+R35340:35343 mathcomp.ssreflect.tuple <> tnth def
+R35355:35358 mathcomp.ssreflect.fintype <> lift def
+R35368:35368 gaggle <> i:379 var
+R35360:35366 mathcomp.ssreflect.fintype <> ord_max def
+R35346:35349 gaggle <> type def
+R35351:35351 gaggle <> C:378 var
+binder 35277:35277 <> X:380
+R35402:35405 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R35413:35413 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R35406:35410 gaggle <> arity def
+R35412:35412 gaggle <> C:378 var
+binder 35400:35400 <> i:381
+R35426:35438 gaggle <> typed_Formula ind
+R35441:35444 mathcomp.ssreflect.tuple <> tnth def
+R35456:35459 mathcomp.ssreflect.fintype <> lift def
+R35469:35469 gaggle <> i:381 var
+R35461:35467 mathcomp.ssreflect.fintype <> ord_max def
+R35447:35450 gaggle <> type def
+R35452:35452 gaggle <> C:378 var
+binder 35388:35389 <> φ:382
+R35481:35481 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R35761:35771 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R35491:35494 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R35502:35502 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R35495:35499 gaggle <> arity def
+R35501:35501 gaggle <> C:378 var
+binder 35489:35489 <> i:383
+R35515:35531 gaggle <> unsigned_function def
+R35697:35702 Coq.Init.Specif <> existT constr
+R35740:35751 gaggle <> from_formula constr
+R35754:35755 gaggle <> φ:382 var
+R35757:35757 gaggle <> i:383 var
+R35707:35710 mathcomp.ssreflect.tuple <> tnth def
+R35722:35725 mathcomp.ssreflect.fintype <> lift def
+R35735:35735 gaggle <> i:383 var
+R35727:35733 mathcomp.ssreflect.fintype <> ord_max def
+R35713:35716 gaggle <> type def
+R35718:35718 gaggle <> C:378 var
+R35635:35640 Coq.Init.Specif <> existT constr
+R35678:35678 gaggle <> X:380 var
+R35680:35680 gaggle <> i:383 var
+R35645:35648 mathcomp.ssreflect.tuple <> tnth def
+R35660:35663 mathcomp.ssreflect.fintype <> lift def
+R35673:35673 gaggle <> i:383 var
+R35665:35671 mathcomp.ssreflect.fintype <> ord_max def
+R35651:35654 gaggle <> type def
+R35656:35656 gaggle <> C:378 var
+R35613:35620 gaggle <> Calculus:376 ind
+R35576:35579 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R35596:35596 mathcomp.algebra.ssralg <> ::ring_scope:x_'+'_x not
+R35546:35549 mathcomp.ssreflect.tuple <> tnth def
+R35561:35564 mathcomp.ssreflect.fintype <> lift def
+R35574:35574 gaggle <> i:383 var
+R35566:35572 mathcomp.ssreflect.fintype <> ord_max def
+R35552:35555 gaggle <> sign def
+R35557:35557 gaggle <> C:378 var
+R35580:35593 gaggle <> quantification def
+R35595:35595 gaggle <> C:378 var
+R35772:35798 gaggle <> unsigned_pivoted_function_S def
+R35839:35844 Coq.Init.Specif <> existT constr
+R35873:35884 gaggle <> from_formula constr
+R35887:35897 gaggle <> composition constr
+R35901:35902 gaggle <> φ:382 var
+R35899:35899 gaggle <> C:378 var
+R35849:35852 mathcomp.ssreflect.tuple <> tnth def
+R35863:35869 mathcomp.ssreflect.fintype <> ord_max def
+R35855:35858 gaggle <> type def
+R35860:35860 gaggle <> C:378 var
+R35828:35828 gaggle <> X:380 var
+R35810:35815 gaggle <> S_of_C def
+R35817:35817 gaggle <> C:378 var
+R35800:35807 gaggle <> Calculus:376 ind
+R35923:35932 gaggle <> Connective class
+R35936:35951 gaggle <> full_Connectives def
+R35953:35962 gaggle <> Generators:375 var
+binder 35918:35918 <> C:384
+R35994:35997 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R36005:36005 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R35998:36002 gaggle <> arity def
+R36004:36004 gaggle <> C:384 var
+binder 35992:35992 <> i:385
+R36018:36030 gaggle <> typed_Formula ind
+R36033:36036 mathcomp.ssreflect.tuple <> tnth def
+R36048:36051 mathcomp.ssreflect.fintype <> lift def
+R36061:36061 gaggle <> i:385 var
+R36053:36059 mathcomp.ssreflect.fintype <> ord_max def
+R36039:36042 gaggle <> type def
+R36044:36044 gaggle <> C:384 var
+binder 35980:35981 <> φ:386
+R36084:36101 gaggle <> Structural_Formula def
+binder 36080:36080 <> U:387
+R36198:36207 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R36110:36136 gaggle <> unsigned_pivoted_function_S def
+R36197:36197 gaggle <> U:387 var
+binder 36171:36171 <> i:388
+R36176:36187 gaggle <> from_formula constr
+R36190:36191 gaggle <> φ:386 var
+R36193:36193 gaggle <> i:388 var
+R36148:36153 gaggle <> S_of_C def
+R36155:36155 gaggle <> C:384 var
+R36138:36145 gaggle <> Calculus:376 ind
+R36208:36234 gaggle <> unsigned_pivoted_function_C def
+R36250:36250 gaggle <> U:387 var
+R36247:36248 gaggle <> φ:386 var
+R36245:36245 gaggle <> C:384 var
+R36236:36243 gaggle <> Calculus:376 ind
+R36266:36275 gaggle <> Connective class
+R36278:36293 gaggle <> full_Connectives def
+R36295:36304 gaggle <> Generators:375 var
+binder 36261:36261 <> C:389
+R36319:36321 mathcomp.fingroup.perm <> :::'''S_'_x not
+R36322:36322 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R36330:36333 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R36323:36327 gaggle <> arity def
+R36329:36329 gaggle <> C:389 var
+binder 36315:36315 <> p:390
+R36363:36365 mathcomp.ssreflect.fintype <> :::'''I_'_x not
+R36366:36366 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R36374:36377 mathcomp.ssreflect.ssrnat <> ::nat_scope:x_'.+1' not
+R36367:36371 gaggle <> arity def
+R36373:36373 gaggle <> C:389 var
+binder 36361:36361 <> i:391
+R36390:36413 gaggle <> typed_Structural_Formula ind
+R36416:36419 mathcomp.ssreflect.tuple <> tnth def
+R36448:36448 gaggle <> i:391 var
+R36423:36429 gaggle <> sk_type meth
+R36433:36440 gaggle <> skeleton meth
+R36444:36444 gaggle <> C:389 var
+binder 36350:36350 <> X:392
+R36585:36594 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R36459:36485 gaggle <> unsigned_pivoted_function_S def
+R36562:36567 Coq.Init.Specif <> existT constr
+R36574:36574 gaggle <> X:392 var
+R36576:36582 mathcomp.ssreflect.fintype <> ord_max def
+binder 36528:36528 <> i:393
+R36533:36533 gaggle <> X:392 var
+R36536:36539 mathcomp.ssreflect.fintype <> lift def
+R36549:36549 gaggle <> i:393 var
+R36541:36547 mathcomp.ssreflect.fintype <> ord_max def
+R36505:36510 gaggle <> S_of_C def
+R36512:36512 gaggle <> C:389 var
+R36487:36494 gaggle <> Calculus:376 ind
+R36595:36621 gaggle <> unsigned_pivoted_function_S def
+R36846:36851 Coq.Init.Specif <> existT constr
+R36858:36858 gaggle <> X:392 var
+R36861:36861 gaggle <> p:390 var
+R36863:36869 mathcomp.ssreflect.fintype <> ord_max def
+binder 36742:36742 <> i:394
+R36758:36769 gaggle <> cast_Formula thm
+R36811:36811 gaggle <> X:392 var
+R36814:36814 gaggle <> p:390 var
+R36817:36820 mathcomp.ssreflect.fintype <> lift def
+R36830:36830 gaggle <> i:394 var
+R36822:36828 mathcomp.ssreflect.fintype <> ord_max def
+R36772:36787 gaggle <> calculus_type_wf thm
+R36793:36793 gaggle <> p:390 var
+R36795:36795 gaggle <> i:394 var
+R36641:36646 gaggle <> S_of_C def
+R36649:36668 gaggle <> full_of_restricted_C def
+R36673:36678 gaggle <> C_of_S def
+R36682:36683 gaggle <> α def
+R36690:36695 gaggle <> S_of_C def
+R36698:36717 gaggle <> restricted_of_full_C def
+R36719:36719 gaggle <> C:389 var
+R36723:36723 gaggle <> p:390 var
+R36670:36670 gaggle <> C:389 var
+R36623:36630 gaggle <> Calculus:376 ind

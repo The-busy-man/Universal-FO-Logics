@@ -374,8 +374,8 @@ Definition unlift_seq {n} (cs : seq 'I_n) (x : 'I_n) :=
 
 Lemma unlift_some_seq {n} (c : seq 'I_n) (x : 'I_n) :
   x\notin c ->
-  {d : seq 'I_n.-1 |
-    c = map (lift x) d & map (unlift x) c = map Some d}.
+    {d : seq 'I_n.-1 |
+        c = map (lift x) d & map (unlift x) c = map Some d}.
 Proof.
   elim: c => /= [_| a l IHl Hx].
     exact: (exist2 _ _ [::]).
@@ -386,7 +386,9 @@ Proof.
 Qed.
 
 Lemma unlift_some_seq_seq {n} (cs : seq (seq 'I_n)) (x : 'I_n) :
-  all (fun c => x\notin c) cs -> {cs' : seq (seq 'I_n.-1) | cs = map (map (lift x)) cs' & map (map (unlift x)) cs = map (map Some) cs'}.
+  all (fun c => x\notin c) cs ->
+    {cs' : seq (seq 'I_n.-1) |
+        cs = map (map (lift x)) cs' & map (map (unlift x)) cs = map (map Some) cs'}.
 Proof.
   elim: cs => /= [_| a l IHl Hx].
     exact: (exist2 _ _ [::]).
@@ -430,7 +432,8 @@ Definition option_perm_fun {T : finType} (p : {perm T}) k :=
   then Some (p k')
   else None.
 
-Definition option_perm_fun_inj {T : finType} (p : {perm T}) : injective (option_perm_fun p).
+Definition option_perm_fun_inj {T : finType} (p : {perm T}) :
+  injective (option_perm_fun p).
 Proof.
   rewrite /option_perm_fun.
   case => [x|] [// y|//].
@@ -453,7 +456,9 @@ Proof.
   by rewrite (proj2_sig (unlift_some nH)).2.
 Qed.
 
-Lemma option_some_proof {T U : Type} (f : option T -> option U) (f_wd : forall x : option T, x -> f x) x : ~ (f (Some x) = None).
+Lemma option_some_proof {T U : Type} (f : option T -> option U)
+  (f_wd : forall x : option T, x -> f x) x : ~ (f (Some x) = None).
+Proof.
   case Heq: (f (Some x)) => [//|].
   move: (f_wd (Some x) (eq_refl true)).
   by rewrite Heq.
@@ -781,30 +786,32 @@ Lemma orbit_set (C : Atomic_Skeleton) :
   @connective_set (orbit_of_skeleton C) = 'S_sk_arity.+1.
 Proof. by[]. Qed.
 
-Class sig_Class {A : Type} {B : A -> Type} :=
-  {
-    sig_fst : A;
-    sig_snd : B sig_fst
-  }.
+(* Record sig_Class {A : Type} {B : A -> Type} := *)
+(*   { *)
+(*     sig_fst : A; *)
+(*     sig_snd : B sig_fst *)
+(*   }. *)
 
 (* Each connective from Generators creates a full independent orbit of connectives. *)
 Definition full_Connectives (Generators : Connectives) :=
   {|
-    connective_set := @sig_Class (@Connective Generators) (fun C => 'S_sk_arity.+1);
+    connective_set := @sigT (@Connective Generators) (fun C => 'S_sk_arity.+1);
     assignment :=
       fun Cp =>
-                (sk_α {| sa:= skeleton; eqs_arity := eq_refl _|} (@sig_snd _ _ Cp))
+                (sk_α {| sa:= skeleton; eqs_arity := eq_refl _|} (@projT2 _ _ Cp))
   |}.
 
 Definition generator {Generators : Connectives} (C : @Connective Generators)
   : @Connective (full_Connectives Generators) :=
   {|
     var :=
-      {|
-        sig_fst := C;
-        sig_snd := (1%g : 'S_(arity C).+1)
-      |} : @connective_set (full_Connectives Generators)
+       (existT _ C
+       (1%g : 'S_(arity C).+1))
+      : @connective_set (full_Connectives Generators)
   |}.
+
+Notation sig_fst := projT1.
+Notation sig_snd := projT2.
 
 (* change connective_set to a subtype of the other connective_set.
     I need to somehow store the original connective in its individual orbit.
@@ -836,7 +843,7 @@ Definition restricted_orbit {Generators : Connectives}
   (C : @Connective (full_Connectives Generators)) : Connectives :=
   {|
     connective_set :=
-      @sig_Class (Singleton (@Connective Generators) (@sig_fst _ _ (@var _ C))) (fun C => 'S_(arity (@element _  _ C)).+1);
+      @sig (Singleton (@Connective Generators) (@sig_fst _ _ (@var _ C))) (fun C => 'S_(arity (@element _  _ C)).+1);
     assignment :=
       fun Cp => let: C' := @sig_fst _ _ Cp in let: p := @sig_snd _ _ Cp in
                 (sk_α {| sa:= (@skeleton _ (@sig_fst _ _ (@var _ C))); eqs_arity := eq_refl _ |} p)
@@ -935,7 +942,6 @@ Qed.
 (* ATOMIC CALCULUS *)
 
 (* Agafar tota l'òrbita per la negació i la residuació. *)
-(* Potser val la pena fer-ho com comentava el Guillaume i de moment limitar-ho tot només sobre esquelets. *)
 
 Definition unsigned_function
   (s : ±) {A : Connectives} {S : Structures}
@@ -972,10 +978,8 @@ Definition unsigned_pivoted_function_C
 
 (* Els errors venen de que cal veure que les aritats son iguals i que els tipos son iguals (ja que les formules depenen de la tupla de tipos) *)
 
-Lemma cast_Formula {A : Connectives} {S : Structures} [n m : nat] : m = n -> typed_Structural_Formula m -> typed_Structural_Formula n.
-Proof.
-  by move => ->.
-Qed.
+Definition cast_Formula {A : Connectives} {S : Structures} [n m : nat] (eq_mn : m = n) (φ : typed_Structural_Formula m) :=
+  let: erefl in _ = n := eq_mn return typed_Structural_Formula n in φ.
 
 Lemma calculus_type_wf (Generators : Connectives)
             (C : @Connective (full_Connectives Generators)) (p : 'S_(arity C).+1)
