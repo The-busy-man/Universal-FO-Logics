@@ -753,7 +753,7 @@ Proof.
     case: C Heq => n0 p s q t Heq.
     f_equal.
     - rewrite -permP => x.
-      (* You can improve most of these proves by using compM, and proving also that cast_perm of 1 is always 1. *)
+      (* You can improve most of these proves by using compM, and proving also that cast_perm of 1 is always 1 and cast_perm of a product is product of cast_perms, comes from cast_perm_morphM. *)
       by rewrite permE /= cast_permE permE /= cast_ordKV.
     - rewrite /= cast_permE permE /= cast_ordKV eq_refl /=.
       apply eq_from_tnth => i.
@@ -776,7 +776,50 @@ Proof.
         apply eq_from_tnth => x;
         rewrite !tnth_map !tnth_ord_tuple));
       last (by rewrite !cast_permE !permE /= cast_ordK))).
-  - admit.
+  - case H4 : (cast_perm (f_equal succn (eqP Heq)) (p1 * p2) x != ord_max);
+      case H5 : (cast_perm (f_equal succn (eqP Heq)) p2 x != ord_max);
+        case H6 : (x != ord_max).
+    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      repeat (rewrite !cast_permE !permE /= !cast_ordK).
+      rewrite !H1 /=.
+      move: H1 (H4) => /negbTE H1 /negbTE H4'.
+      rewrite !H1 !H4' /=.
+      have H7 : (forall p' : 'Sym_n.+1, cast_ord (f_equal succn (eqP Heq))
+         (p' (cast_ord (esym (f_equal succn (eqP Heq))) x)) ==
+       cast_ord (f_equal succn (eqP Heq))
+         (p' (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false).
+        intros. apply/negbTE/eqP => /cast_ord_inj/perm_inj/cast_ord_inj/eqP.
+        apply/negP. exact: H6.
+      rewrite -{2}compM -{1}[p1 (p2 (cast_ord _ x))]compM.
+      rewrite !H7.
+      have H8 : cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max))) ==
+        cast_ord (f_equal succn (eqP Heq))
+          (p1 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/eqP => /cast_ord_inj/perm_inj/eqP. apply/negP.
+        exact: H3.
+      have H9 : cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x))) ==
+        cast_ord (f_equal succn (eqP Heq))
+          (p1 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/eqP => /cast_ord_inj/perm_inj/eqP. apply/negP.
+        exact: H5.
+      rewrite !H8.
+      move: H5 => /negbTE H5.
+      rewrite !H5 !cast_ordK /= !H4 !H4' !H9.
+      Focus 1.
+      rewrite [(─ + _)%R in RHS]GRing.addrA.
+      rewrite [(─ + _)%R in RHS]GRing.addrC.
+      rewrite [(_ + (─ + _ + _))%R in RHS]GRing.addrA.
+      rewrite [(_ + (─ + _))%R in RHS]GRing.addrC.
+      rewrite [(─ + _ + _)%R in RHS]GRing.addrA.
+      by rewrite [(─ + _ + _)%R in RHS]GRing.addrA char2 GRing.add0r.
+      (* I shoud be able to prove that in general the case x == ord_max is equivalent to the the proof for sk_quantification.
+         Re-use it.
+       *)
+    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      repeat (rewrite !cast_permE !permE /= !cast_ordK).
+
   - rewrite tnth_map. rewrite tnth_ord_tuple. rewrite cast_permE permE /= in H1.
     rewrite compM tpermD; last first.
     - apply/eqP => /perm_inj/esym. apply/eqP. exact: H3.
