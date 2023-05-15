@@ -641,9 +641,9 @@ Definition sk_Residuation (C : Atomic_Skeleton) (p : 'Sym_sk_arity.+1) : Atomic_
     sk_sign :=
       if (i != n) then
         [tuple if (p j) != n
-           then ─ + s + tnth sk_sign (((tperm ord_max (p ord_max)) \o p) j)
+           then ─ + s + tnth sk_sign (((tperm ord_max (p ord_max) : 'Sym_sk_arity.+1) * p)%g j)
            else s | j < sk_arity.+1]
-      else sk_sign;
+      else [tuple tnth sk_sign (p i) | i < sk_arity.+1];
     sk_quantification :=
       if (i != n) then
         ─ + s + sk_quantification
@@ -753,8 +753,11 @@ Proof.
     case: C Heq => n0 p s q t Heq.
     f_equal.
     - rewrite -permP => x.
+      (* You can improve most of these proves by using compM, and proving also that cast_perm of 1 is always 1. *)
       by rewrite permE /= cast_permE permE /= cast_ordKV.
-    - by rewrite /= cast_permE permE /= cast_ordKV eq_refl.
+    - rewrite /= cast_permE permE /= cast_ordKV eq_refl /=.
+      apply eq_from_tnth => i.
+      by rewrite tnth_map cast_permE permE /= cast_ordKV tnth_ord_tuple.
     - by rewrite cast_permE permE /= cast_ordKV eq_refl.
     - apply eq_from_tnth => x.
       rewrite tnth_map /=.
@@ -775,7 +778,7 @@ Proof.
       last (by rewrite !cast_permE !permE /= cast_ordK))).
   - admit.
   - rewrite tnth_map. rewrite tnth_ord_tuple. rewrite cast_permE permE /= in H1.
-    rewrite tpermD; last first.
+    rewrite compM tpermD; last first.
     - apply/eqP => /perm_inj/esym. apply/eqP. exact: H3.
     - rewrite eq_sym !cast_permE /= cast_ordK. exact: H1.
     rewrite !cast_permE !permE /= cast_ordK H1.
@@ -792,23 +795,29 @@ Proof.
     rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H3.
     by rewrite cast_permE.
   - admit.
-  - 
-    f_equal. f_equal. f_equal.
-    apply (@perm_inj _ (cast_perm (f_equal succn (eqP Heq)) p2^-1)).
-    rewrite ![in RHS]cast_permE cast_ordK permK cast_ordKV.
-    have H4 : (ord_max != cast_perm (f_equal succn (eqP Heq)) (p2^-1 * p1^-1) ord_max) = true.
-    apply/eqP. move/(f_equal (cast_perm (f_equal succn (eqP Heq)) p2)).
-    rewrite cast_permE /=.
-    (* It is analogous to the proof 
-    - apply/eqP => /perm_inj/esym. apply/eqP. exact: H3.
-        but using the inverse permutations.
-     *)
-    rewrite cast_permE permE /=.
-    rewrite cast_permE /= in H2.
-    rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))). H2.
-    by rewrite cast_permE.
-  - rewrite tnth_map tnth_ord_tuple.
-    rewrite cast_permE permE /=.
+  - f_equal. f_equal.
+    by rewrite tnth_map /= tnth_ord_tuple !cast_permE !permE /= cast_ordK.
+  - admit.
+  - rewrite !cast_permE permE /= in H1 H2 H3.
+    by rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H3 H2 eq_refl in H1.
+  - admit.
+  - rewrite cast_permE permE /= in H1.
+    rewrite tnth_map tnth_ord_tuple !cast_permE !permE /= cast_ordK.
+    by rewrite H1 eq_refl /= GRing.addrA char2 GRing.add0r.
+  - admit.
+  - rewrite !cast_permE !permE /= in H1 H2 H3.
+    rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H3 in H1.
+    by rewrite H1 eq_refl in H2.
+  - admit.
+  - rewrite -[in RHS]H2 in H1.
+    apply (f_equal (cast_perm (f_equal succn (eqP Heq)) p1^-1)) in H1.
+    rewrite !cast_permE /= !cast_ordK in H1 H3.
+    rewrite compM !permK cast_ordKV in H1.
+    by rewrite H1 eq_refl in H3.
+  - admit.
+Admitted.
+
+(*
   - case H4 : (x != cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max);
       case H5 : (x != cast_perm (f_equal succn (eqP Heq)) p2 ord_max);
         case H6 : (
@@ -816,8 +825,6 @@ Proof.
                       != cast_perm (f_equal succn (eqP Heq)) p1 ord_max);
       case H7 : (x != ord_max).
     + rewrite !permE /=. rewrite !tpermD. rewrite cast_permE permE /=.
-
-(*
     have -> : tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max)
        (cast_perm (f_equal succn (eqP Heq)) p2 x) != cast_perm (f_equal succn (eqP Heq)) p1 ord_max.
     apply/eqP=>/(f_equal (tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max))).
