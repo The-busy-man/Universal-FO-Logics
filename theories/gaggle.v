@@ -2,7 +2,6 @@ From mathcomp Require Import all_ssreflect ssralg all_fingroup zmodp perm.
 From HB Require Import structures.
 Require Import Logic.Eqdep_dec.
 Import EqNotations.
-From Coq Require Import Lia.
 
 From mathcomp Require Import ssreflect.eqtype.
 
@@ -127,7 +126,6 @@ Definition sk_sign_output {C : Atomic_Skeleton} := tnth (@sk_sign C) ord_max.
 Definition sk_type_input {C : Atomic_Skeleton} := [tuple tnth (@sk_type C) (lift ord_max i) | i < (@sk_arity C)].
 Definition sk_type_output {C : Atomic_Skeleton} := tnth (@sk_type C) ord_max.
 
-(* Arregla-ho a tot arreu *)
 Class Connectives := {
   connective_set : Type;
   assignment : (connective_set -> Atomic_Skeleton)
@@ -239,7 +237,6 @@ Definition Boolean_Action (A : Connectives) : Connectives :=
         Boolean_Negation (assignment t)
     end
 |}.
-(* Cal convertir-ho en una acció *)
 
 Definition and_skeleton : Atomic_Skeleton :=
   {|
@@ -287,7 +284,7 @@ Definition lres_connective : Connectives :=
 
 Goal @assignment (Boolean_Action and_connective) (@signed (@connective_set and_connective) ⊹ 0%R) = @assignment and_connective 0%R.
 Proof. by[]. Qed.
-(* Cal pensar una manera general per a que portar les proves decidibles no es fagi carregos. *)
+
 Goal @assignment (Boolean_Action and_connective) (@signed (@connective_set and_connective) ─ 0%R) = @assignment or_connective 0%R.
 Proof.
   rewrite /=/and_skeleton/or_skeleton/=.
@@ -299,15 +296,6 @@ Proof.
 Qed.
 
 (* PERMUTATIONS and α-ACTION *)
-
-(* After arranging the actions, Sintaxis will be done.
-   It will have to be reworked by subtituting my tuples, using decent coercions and cycles.
- *)
-
-(* Has de fer manualment la descomposició en cicles, a mathcomp no la tenen.
-   Fer servir connect/dfs de fingraph, porbit de perm o traject.
-   Probablement utilitzant un conjunt com a prod_tpermP.
- *)
 
 (* proposed by Kazuhiko Sakaguchi *)
 Definition fun_of_cycle (T : eqType) (xs : seq T) (x : T) : T :=
@@ -771,15 +759,33 @@ Proof.
       (case H3 : (cast_perm (f_equal succn (eqP Heq)) p2 ord_max != ord_max);
         last move : H3 => /eqP H3);
       (f_equal;
-      first (by rewrite /= -mulgA cast_perm_morphM);
-      (try (
+        first 1 [
+        by rewrite /= -mulgA cast_perm_morphM |
         apply eq_from_tnth => x;
-        rewrite !tnth_map !tnth_ord_tuple));
-      last (by rewrite !cast_permE !permE /= cast_ordK))).
-  - case H4 : (cast_perm (f_equal succn (eqP Heq)) (p1 * p2) x != ord_max);
-      case H5 : (cast_perm (f_equal succn (eqP Heq)) p2 x != ord_max);
-        case H6 : (x != ord_max).
-    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+        rewrite !tnth_map !tnth_ord_tuple;
+          case H6 : (x != ord_max);
+          first (
+          case H4 : (cast_perm (f_equal succn (eqP Heq)) (p1 * p2) x != ord_max);
+            last (move: H4 => /eqP H4);
+            (case H5 : (cast_perm (f_equal succn (eqP Heq)) p2 x != ord_max);
+              last (move: H5 => /eqP H5)));
+              last (move: H6 => /eqP H6)];
+       last 1 [apply eq_from_tnth => x; rewrite !tnth_map !tnth_ord_tuple;
+       by rewrite !cast_permE !permE /= cast_ordK];
+       try (rewrite !cast_permE permE /= in H1 H2 H3;
+              by rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H3 H2 eq_refl in H1);
+       try (rewrite -[in RHS]H1 in H4;
+              by rewrite (perm_inj H4) eq_refl in H6);
+       try (rewrite !cast_permE !permE /= in H1 H2 H3;
+            rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H3 in H1;
+              by rewrite H1 eq_refl in H2);
+       try (rewrite !cast_permE !permE /= in H1 H2 H3;
+            move: H1; rewrite -[in RHS]H2 => /cast_ord_inj/perm_inj H1;
+            by rewrite H1 !cast_ordKV eq_refl in H3);
+       try (rewrite !cast_permE !permE /= in H1 H2 H3;
+            by rewrite !cast_permE !permE /= !cast_ordK)
+    )).
+  - + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
       repeat (rewrite !cast_permE !permE /= !cast_ordK).
       rewrite !H1 /=.
       move: H1 (H4) => /negbTE H1 /negbTE H4'.
@@ -807,7 +813,6 @@ Proof.
       rewrite !H8.
       move: H5 => /negbTE H5.
       rewrite !H5 !cast_ordK /= !H4 !H4' !H9.
-      Focus 1.
       rewrite [(─ + _)%R in RHS]GRing.addrA.
       rewrite [(─ + _)%R in RHS]GRing.addrC.
       rewrite [(_ + (─ + _ + _))%R in RHS]GRing.addrA.
@@ -819,7 +824,60 @@ Proof.
        *)
     + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
       repeat (rewrite !cast_permE !permE /= !cast_ordK).
-
+      move: (H1) (H4) => /negbTE H1' /negbTE H4'.
+      have H7 : (cast_ord (f_equal succn (eqP Heq)) (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x))) ==
+       cast_ord (f_equal succn (eqP Heq)) (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max))) = false).
+        apply/negbTE/negP => /eqP/cast_ord_inj/perm_inj/perm_inj/cast_ord_inj.
+        exact/eqP.
+      have H9 : cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max))) ==
+        cast_ord (f_equal succn (eqP Heq))
+          (p1 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/eqP => /cast_ord_inj/perm_inj/eqP. apply/negP.
+        exact: H3.
+      rewrite H1' H4' H7 H9 /=.
+      rewrite  -{1}[p2 (_ _ x)](cast_ordK (f_equal succn (eqP Heq))) H5.
+      by rewrite -GRing.addrA [(tnth _ _ + tnth _ _)%R]GRing.addrC -GRing.addrA.
+    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      repeat (rewrite !cast_permE !permE /= !cast_ordK).
+      have H7 : cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max))) ==
+        cast_ord (f_equal succn (eqP Heq)) (p1 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/negP => /eqP/cast_ord_inj/perm_inj.
+        exact/eqP.
+      have H8 : cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x))) ==
+        cast_ord (f_equal succn (eqP Heq)) (p1 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/negP => /eqP/cast_ord_inj/perm_inj.
+        exact/eqP.
+      have H10 : cast_ord (f_equal succn (eqP Heq))
+                      (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x)) ==
+                    cast_ord (f_equal succn (eqP Heq))
+                      (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/negP => /eqP/cast_ord_inj/perm_inj/cast_ord_inj.
+        exact/eqP.
+      move: (H1) (H5) => /negbTE H1' /negbTE H5'.
+      rewrite !H1 !H1' !H5' !H7 !H10 !cast_ordK !H8 !H4 eq_refl /=.
+      by rewrite !GRing.addrA char2 GRing.add0r GRing.addrC GRing.addrA char2 GRing.add0r.
+    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H5 in H4.
+      by rewrite H4 eq_refl in H2.
+    + rewrite !cast_permE !permE /= in H1 H2 H3.
+      repeat (rewrite !cast_permE !permE /= !cast_ordK).
+      move: (H1) (H2) (H3) => /negbTE H1' /negbTE H2' /negbTE H3'.
+      have H9 : cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max))) ==
+        cast_ord (f_equal succn (eqP Heq))
+          (p1 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/eqP => /cast_ord_inj/perm_inj/eqP. apply/negP.
+        exact: H3.
+      rewrite !H6 !H1 !H3 !H1' !H3' !H9 !eq_refl /= !H2' /=.
+      rewrite [(─ + _)%R in RHS]GRing.addrA.
+      rewrite [(─ + _)%R in RHS]GRing.addrC.
+      rewrite [(_ + (─ + _ + _))%R in RHS]GRing.addrA.
+      rewrite [(_ + (─ + _))%R in RHS]GRing.addrC.
+      rewrite [(─ + _ + _)%R in RHS]GRing.addrA.
+      by rewrite [(─ + _ + _)%R in RHS]GRing.addrA char2 GRing.add0r.
   - rewrite tnth_map. rewrite tnth_ord_tuple. rewrite cast_permE permE /= in H1.
     rewrite compM tpermD; last first.
     - apply/eqP => /perm_inj/esym. apply/eqP. exact: H3.
@@ -832,72 +890,101 @@ Proof.
     rewrite [in RHS]GRing.addrC.
     rewrite !GRing.addrA. rewrite char2 GRing.add0r.
     by rewrite [(_ + ─)%R in RHS]GRing.addrC.
-  - admit.
+  - + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      repeat (rewrite !cast_permE !permE /= !cast_ordK).
+      have H9 : cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x))) ==
+        cast_ord (f_equal succn (eqP Heq))
+          (p1 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/eqP => /cast_ord_inj/perm_inj/eqP. apply/negP.
+        exact: H5.
+      have H7 : (cast_ord (f_equal succn (eqP Heq)) (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x))) ==
+       cast_ord (f_equal succn (eqP Heq)) (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max))) = false).
+        apply/negbTE/negP => /eqP/cast_ord_inj/perm_inj/perm_inj/cast_ord_inj.
+        exact/eqP.
+      move: (H5) (H4) => /negbTE H5' /negbTE H4'.
+      rewrite !H4' !H9 !H7 /=.
+      by rewrite -[(p2 _) in LHS](cast_ordK (f_equal succn (eqP Heq))) H3.
+    + rewrite -[in RHS]H5 in H3.
+      apply perm_inj in H3.
+      by rewrite H3 eq_refl in H6.
+    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      repeat (rewrite !cast_permE !permE /= !cast_ordK).
+      rewrite !H4 eq_refl /=.
+      by rewrite -[(p2 _) in LHS](cast_ordK (f_equal succn (eqP Heq))) H3.
+    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      repeat (rewrite !cast_permE !permE /= !cast_ordK).
+      rewrite -[(p2 _)](cast_ordK (f_equal succn (eqP Heq))) H5 in H4.
+      by rewrite H4 eq_refl in H2.
+    + rewrite !H6 !H3 !H1 !H2.
+      rewrite !cast_permE !permE /= in H1 H2 H3.
+      repeat (rewrite !cast_permE !permE /=).
+      move: (H1) (H2) => /negbTE H1' /negbTE H2'.
+      rewrite H1' H2' !eq_refl /=.
+      by rewrite -[(p2 _) in LHS](cast_ordK (f_equal succn (eqP Heq))) H3.
   - rewrite cast_permE permE /=.
     rewrite cast_permE /= in H3.
     rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H3.
     by rewrite cast_permE.
-  - admit.
+  - + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      repeat (rewrite !cast_permE !permE /=).
+      move: (H4) (H5) => /negbTE H4' /negbTE H5'.
+      have H8 : cast_ord (f_equal succn (eqP Heq)) (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x)) ==
+                cast_ord (f_equal succn (eqP Heq))
+                  (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/eqP => /cast_ord_inj/perm_inj/eqP.
+        exact/negP.
+      have H9 : cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x))) ==
+        cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max))) = false.
+        apply/negbTE/eqP => /cast_ord_inj/perm_inj/perm_inj/eqP.
+        exact/negP.
+      by rewrite !H4' !H5' !H8 !H9 !cast_ordK.
+    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      by rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H5 H2 eq_refl in H4.
+    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      rewrite -[in RHS]H4 in H2.
+      move: H2 => /cast_ord_inj/perm_inj H2.
+      by rewrite -H2 cast_ordKV eq_refl in H5.
+    + rewrite !cast_permE !permE /= in H1 H2 H3.
+      repeat (rewrite !cast_permE !permE /=). rewrite !cast_ordK.
+      move: (H1) (H3) => /negbTE H1' /negbTE H3'.
+      by rewrite !H6 !H1 !H3 !H1' !H3' !eq_refl !H2.
   - f_equal. f_equal.
     by rewrite tnth_map /= tnth_ord_tuple !cast_permE !permE /= cast_ordK.
-  - admit.
-  - rewrite !cast_permE permE /= in H1 H2 H3.
-    by rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H3 H2 eq_refl in H1.
-  - admit.
+  - + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      repeat (rewrite !cast_permE !permE /=). rewrite !cast_ordK.
+      move: (H5) (H4) => /negbTE H5' /negbTE H4'.
+      have H7 : cast_ord (f_equal succn (eqP Heq))
+          (p1 (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x))) ==
+        cast_ord (f_equal succn (eqP Heq))
+          (p1 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/eqP => /cast_ord_inj/perm_inj/eqP.
+        exact/negP.
+      have H8 : cast_ord (f_equal succn (eqP Heq)) (p2 (cast_ord (esym (f_equal succn (eqP Heq))) x)) ==
+                cast_ord (f_equal succn (eqP Heq))
+                  (p2 (cast_ord (esym (f_equal succn (eqP Heq))) ord_max)) = false.
+        apply/negbTE/eqP => /cast_ord_inj/perm_inj/eqP.
+        exact/negP.
+      rewrite !H1 eq_refl /= !H5' !H8 !cast_ordK !H4' /= !H7.
+      by rewrite [in RHS]GRing.addrA char2 GRing.add0r.
+    + rewrite !cast_permE !permE /= in H1 H2 H3 H4 H5.
+      repeat (rewrite !cast_permE !permE /=). rewrite !cast_ordK.
+      by rewrite !H1 eq_refl /= -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H5.
+    + rewrite !cast_permE !permE /= in H1 H2 H3.
+      repeat (rewrite !cast_permE !permE /=). rewrite !cast_ordK.
+      move: (H2) (H3) => /negbTE H2' /negbTE H3'.
+      rewrite !H6 !H1 !H3 !H3' !eq_refl !H2 !H2' /=.
+      by rewrite GRing.addrA char2 GRing.add0r.
   - rewrite cast_permE permE /= in H1.
     rewrite tnth_map tnth_ord_tuple !cast_permE !permE /= cast_ordK.
     by rewrite H1 eq_refl /= GRing.addrA char2 GRing.add0r.
-  - admit.
-  - rewrite !cast_permE !permE /= in H1 H2 H3.
-    rewrite -[p2 _](cast_ordK (f_equal succn (eqP Heq))) H3 in H1.
-    by rewrite H1 eq_refl in H2.
-  - admit.
-  - rewrite -[in RHS]H2 in H1.
-    apply (f_equal (cast_perm (f_equal succn (eqP Heq)) p1^-1)) in H1.
-    rewrite !cast_permE /= !cast_ordK in H1 H3.
-    rewrite compM !permK cast_ordKV in H1.
-    by rewrite H1 eq_refl in H3.
-  - admit.
-Admitted.
-
-(*
-  - case H4 : (x != cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max);
-      case H5 : (x != cast_perm (f_equal succn (eqP Heq)) p2 ord_max);
-        case H6 : (
-                    cast_perm (f_equal succn (eqP Heq)) p2 ord_max
-                      != cast_perm (f_equal succn (eqP Heq)) p1 ord_max);
-      case H7 : (x != ord_max).
-    + rewrite !permE /=. rewrite !tpermD. rewrite cast_permE permE /=.
-    have -> : tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max)
-       (cast_perm (f_equal succn (eqP Heq)) p2 x) != cast_perm (f_equal succn (eqP Heq)) p1 ord_max.
-    apply/eqP=>/(f_equal (tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max))).
-    rewrite tpermK. tpermD.
-    - move /(f_equal ). move/(perm_inj). => /eqP.
-    case H7 : ((cast_perm (f_equal succn (eqP Heq)) p2 *
-      tperm ord_max (cast_perm (f_equal succn (eqP Heq)) p2 ord_max))%g x
-     != cast_perm (f_equal succn (eqP Heq)) p1 ord_max).
-      case H4 : (x != cast_perm (f_equal succn (eqP Heq)) (p1 * p2) ord_max).
-      rewrite !cast_permE !permE /=.
-      rewrite  cast_ordKV.
-  - admit.
-      by rewrite cast_permE permE /= cast_ordKV tnth_ord_tuple.
-  f_equal.
-  - simpl.
-    rewrite cast_permE permE /=.
-    admit.
-  - simpl.
-    rewrite cast_permE permE /=.
-    admit.
-  apply eq_from_tnth => x.
-  rewrite !tnth_map /sk_type.
-  f_equal.
-  rewrite !cast_permE permE /=.
-  f_equal.*)
-Admitted.
+Qed.
 
 Definition sk_α {n} := Action (sk_α_is_action (n:=n)).
 
-Lemma ska_Residuation_arity_invariant (C : Atomic_Skeleton) (p : 'Sym_sk_arity.+1) : @sk_arity C = @sk_arity ((ska_Residuation _ {| sa:= C; eqs_arity := eq_refl _|} p)).
+Lemma ska_Residuation_arity_invariant (C : Atomic_Skeleton) (p : 'Sym_sk_arity.+1) : @sk_arity C = @sk_arity ((ska_Residuation {| sa:= C; eqs_arity := eq_refl _|} p)).
 Proof.
   rewrite /ska_Residuation /=.
   by case: (unlift ord_max (p ord_max)).
@@ -933,7 +1020,7 @@ Definition S_of_C {A} (C : @Connective A) : @Structure A (S_of_Cs A) :=
 (* Boolean negation to be done and added over formulas.
    As an alternative one could leave the sign over formulas as ill-defined (it takes whatever value is required by context).
  *)
-Inductive typed_Structural_Formula {A : Connectives} {S : Structures} : ℕ -> Type :=
+Inductive typed_Structural_Formula {A : Connectives} {S : Structures} : pos -> Type :=
   | from_formula {k} : @typed_Formula A k -> typed_Structural_Formula k
   | structural_composition
     : forall C : Structure,
@@ -958,32 +1045,20 @@ Lemma orbit_set (C : Atomic_Skeleton) :
   @connective_set (orbit_of_skeleton C) = 'Sym_sk_arity.+1.
 Proof. by[]. Qed.
 
-(* Record sig_Class {A : Type} {B : A -> Type} := *)
-(*   { *)
-(*     sig_fst : A; *)
-(*     sig_snd : B sig_fst *)
-(*   }. *)
+Class sig_Class {A : Type} {B : A -> Type} :=
+  {
+    sig_fst : A;
+    sig_snd : B sig_fst
+  }.
 
 (* Each connective from Generators creates a full independent orbit of connectives. *)
 Definition full_Connectives (Generators : Connectives) :=
   {|
-    connective_set := @sigT (@Connective Generators) (fun C => 'Sym_sk_arity.+1);
+    connective_set := @sig_Class (@Connective Generators) (fun C => 'Sym_sk_arity.+1);
     assignment :=
       fun Cp =>
-                (sk_α {| sa:= skeleton; eqs_arity := eq_refl _|} (@projT2 _ _ Cp))
+                (sk_α {| sa:= skeleton; eqs_arity := eq_refl _|} (@sig_snd _ _ Cp))
   |}.
-
-Definition generator {Generators : Connectives} (C : @Connective Generators)
-  : @Connective (full_Connectives Generators) :=
-  {|
-    var :=
-       (existT _ C
-       (1%g : 'Sym_(arity C).+1))
-      : @connective_set (full_Connectives Generators)
-  |}.
-
-Notation sig_fst := projT1.
-Notation sig_snd := projT2.
 
 (* change connective_set to a subtype of the other connective_set.
     I need to somehow store the original connective in its individual orbit.
@@ -994,12 +1069,12 @@ Class Singleton (T : Type) (a : T) : Type :=
     element := a
   }.
 
-Lemma Singleton_contractible {T : Type} (a : T) (h1 h2 : Singleton T a) : h1 = h2.
+Lemma Singleton_contractible {T : Type} (a : T) (h1 h2 : Singleton a) : h1 = h2.
 Proof.
   by case: h2; case: h1.
 Qed.
 
-Lemma Singleton_eq {T : Type} (a : T) (h : Singleton T a) : (@element _ _ h) = a.
+Lemma Singleton_eq {T : Type} (a : T) (h : Singleton a) : (@element _ _ h) = a.
 Proof.
   by case: h.
 Qed.
@@ -1011,14 +1086,21 @@ Proof.
 Qed.
 
 (* Fes atenció pq la segona component de connective_set depen directament de la variable C, no de la primera component. *)
+
 Definition restricted_orbit {Generators : Connectives}
   (C : @Connective (full_Connectives Generators)) : Connectives :=
   {|
     connective_set :=
-      @sig (Singleton (@Connective Generators) (@sig_fst _ _ (@var _ C))) (fun C => 'Sym_(arity (@element _  _ C)).+1);
+      @sig_Class
+        (@Singleton (@Connective Generators) (@sig_fst _ _ (@var _ C)))
+        (fun eC => 'Sym_(arity (@element _  _ eC)).+1);
     assignment :=
-      fun Cp => let: C' := @sig_fst _ _ Cp in let: p := @sig_snd _ _ Cp in
-                (sk_α {| sa:= (@skeleton _ (@sig_fst _ _ (@var _ C))); eqs_arity := eq_refl _ |} p)
+      fun Cp =>
+        let: C' := @sig_fst _ _ Cp in
+        let: p := @sig_snd _ _ Cp in
+        (sk_α
+           {| sa:= (@skeleton _ (@sig_fst _ _ (@var _ C)));
+                eqs_arity := eq_refl _ |} p)
   |}.
 
 Definition restricted_of_full_C {Generators : Connectives}
@@ -1026,7 +1108,7 @@ Definition restricted_of_full_C {Generators : Connectives}
   {|
     var :=
       {|
-        sig_fst := (Build_Singleton _ (@sig_fst _ _ (@var _ C)));
+        sig_fst := (@Build_Singleton _ (@sig_fst _ _ (@var _ C)));
         sig_snd := (@sig_snd _ _ (@var _ C))
       |} : (@connective_set (restricted_orbit C))
   |}.
@@ -1065,13 +1147,13 @@ Definition Residuation {Generators : Connectives} (C : @Connective (full_Connect
   {|
     structure_var :=
       {|
-        sig_fst := Build_Singleton _ (@sig_fst _ _ (@var  _ C));
-        sig_snd := (p * (@sig_snd _ _ (@structure_var _ _ D)))%g
+        sig_fst := @Build_Singleton _ (@sig_fst _ _ (@var  _ C));
+        sig_snd := ((@sig_snd _ _ (@structure_var _ _ D)) * p)%g
       |} : (@connective_set (restricted_orbit C))
   |}.
 
 Theorem α_is_action {Generators : Connectives} {C : @Connective (full_Connectives Generators)} :
-  is_action [set: 'Sym_(arity C).+1] (Residuation C).
+  is_action [set: 'Sym_(arity C).+1] (@Residuation _ C).
 Proof.
   rewrite /Residuation.
   rewrite /is_action; split.
@@ -1096,20 +1178,10 @@ Proof.
   by[].
 Qed.
 
-Lemma arity_full_of_restricted_C {Generators : Connectives} {C : @Connective (full_Connectives Generators)} D : arity (full_of_restricted_C C D) = arity C.
+Lemma arity_full_of_restricted_C {Generators : Connectives} {C : @Connective (full_Connectives Generators)} D : arity (@full_of_restricted_C _ C D) = arity C.
 Proof.
   by case: D; case: C => /= [[C s]] [D p].
 Qed.
-
-(*
-  Ha insitit en que sembla que estigui havent de donar massa sovint les inferencies.
-  CPDT Adam Chlipala.
-  Gallinette.
-  Structures Canoniques (+) type classes, hierarchy builder (tb fet per Enrico Tassi, pots preguntar-li).
-    - declarer des instances sur les classes.
-  types dependents => bool
-  conditions de bonnes formation.
- *)
 
 (* ATOMIC CALCULUS *)
 
@@ -1150,19 +1222,19 @@ Definition unsigned_pivoted_function_C
 
 (* Els errors venen de que cal veure que les aritats son iguals i que els tipos son iguals (ja que les formules depenen de la tupla de tipos) *)
 
-Definition cast_Formula {A : Connectives} {S : Structures} [n m : nat] (eq_mn : m = n) (φ : typed_Structural_Formula m) :=
+Definition cast_Formula {A : Connectives} {S : Structures} [n m : pos] (eq_mn : m = n) (φ : typed_Structural_Formula m) :=
   let: erefl in _ = n := eq_mn return typed_Structural_Formula n in φ.
 
 Lemma calculus_type_wf (Generators : Connectives)
             (C : @Connective (full_Connectives Generators)) (p : 'Sym_(arity C).+1)
             (i:'I_(@sk_arity
                      (@structure_skeleton _ _
-                        (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))))) :
+                        (S_of_C (@full_of_restricted_C _ C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))))) :
     (tnth (@sk_type (@skeleton _ C))
                        (p (lift ord_max i))) =
       (tnth
          (@sk_type (@structure_skeleton _ _
-           (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p)))))) (lift ord_max i)).
+           (S_of_C (@full_of_restricted_C _ C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p)))))) (lift ord_max i)).
 rewrite /arity. move : Generators C p i => [gset gass] [[/= C s]] /= p i.
 rewrite !tnth_map.
 f_equal.
@@ -1207,8 +1279,8 @@ Inductive Calculus {Generators : Connectives}
         (fun i => X (lift ord_max i))
         (existT _ _ (X ord_max)) ->
       unsigned_pivoted_function_S Calculus
-        (S_of_C (full_of_restricted_C C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))
+        (S_of_C (@full_of_restricted_C _ C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))
         (fun i =>
-           cast_Formula (calculus_type_wf _ _ p i)
+           cast_Formula (@calculus_type_wf _ _ p i)
            ((X (p (lift ord_max i)))))
         (existT _ _ (X (p ord_max))).
