@@ -50,6 +50,9 @@ Goal (⊹ * ─ = ─)%g. by[]. Qed.
 Goal (⊹ * ⊹ = ∀)%g. by[]. Qed.
 
 Inductive pos := Pos n of (0 < n).
+Coercion pos_val (p : pos) := let: Pos n _ := p in n.
+HB.instance Definition _ := [isSub for pos_val].
+HB.instance Definition _ := [Countable of pos by <:].
 
 Section Comp_Mul.
 
@@ -128,6 +131,30 @@ Definition sk_sign_output {C : Atomic_Skeleton} := tnth (@sk_sign C) ord_max.
 Definition sk_type_input {C : Atomic_Skeleton} := [tuple tnth (@sk_type C) (lift ord_max i) | i < (@sk_arity C)].
 Definition sk_type_output {C : Atomic_Skeleton} := tnth (@sk_type C) ord_max.
 
+(* Si vols fer-ho val més la pena mirar una manera de definir les permutacions tal com les tuples tenen les llistes (alguna definició inductiva que no fagi ús de la aritat) *)
+
+(* Definition eq_as C D := *)
+(*   let: {| sk_arity := n; sk_permutation := σ; sk_sign := s; sk_quantification := q; sk_type := t |} := C in *)
+(*   let: {| sk_arity := m; sk_permutation := τ; sk_sign := r; sk_quantification := p; sk_type := u |} := D in *)
+(*   (match (n == m) as o return (n == m = o) -> bool with *)
+(*   | true => fun Heq => (cast_perm (f_equal succn (eqP Heq)) σ == τ) && (tval s == tval r) && (q == p) && (tval t == tval u) *)
+(*   | false => fun=> false *)
+(*   end) (erefl _). *)
+
+(* Lemma eq_asP C D : reflect (C = D) (eq_as C D). *)
+(* Proof. *)
+(*   case: C => [n σ s q t]; case: D => [m τ r p u]. *)
+(*   case Heqnm : (n == m); last first. *)
+(*     rewrite /eq_as. rewrite {1}Heqnm. *)
+(*     have H : (erefl (n == m) = Heqnm). *)
+(*     rewrite Heqnm. *)
+(*   move: r u τ. rewrite -(eqP Heqnm); intros. *)
+(*   case Heq: (eq_as C D); rewrite /eq_as/= in Heq. *)
+
+(* HB.about hasDecEq. *)
+(* HB.about Countable. *)
+(* HB.instance Definition _ := hasDecEq.on Atomic_Skeleton. *)
+(* HB.instance Definition _ := Countable.on Atomic_Skeleton. *)
 
 
 Definition Boolean_Negation (C : Atomic_Skeleton) (b : Z2) : Atomic_Skeleton :=
@@ -198,7 +225,14 @@ Definition ska_Residuation
   |}.
 End Of_arity.
 
+Coercion ary_id (C : Atomic_Skeleton) : (ary_Skeleton sk_arity) :=
+  {|
+    sa := C;
+    eqs_arity := eq_refl sk_arity
+  |}.
+
 HB.instance Definition _ {n : nat} := [isSub of (ary_Skeleton n) for @sa n].
+(* ary_Skeleton hauria de tenir una instance de Finite. *)
 
 Definition cast_ary_sk {m} {n} (eq_mn : m = n) (C : ary_Skeleton m) :=
   let: erefl in _ = n := eq_mn return ary_Skeleton n in C.
@@ -457,25 +491,152 @@ Proof.
   by case: (unlift ord_max (p ord_max)).
 Qed.
 
-Definition inOrbit (C D : Atomic_Skeleton) := (@sk_arity C = @sk_arity D)/\(@sk_sign_output C*@sk_quantification C = @sk_sign_output D*@sk_quantification D).
+Definition inOrbit (C D : Atomic_Skeleton) := (@sk_arity C == @sk_arity D)&&(@sk_sign_output C*@sk_quantification C == @sk_sign_output D*@sk_quantification D).
 
-(* Lemma inOrbitP (C D : Atomic_Skeleton) := inOrbit C D <-> { σ : free_p 'Sym_sk_arity.+1 B | sk_α() } *)
+Definition γ (C : Atomic_Skeleton) (p : (± * 'Sym_(@sk_arity C).+1)%type) :=
+  let (b, a) := p in sk_β (sk_α C a) b.
 
-HB.mixin Record connective_Family T of hasDecEq T := {
-    assignment : T -> Atomic_Skeleton;
-    rel : equiv_rel T;
-    wf_assignment : forall x y, rel x y -> inOrbit (assignment x) (assignment y)
+Lemma residuate_sk_sign_output (C : Atomic_Skeleton) p :
+  @sk_sign_output (sk_Residuation C p) =
+    if (p ord_max != ord_max)
+    then ─ * tnth (@sk_sign C) (p ord_max) * @sk_sign_output C
+    else @sk_sign_output C.
+Proof.
+  move: p.
+  case: C => /=; intros.
+  rewrite /sk_sign_output/sk_Residuation /=.
+  case Hp : (p0 ord_max != ord_max);
+    rewrite tnth_map tnth_ord_tuple.
+    by rewrite Hp permE /= tpermR.
+  by move: Hp => /eqP ->.
+Qed.
+
+Lemma negation_sk_sign_output (C : Atomic_Skeleton) b :
+  @sk_sign_output (Boolean_Negation C b) =
+    if b then ~~(@sk_sign_output C)
+    else @sk_sign_output C.
+Proof.
+  case: b => //=; rewrite /sk_sign_output.
+  case: C => /=; intros.
+  by rewrite tnth_map.
+Qed.
+
+Lemma γ_sign_invariant (C : Atomic_Skeleton) p : @sk_sign_output (γ C p) * @sk_quantification (γ C p) = @sk_sign_output C * @sk_quantification C.
+Proof.
+  rewrite /γ/=.
+  case: p; case => p; rewrite cast_perm_id;
+    rewrite negation_sk_sign_output;
+    rewrite !residuate_sk_sign_output;
+    case Heq : (p ord_max != ord_max) => /=;
+      rewrite Heq !mulgE //= !addNb !addbN !negbK //;
+    by rewrite addbA [in X in X (+) _]addbC addbA addbb addFb.
+Qed.
+
+(* In here we show that inOrbit truly reflect that C and D are on the same orbit, by showing that it is equivalent to having a list of residuations and negations from one connective to the other. *)
+Lemma inOrbitP (C D : Atomic_Skeleton) :
+  reflect
+     (exists l : seq (± * 'Sym_sk_arity.+1), foldr (fun x => fun => γ C x) C l = D)
+     (inOrbit C D).
+Proof.
+  rewrite /inOrbit.
+  (* To begin with we want to prove that it is not possible for residuated connectives to have different arity.  *)
+  case Heq_arity: (@sk_arity C == @sk_arity D) => /=; last first.
+    apply: ReflectF => [[l /(f_equal (fun C'=>@sk_arity C')) Hl]].
+    have nH1 : forall (C' : Atomic_Skeleton) p, @sk_arity (γ C' p) = @sk_arity C'.
+      by case; intros; case: p0; case.
+    have nH : forall (C' : ary_Skeleton (@sk_arity C)) (l' : seq (± * 'Sym_sk_arity.+1)), @sk_arity (foldr (fun x => fun => γ C' x) C' l') = @sk_arity C'.
+      move => C'; case => [//|/= p l'].
+      by rewrite nH1.
+    rewrite (nH C l) in Hl. move: Heq_arity => /eqP. by rewrite Hl.
+  (* Now we show that it is not possible for residuated connectives to have different difference between the sign and the quantification sign. *)
+  case Heq_sign:
+    (@sk_sign_output C * @sk_quantification C == @sk_sign_output D * @sk_quantification D); last first.
+    apply: ReflectF => [[l /(f_equal (fun C' => @sk_sign_output C' * @sk_quantification C')) Hl]].
+    have nH : forall (C' : Atomic_Skeleton) (l' : seq (± * 'Sym_sk_arity.+1)), @sk_sign_output (foldr (fun x => fun => γ C' x) C' l') * @sk_quantification (foldr (fun x => fun => γ C' x) C' l') = @sk_sign_output C' * @sk_quantification C'.
+      move => C'; case => [//|/= p l'].
+      by rewrite γ_sign_invariant.
+    rewrite (nH C l) in Hl. move: Heq_sign => /eqP. by rewrite Hl.
+  (* Finally it is necesary to see that having equal difference and arity is enough to find a sequence between them. *)
+  apply: ReflectT.
+  (* Using that C and D have the same arity we can get rid of D and write it with the same arity as C, so that we can operate on their permutations. *)
+  case: D Heq_arity Heq_sign => /=; intros.
+  move: sk_sign0 sk_permutation0 sk_type0 Heq_sign.
+  rewrite -(eqP Heq_arity); intros.
+  (* First you residuate C until you have the same permutation as D, then you flip the signs, by acting with (j n+1)-(j n+1), on each component until you have the same sign list, the quantification comes free as the difference is equal in both connectives. *)
+  Admitted.
+
+
+(* Cal construir l'estructura de hasDecEq i Finite sobre Atomic_Skeleton i ary_Skeleton respectivament. *)
+
+(* If necessary in the future for has_connective_Family:
+
+ of hasDecEq T
+
+inOrbit (assignment x) (assignment y);
+
+CONTINUAR.
+
+Em caldrà formalitzar probablement producte directe i semidirecte de dos grups, aleshores hauré de fer servir la següent definició sobre l'acció del producte semidirecte que introduiré després.
+En conseqüència caldra fer una nova inOrbit per a les noves accions, sense fer ús de l'acció lliure.
+ *)
+
+(* Maybe it would be more easy to work with pointed orbits. *)
+HB.mixin Record is_connective_Family T := {
+    orbit_par : eqType;
+    orbit_group : orbit_par -> FinGroup.type;
+    orbit_action : forall (i : orbit_par), {action orbit_group i &-> Atomic_Skeleton};
+    skeleton_assignment : T -> Atomic_Skeleton;
+    orbit_assignment : T -> orbit_par;
+    assignment_wf : forall x y,
+      orbit_assignment x = orbit_assignment y ->
+      exists g, skeleton_assignment y = orbit_action (orbit_assignment x) (skeleton_assignment x) g;
+    assignment_pinj : forall x y,
+      orbit_assignment x = orbit_assignment y -> skeleton_assignment x = skeleton_assignment y -> x = y
   }.
 
-Class Connectives := {
-  connective_set : Type;
-  assignment : (connective_set -> Atomic_Skeleton)
+HB.structure Definition Connective_Family
+  := {T of is_connective_Family T}.
+
+(* Class Connectives := { *)
+(*   connective_set : Type; *)
+(*   assignment : (connective_set -> Atomic_Skeleton) *)
+(* }. *)
+
+(* This definition is not really necessary. *)
+Class Connective {C : Connective_Family.type} := {
+    var : C;
+    skeleton := skeleton_assignment var
 }.
 
-Class Connective {A : Connectives} := {
-    var : connective_set;
-    skeleton := assignment var
-}.
+(* Maybe defining a structure as a connective_Family with the actions closed on it and a disponibility value on each connective.
+     Then for each connective_Family create a structure by closing the orbits and adding the available connectives themselves in the disponibility values.
+     This is done on the dependent product of orbit_groups by orbit_par.
+     How to do the assignment of connectives?
+     In an imperative style I would fill all structures with None and then change the ones corresponding to orbit_assignments and skeleton_assignments (this would require checking on each one) of connectives c into Some c.
+ *)
+
+(* When instantiating the idea would be to provide a proof of all this propositions for each kind of actions, so that it doesn't depend on the connective_family but in the way actions are defined. *)
+HB.mixin Record is_structure_Family (C : Connective_Family.type) S := {
+    structure_of_connective : C -> S;
+    connective_of_structure : S -> option C;
+    reflection_of_connective : forall x, connective_of_structure (structure_of_connective x) = Some x;
+    some_connective : forall x y, connective_of_structure x = Some y -> structure_of_connective y = x;
+
+    structure_skeleton_assignment : S -> Atomic_Skeleton;
+    structure_orbit_assignment : S -> @orbit_par C;
+    compatible_skeleton_assignment : forall x,
+      structure_skeleton_assignment (structure_of_connective x) = skeleton_assignment x;
+    compatible_orbit_assignment : forall x,
+      structure_orbit_assignment (structure_of_connective x) = orbit_assignment x;
+
+    structure_action : forall i : orbit_par, {action orbit_group i &-> S};
+    action_compatible : forall (x : S) (g : orbit_group (structure_orbit_assignment x)),
+      structure_skeleton_assignment (structure_action (structure_orbit_assignment x) x g) =
+        orbit_action (structure_orbit_assignment x) (structure_skeleton_assignment x) g;
+  }.
+
+HB.structure Definition Structure_Family (C : Connective_Family.type)
+  := {T of is_structure_Family C T}.
 
 Definition arity {A} (C : Connective) := @sk_arity (@skeleton A C).
 Definition permutation {A} (C : Connective) := @sk_permutation (@skeleton A C).
@@ -490,19 +651,19 @@ Definition type_input {A} (C : Connective) := @sk_type_input (@skeleton A C).
 Section Of_arity.
 Variable n : nat.
 
-Class ary_Connective {A : Connectives} := {
+Class ary_Connective {A : Connective_Family.type} := {
     ca : @Connective A;
     eqc_arity : n == @sk_arity skeleton
 }.
 Coercion ca : ary_Connective >-> Connective.
 End Of_arity.
 
-HB.instance Definition _ {A : Connectives} {n : nat} := [isSub of (ary_Connective n) for @ca n A].
+HB.instance Definition _ {A : Connective_Family.type} {n : nat} := [isSub of (ary_Connective n) for @ca n A].
 
 Section Of_type.
 
 Variable k : pos.
-Class typed_Connective {A : Connectives} := {
+Class typed_Connective {A : Connective_Family.type} := {
     ct : @Connective A;
     eq_type : @sk_type_output (skeleton) = k
 }.
@@ -526,8 +687,8 @@ Definition to_atomic_skeleton (P : Atomic_Skeleton) :=
     {| sk_sign := s; sk_quantification := q; sk_type_output := t |} =>
       gaggle.Build_Atomic_Skeleton (1)%g  (@Tuple _ _ [::s] (eq_refl _)) q (@Tuple _ _ [::t] (eq_refl _))
   end.
-Class Connective {A : Connectives} := {
-    var : connective_set;
+Class Connective {A : Connective_Family.type} := {
+    var : A;
     skeleton := assignment var;
     min : sk_arity = 0
 }.
@@ -541,56 +702,81 @@ Coercion Letter.to_atomic_skeleton : Letter.Atomic_Skeleton >-> Atomic_Skeleton.
 Coercion Letter.to_connective : Letter.Connective >-> Connective.
 
 Module Strict.
-Class Connective {A : Connectives} := {
-    var : connective_set;
+Class Connective {A : Connective_Family.type} := {
+    var : A;
     skeleton := assignment var;
     pos : sk_arity > 0
   }.
-Definition to_connective {A : Connectives}
+Definition to_connective {A : Connective_Family.type}
   (P : Connective) : gaggle.Connective :=
   match P with
     {| Strict.var := var0; Strict.pos := _ |} =>
-      {|
-        gaggle.var := var0
-      |}
+      gaggle.Build_Connective A var0
   end.
 End Strict.
 Coercion Strict.to_connective : Strict.Connective >-> Connective.
 
-Inductive typed_Formula {A : Connectives} : pos -> Type :=
+Inductive typed_Formula {A : Connective_Family.type} : pos -> Type :=
   | composition :
       forall (C : @Connective A),
       (forall i : 'I_(@arity A C), typed_Formula (tnth (type C) (lift ord_max i))) ->
       typed_Formula (tnth (type C) ord_max)
 .
-Definition Formula {A : Connectives} := {k & typed_Formula k}.
+Definition Formula {A : Connective_Family.type} := {k & @typed_Formula A k}.
 
 (* PERMUTATIONS and α-ACTION *)
 
-(* Em cal canviar el producte del grup de permutacions per la seva versió commutativa.
-    Hauria de fer un {perm T} que fagi servir comp en comptes de perm_mul.
- *)
-(* versió inductiva tb? *)
+(* versió inductiva -la del Guillaume- tb? *)
 
 (* STRUCTURES *)
 
-(* Una definició diferent alternativa seria que structure_set hagues de contenir als connectius A però en poguès tenir més. *)
-(* We set a new class because formulas from structures are defined independently from connectives.
-   With a duplicate definition it is easier for us to tell them appart.
+(* Una definició diferent alternativa seria que structure_set hagues de contenir als connectius A però en poguès tenir més.
+    Ho farem així, has de canviar Structure de manera similar a Connective_Family.
+    Pensa si cal requerir que les structures siguin tancades sota una accio.
+    En tot cas, les hauràs de deixar preparades per a posar-hi la acció residuació a tot elles.
+
+    A nivell més general, el que seria interessant introduïr és que els connectius complissin inOrbit sota una acció qualsevol (referint-me al resultat de inOrbitP, és a dir que els esquelets de cada classe de partició es trobin en la mateixa òrbita) i tal que l'assignment és injectiu sobre cada classe de la partició.
+    Aleshores, Structure_Family contindria tota l'òrbita dels connectius de la família, mantenint aquells relacionats dins de la mateixa òrbita.
  *)
-Class Structures {A : Connectives} :=
+
+(*
+    We begin by defining a structural family for each orbit of the action on skeletons with elements in the connective family.
+    Something key in this first half is being able to characterize each orbit with a function like inOrbit.
+    Each set of possible value in the equalities in inOrbit uniquely determine the orbit.
+    This lets us identify the orbit without needing to resort to a representative of the family.
+    We then instantiate a different copy of this family with the original connective as a component whenever available.
+ *)
+
+(* An orbit of a connective is parametrized by the sign tuple and the permutation while determining quantification from them. *)
+(* Similarly it can be represented as those atomic skeletons of fixed arity and signs product  *)
+Class structure_Orbit_of {A : Connective_Family.type} (C : Connective) :=
   {
-    structure_set := @connective_set A;
+    structure_set := ;
     structure_assignment := @assignment A
   }.
-Class Structure {A : Connectives} {S : @Structures A} :=
+
+(*
+    We should define a different orbit on each class of the partition.
+    We then get assigned for each connective a new structure on a structure set.
+    The other other structures from the orbit get assigned no connective (possibly using an option?).
+    On the Calculus structures without a connective get no introduction nor elimination rules.
+ *)
+
+HB.mixin Record is_structure_Orbit T := {
+    assignment : T -> Atomic_Skeleton;
+    rel : equiv_rel T;
+    assignment_wf : forall x y, rel x y -> inOrbit (assignment x) (assignment y);
+    assignment_pinj : forall x y, rel x y -> assignment x = assignment y -> x = y
+  }.
+
+Class Structure {A : Connective_Family.type} {S : Structure_Family.type} :=
   {
-    structure_var : connective_set;
+    structure_var : A;
     structure_skeleton := assignment structure_var
   }.
 Definition C_of_Ss {A} (S : @Structures A) := A.
-Definition S_of_Cs (C : @Connectives) := @Build_Structures C.
-Definition C_of_S {A : Connectives} {B} (S : @Structure _ B) : @Connective (C_of_Ss B) :=
+Definition S_of_Cs (C : @Connective_Family.type) := @Build_Structures C.
+Definition C_of_S {A : Connective_Family.type} {B} (S : @Structure _ B) : @Connective (C_of_Ss B) :=
   {|
     var := structure_var
   |}.
@@ -602,7 +788,7 @@ Definition S_of_C {A} (C : @Connective A) : @Structure A (S_of_Cs A) :=
 (* Boolean negation to be done and added over formulas.
    As an alternative one could leave the sign over formulas as ill-defined (it takes whatever value is required by context).
  *)
-Inductive typed_Structural_Formula {A : Connectives} {S : Structures} : pos -> Type :=
+Inductive typed_Structural_Formula {A : Connective_Family.type} {S : Structures} : pos -> Type :=
   | from_formula {k} : @typed_Formula A k -> typed_Structural_Formula k
   | structural_composition
     : forall C : Structure,
@@ -610,9 +796,9 @@ Inductive typed_Structural_Formula {A : Connectives} {S : Structures} : pos -> T
           typed_Structural_Formula
             (tnth (@sk_type (@structure_skeleton _ _ C)) (lift ord_max i))) ->
       typed_Structural_Formula (tnth (@sk_type (@structure_skeleton _ _ C)) ord_max).
-Definition Structural_Formula {A : Connectives} {S : Structures} := sigT typed_Structural_Formula.
+Definition Structural_Formula {A : Connective_Family.type} {S : Structures} := sigT typed_Structural_Formula.
 
-Definition orbit_of_skeleton (C : Atomic_Skeleton) : Connectives :=
+Definition orbit_of_skeleton (C : Atomic_Skeleton) : Connective_Family.type :=
   {|
     connective_set := 'Sym_sk_arity.+1;
     assignment := fun p => (sk_α {| sa:= C; eqs_arity := eq_refl _|} p)
@@ -634,7 +820,7 @@ Class sig_Class {A : Type} {B : A -> Type} :=
   }.
 
 (* Each connective from Generators creates a full independent orbit of connectives. *)
-Definition full_Connectives (Generators : Connectives) :=
+Definition full_Connective_Family.type (Generators : Connective_Family.type) :=
   {|
     connective_set := @sig_Class (@Connective Generators) (fun C => 'Sym_sk_arity.+1);
     assignment :=
@@ -661,7 +847,7 @@ Proof.
   by case: h.
 Qed.
 
-Definition arity_full {Generators : Connectives} (C : @Connective (full_Connectives Generators)) :
+Definition arity_full {Generators : Connective_Family.type} (C : @Connective (full_Connective_Family.type Generators)) :
   arity (@sig_fst _ _ (@var _ C)) = arity C.
 Proof.
   by[].
@@ -669,8 +855,8 @@ Qed.
 
 (* Fes atenció pq la segona component de connective_set depen directament de la variable C, no de la primera component. *)
 
-Definition restricted_orbit {Generators : Connectives}
-  (C : @Connective (full_Connectives Generators)) : Connectives :=
+Definition restricted_orbit {Generators : Connective_Family.type}
+  (C : @Connective (full_Connective_Family.type Generators)) : Connective_Family.type :=
   {|
     connective_set :=
       @sig_Class
@@ -685,8 +871,8 @@ Definition restricted_orbit {Generators : Connectives}
                 eqs_arity := eq_refl _ |} p)
   |}.
 
-Definition restricted_of_full_C {Generators : Connectives}
-  (C : @Connective (full_Connectives Generators)) : @Connective (restricted_orbit C) :=
+Definition restricted_of_full_C {Generators : Connective_Family.type}
+  (C : @Connective (full_Connective_Family.type Generators)) : @Connective (restricted_orbit C) :=
   {|
     var :=
       {|
@@ -695,34 +881,34 @@ Definition restricted_of_full_C {Generators : Connectives}
       |} : (@connective_set (restricted_orbit C))
   |}.
 
-Definition full_of_restricted_C {Generators : Connectives}
-  (C : @Connective (full_Connectives Generators)) (D : @Connective (restricted_orbit C)) :
-  @Connective (full_Connectives Generators) :=
+Definition full_of_restricted_C {Generators : Connective_Family.type}
+  (C : @Connective (full_Connective_Family.type Generators)) (D : @Connective (restricted_orbit C)) :
+  @Connective (full_Connective_Family.type Generators) :=
   {|
     var :=
       {|
         sig_fst := (@element _ _ (@sig_fst _ _ (@var _ D)));
         sig_snd := (@sig_snd _ _ (@var _ D))
-      |} : (@connective_set (full_Connectives Generators))
+      |} : (@connective_set (full_Connective_Family.type Generators))
   |}.
 
 (*
 El problema ve de que són diferents aritats de diferents connectius (per molt que siguin iguals).
  *)
 
-Definition Residuation' {Generators : Connectives}
-  (C : @Structure _ (S_of_Cs (full_Connectives Generators)))
+Definition Residuation' {Generators : Connective_Family.type}
+  (C : @Structure _ (S_of_Cs (full_Connective_Family.type Generators)))
   (p : 'Sym_(@sk_arity (@structure_skeleton _ _ C)).+1) :
-  @Structure _ (S_of_Cs (full_Connectives Generators)) :=
+  @Structure _ (S_of_Cs (full_Connective_Family.type Generators)) :=
   {|
     structure_var :=
       {|
         sig_fst := @sig_fst _ _ (@structure_var _ _ C);
         sig_snd := (p * (@sig_snd _ _ (@structure_var _ _ C)))%g
-      |} : (@connective_set (full_Connectives Generators))
+      |} : (@connective_set (full_Connective_Family.type Generators))
   |}.
 
-Definition Residuation {Generators : Connectives} (C : @Connective (full_Connectives Generators))
+Definition Residuation {Generators : Connective_Family.type} (C : @Connective (full_Connective_Family.type Generators))
   (D : @Structure _ (S_of_Cs (restricted_orbit C)))
   (p : 'Sym_(@sk_arity (@skeleton _ C)).+1) :
   @Structure _ (S_of_Cs (restricted_orbit C)) :=
@@ -734,33 +920,33 @@ Definition Residuation {Generators : Connectives} (C : @Connective (full_Connect
       |} : (@connective_set (restricted_orbit C))
   |}.
 
-Theorem α_is_action {Generators : Connectives} {C : @Connective (full_Connectives Generators)} :
+Theorem α_is_action {Generators : Connective_Family.type} {C : @Connective (full_Connective_Family.type Generators)} :
   is_action [set: 'Sym_(arity C).+1] (@Residuation _ C).
 Proof.
   rewrite /Residuation.
   rewrite /is_action; split.
 Admitted.
 
-Definition α {Generators : Connectives} {C : @Connective (full_Connectives Generators)} :=
+Definition α {Generators : Connective_Family.type} {C : @Connective (full_Connective_Family.type Generators)} :=
   Action (α_is_action (C:=C)).
 
-Lemma arity_restricted {Generators : Connectives} {C : @Connective (full_Connectives Generators)}
+Lemma arity_restricted {Generators : Connective_Family.type} {C : @Connective (full_Connective_Family.type Generators)}
   (D : @Structure _ (S_of_Cs (restricted_orbit C))) : @sk_arity (@structure_skeleton _ _ D) = arity C.
 Proof.
   by case: D; case: C => /= [[C s]] [D p].
 Qed.
 
-Lemma arity_S_of_C {A : Connectives} {C : Connective} : @sk_arity (@structure_skeleton _ _ (S_of_C C)) = arity C.
+Lemma arity_S_of_C {A : Connective_Family.type} {C : Connective} : @sk_arity (@structure_skeleton _ _ (S_of_C C)) = arity C.
 Proof.
   by[].
 Qed.
 
-Lemma arity_C_of_S {A : Connectives} {B : Structures} {C : Structure} : arity (C_of_S C) =  @sk_arity (@structure_skeleton _ _ C).
+Lemma arity_C_of_S {A : Connective_Family.type} {B : Structures} {C : Structure} : arity (C_of_S C) =  @sk_arity (@structure_skeleton _ _ C).
 Proof.
   by[].
 Qed.
 
-Lemma arity_full_of_restricted_C {Generators : Connectives} {C : @Connective (full_Connectives Generators)} D : arity (@full_of_restricted_C _ C D) = arity C.
+Lemma arity_full_of_restricted_C {Generators : Connective_Family.type} {C : @Connective (full_Connective_Family.type Generators)} D : arity (@full_of_restricted_C _ C D) = arity C.
 Proof.
   by case: D; case: C => /= [[C s]] [D p].
 Qed.
@@ -770,7 +956,7 @@ Qed.
 (* Agafar tota l'òrbita per la negació i la residuació. *)
 
 Definition unsigned_function
-  (s : ±) {A : Connectives} {S : Structures}
+  (s : ±) {A : Connective_Family.type} {S : Structures}
   (f : Structural_Formula -> Structural_Formula -> Type)
   (X Y : Structural_Formula)
   :=
@@ -779,7 +965,7 @@ Definition unsigned_function
     (if s then Y else X).
 
 Definition unsigned_pivoted_function_S
-  {A : Connectives} {S : Structures}
+  {A : Connective_Family.type} {S : Structures}
   (f : Structural_Formula -> Structural_Formula -> Type) (C : @Structure _ S)
   (X : forall i:'I_(@sk_arity (@structure_skeleton _ _ C)),
       typed_Structural_Formula (tnth sk_type (lift ord_max i)))
@@ -790,7 +976,7 @@ Definition unsigned_pivoted_function_S
          (@sk_type_output (@structure_skeleton _ _ C)) (structural_composition C X)).
 
 Definition unsigned_pivoted_function_C
-  {A : Connectives} {S : Structures}
+  {A : Connective_Family.type} {S : Structures}
   (f : Structural_Formula -> Structural_Formula -> Type) (C : @Connective A)
   (φ : forall i:'I_(arity C),
       typed_Formula (tnth (type C) (lift ord_max i)))
@@ -804,11 +990,11 @@ Definition unsigned_pivoted_function_C
 
 (* Els errors venen de que cal veure que les aritats son iguals i que els tipos son iguals (ja que les formules depenen de la tupla de tipos) *)
 
-Definition cast_Formula {A : Connectives} {S : Structures} [n m : pos] (eq_mn : m = n) (φ : typed_Structural_Formula m) :=
+Definition cast_Formula {A : Connective_Family.type} {S : Structures} [n m : pos] (eq_mn : m = n) (φ : typed_Structural_Formula m) :=
   let: erefl in _ = n := eq_mn return typed_Structural_Formula n in φ.
 
-Lemma calculus_type_wf (Generators : Connectives)
-            (C : @Connective (full_Connectives Generators)) (p : 'Sym_(arity C).+1)
+Lemma calculus_type_wf (Generators : Connective_Family.type)
+            (C : @Connective (full_Connective_Family.type Generators)) (p : 'Sym_(arity C).+1)
             (i:'I_(@sk_arity
                      (@structure_skeleton _ _
                         (S_of_C (@full_of_restricted_C _ C (C_of_S (@α _ _ (S_of_C (restricted_of_full_C C)) p))))))) :
@@ -827,11 +1013,11 @@ Qed.
 
 
 (* I need to prove an equality for the type of the residuation. *)
-Inductive Calculus {Generators : Connectives}
-  : @Structural_Formula _ (S_of_Cs (@full_Connectives Generators)) ->
-    @Structural_Formula _ (S_of_Cs (@full_Connectives Generators)) -> Type
+Inductive Calculus {Generators : Connective_Family.type}
+  : @Structural_Formula _ (S_of_Cs (@full_Connective_Family.type Generators)) ->
+    @Structural_Formula _ (S_of_Cs (@full_Connective_Family.type Generators)) -> Type
   :=
-  | LRule (C : @Connective (@full_Connectives Generators))
+  | LRule (C : @Connective (@full_Connective_Family.type Generators))
     : forall (X : forall i:'I_(arity C),
           typed_Structural_Formula (tnth (type C) (lift ord_max i))),
       forall (φ : forall i:'I_(arity C),
@@ -845,14 +1031,14 @@ Inductive Calculus {Generators : Connectives}
       unsigned_pivoted_function_S Calculus (S_of_C C)
         X
         (existT _ (tnth (type C) ord_max) (from_formula (composition C φ)))
-  | RRule (C : @Connective (@full_Connectives Generators))
+  | RRule (C : @Connective (@full_Connective_Family.type Generators))
     : forall (φ : forall i:'I_(arity C),
           typed_Formula (tnth (type C) (lift ord_max i))),
       forall U : Structural_Formula,
       unsigned_pivoted_function_S Calculus (S_of_C C)
         (fun i => from_formula (φ i)) U ->
       unsigned_pivoted_function_C Calculus C φ U
-  | dr1 (C : @Connective (full_Connectives Generators))
+  | dr1 (C : @Connective (full_Connective_Family.type Generators))
       (p : 'Sym_(arity C).+1)
     : forall (X : forall i:'I_(arity C).+1,
           typed_Structural_Formula (tnth (@sk_type (@skeleton _ C)) i)),
