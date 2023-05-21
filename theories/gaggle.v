@@ -493,7 +493,351 @@ Qed.
 
 Definition inOrbit (C D : Atomic_Skeleton) := (@sk_arity C == @sk_arity D)&&(@sk_sign_output C*@sk_quantification C == @sk_sign_output D*@sk_quantification D).
 
-Definition γ (C : Atomic_Skeleton) (p : (± * 'Sym_(@sk_arity C).+1)%type) :=
+Section Morphb.
+Variable aT rT : finType.
+Variable opa : aT -> aT -> aT.
+Variable opr : rT -> rT -> rT.
+Variable f : aT -> rT.
+Implicit Type D : {pred aT}.
+
+Definition dmorphb D :=
+  allpairs opr (map f (enum D)) (map f (enum D)) ==
+    map f (allpairs opa (enum D) (enum D)).
+
+Lemma dmorphPn D :
+  reflect (exists2 x, x \in D & exists2 y, y \in D & f (opa x y) <> opr (f x) (f y))
+          (~~ dmorphb D).
+Proof.
+  apply: (iffP idP) => [morphf | [x Dx [y Dy neqfxy]]]; last first.
+    move: Dx; rewrite -(mem_enum D) => /rot_to[i G defG].
+    move: Dy; rewrite -(mem_enum D) => /rot_to[j F defF].
+    rewrite /dmorphb/allpairs.
+    set N := (length G).+1.
+    apply/eqP => /(f_equal (fun k => nth (f x) k (i * N + j))).
+    rewrite (nth_map x).
+    (* The proof consist on rotating i * N + j times the allpairs until you get the pair (i, j), so that we can somehow use defE and defF and neqfxy.
+
+    rewrite (nth_map _).
+    move: (H) => /(f_equal (_ (i, j))).
+    -(rot_uniq i) -map_rot defE /=; apply/nandP; left.
+    rewrite inE /= -(mem_enum D) -(mem_rot i) defE inE in Dxy.
+    rewrite andb_orr andbC andbN in Dxy.
+    by rewrite eqfxy map_f //; case/andP: Dxy. *)
+    admit. admit.
+  pose p := [pred x in D | [exists (y | y \in D), f (opa x y) != opr (f x) (f y)]].
+  case: (pickP p) => [x /= /andP[ Dx /exists_inP[y Dy /eqP eqfxy]]| no_p].
+    by exists x; last exists y.
+  rewrite /dmorphb in morphf.
+  admit.
+(*
+map_inj_in_uniq ?enum_uniq // in injf => x y Dx Dy eqfxy.
+apply: contraNeq (negbT (no_p x)) => ne_xy /=; rewrite -mem_enum Dx.
+by apply/existsP; exists y; rewrite /= !inE eq_sym ne_xy -mem_enum Dy eqfxy /=.
+*)
+Admitted.
+
+Definition morphb := dmorphb aT.
+
+Lemma dmorphP D : reflect {in D &, morphism_2 f opa opr} (dmorphb D).
+Proof.
+  rewrite -[dmorphb D]negbK.
+  case (@dmorphPn D) => [nomorphf | morphf]; constructor.
+    case: nomorphf => x Dx [y Dy /eqP neqxy /=] morphf.
+    by case/eqP: neqxy; apply: morphf.
+  move=> x y Dx Dy; apply/eqP; apply/idPn=> nxy; case: morphf.
+  by exists x => //; exists y => //=; apply/eqP.
+Qed.
+
+Lemma morphP : reflect (morphism_2 f opa opr) morphb.
+Proof. by apply: (iffP (dmorphP _)) => injf x y => [|_ _]; apply: injf. Qed.
+
+End Morphb.
+
+Arguments morphb [_] [_] [_] [_] _.
+Arguments morphP [_] [_] [_] [_] _.
+
+Definition morphbg [C D : FinGroup.type] (f : C -> D) := (morphb f (opa := mulg) (opr := mulg)).
+
+Section MorDefSection.
+
+Variable S T : FinGroup.type.
+Implicit Type f : S -> T.
+
+Inductive Mor := Morph (mval : {ffun S -> T}) & (morphbg mval).
+Coercion mval (p : Mor)  := let: Morph g _ := p in g.
+Definition morph_of of phant T := Mor.
+Identity Coercion type_of_morph : morph_of >-> Mor.
+
+HB.instance Definition _ := [isSub of Mor for mval].
+HB.instance Definition _ := [Finite of Mor by <:].
+
+Lemma morph_proof f : {morph f : x y / x * y} -> morphbg (finfun f).
+Proof.
+  by move=> g_morph; apply/morphP => x y; rewrite !ffunE g_morph.
+Qed.
+
+End MorDefSection.
+
+HB.lock Definition morph S T f morphf :=
+  Morph _ _ (@morph_proof S T f morphf).
+Canonical morph_unlock := Unlockable morph.unlock.
+
+HB.lock Definition fun_of_morph S T (u : Mor S T) : S -> T := val u.
+Canonical fun_of_morph_unlock := Unlockable fun_of_morph.unlock.
+Coercion fun_of_morph : Mor >-> Funclass.
+
+Section AutDefSection.
+
+Variable C : FinGroup.type.
+Variable f : {perm C}.
+
+Inductive Aut := Autom (f : {perm2 C}) of (morphbg f).
+Coercion aval (p : Aut) := let: Autom f _ := p in f.
+Definition aut_of of phant T := Aut.
+Identity Coercion type_of_aut : aut_of >-> Aut.
+
+HB.instance Definition _ := [isSub of Aut for aval].
+HB.instance Definition _ := [Finite of Aut by <:].
+
+Lemma aut_proof (g : {perm C}) : {morph g : x y / x * y} -> morphbg g.
+Proof.
+  by move=> g_morph; apply/morphP => x y; rewrite g_morph.
+Qed.
+
+End AutDefSection.
+
+HB.lock Definition aut C f injf morphf :=
+  @Autom C (@perm C f injf) (@aut_proof C (@perm C f injf) morphf).
+Canonical aut_unlock := Unlockable aut.unlock.
+
+HB.lock Definition fun_of_aut C (u : Aut C) : C -> C := val u.
+Canonical fun_of_aut_unlock := Unlockable fun_of_aut.unlock.
+Coercion fun_of_aut : Aut >-> Funclass.
+
+Section general_Groups.
+
+Open Scope group_scope.
+Variable C D : FinGroup.type.
+
+Definition dprod_mul (s t : C * D) :=
+  let: (x, y) := s in let: (u, v) := t in
+  (x * u, y * v).
+Definition dprod_one := (1 : C, 1 : D).
+Definition dprod_inv (s : C * D) :=
+  let: (x, y) := s in
+  (x^-1, y^-1).
+
+Lemma dprod_oneP : left_id dprod_one dprod_mul.
+Proof.
+  by case => /= a b; rewrite !mul1g.
+Qed.
+
+Lemma dprod_invP : left_inverse  dprod_one dprod_inv dprod_mul.
+Proof.
+  by case => /= a b; rewrite !mulVg.
+Qed.
+
+Lemma dprod_mulP : associative dprod_mul.
+Proof.
+  by case => a b; case => c d; case => e f /=; rewrite !mulgA.
+Qed.
+
+HB.instance Definition _ := isMulGroup.Build (C * D)%type
+  dprod_mulP dprod_oneP dprod_invP.
+
+Lemma aut_mul_proof (f g : Aut C) : {morph (comp_mul f g) : x y / x * y}.
+Proof.
+  case: f => f Hf; case: g => g Hg x y.
+  by rewrite !permE /= (morphP _ Hg) (morphP _ Hf).
+Qed.
+
+Definition aut_mul (f g : Aut C) := aut (aut_mul_proof f g).
+
+Lemma aut_one_proof : {morph (perm_one C) : x y / x * y}.
+Proof. move => x y. by rewrite !permE. Qed.
+
+Definition aut_one : Aut C := aut aut_one_proof.
+
+Lemma aut_inv_proof (f : Aut C) : {morph (comp_inv f) : x y / x * y}.
+Proof.
+  case: f => f Hf x y /=.
+  by apply: (@perm_inj _ f); rewrite !permE /= (morphP _ Hf) !perm_invK.
+Qed.
+
+Definition aut_inv (f : Aut C) := aut (aut_inv_proof f).
+
+Lemma perm_of_aut_inj : injective (@aval C).
+Proof.
+  case => f Hf; case => g Hg. exact: val_inj.
+Qed.
+
+Lemma autP (f g : Aut C) : (f =1 g) <-> f = g.
+Proof. by split=> [| -> //]; rewrite unlock => eq_sv; apply/val_inj/permP. Qed.
+
+Lemma avalE (f : Aut C) : aval f = f :> (C -> C).
+Proof. by rewrite [@fun_of_aut]unlock. Qed.
+
+Lemma autE f f_inj f_morph : @aut C f f_inj f_morph =1 f.
+Proof.
+  move=> x. rewrite -avalE [@aut]unlock /=.
+  by rewrite -(permE f_inj) [@perm]unlock. Qed.
+
+Lemma fun_of_morph_inj : injective (@mval C D).
+Proof.
+  case => f Hf; case => g Hg. exact: val_inj.
+Qed.
+
+Lemma morP (f g : Mor C D) : (f =1 g) <-> f = g.
+Proof. by split=> [| -> //]; move/ffunP => /= eq_sv; apply/val_inj. Qed.
+
+Lemma morphE f f_morph : @morph C D f f_morph =1 f.
+Proof.
+  move=> x. rewrite [@morph]unlock /=.
+  by rewrite -[in RHS]ffunE.
+Qed.
+
+Lemma morph_morph (f : Mor C D) : {morph f : x y / x * y}.
+Proof. exact: (morphP _ (valP f)). Qed.
+Hint Resolve morph_morph : core.
+
+Lemma aut_oneP : left_id aut_one aut_mul.
+Proof.
+  move => s; apply/autP => x.
+  by rewrite autE /= avalE /= autE -avalE.
+Qed.
+
+Lemma aut_invP : left_inverse  aut_one aut_inv aut_mul.
+Proof.
+  move=> s; apply/autP=> x. rewrite !autE /= avalE /= autE iinv_f //.
+  exact: perm_inj.
+Qed.
+
+Lemma aut_mulP : associative aut_mul.
+Proof.
+  by move => s r t; apply/autP => x; rewrite !autE /= !avalE autE !avalE autE /= -!avalE.
+Qed.
+
+HB.instance Definition _ := isMulGroup.Build (Aut C)
+  aut_mulP aut_oneP aut_invP.
+
+Lemma autM (f g : Aut C) : forall x, (f * g) x = f (g x).
+Proof.
+  intros. by rewrite autE /= !avalE.
+Qed.
+
+Lemma aut_morph (f : Aut C) : {morph f : x y / x * y}.
+Proof. rewrite -avalE. exact: (morphP _ (valP f)). Qed.
+Hint Resolve aut_morph : core.
+
+End general_Groups.
+
+Section semiprod_Group.
+
+Open Scope group_scope.
+Variable C D : FinGroup.type.
+
+Lemma autg1 [aT : FinGroup.type] (f : Aut aT) : f 1 = 1.
+Proof.
+  have a : aT. exact: 1.
+  move: (erefl (f a)). rewrite -{1}(mulg1 a) (aut_morph f) -{2}(mulg1 (f a)).
+  by move => /(f_equal (fun n => (f a)^-1 * n)); rewrite !mulgA mulVg !mul1g.
+Qed.
+
+Lemma aut_invg [aT : FinGroup.type] (f : Aut aT) x : f x^-1 = (f x)^-1.
+Proof.
+  move: (autg1 f).
+  rewrite -{1}(mulgV x) -(mulgV (f x)) (aut_morph f) => /(f_equal (fun n => (f x)^-1 * n)).
+  by rewrite !mulgA mulVg !mul1g.
+Qed.
+
+Lemma mor1 [aT rT : FinGroup.type] (f : Mor aT rT) : f 1 = 1.
+Proof.
+  have a : aT. exact: 1.
+  move: (erefl (f a)). rewrite -{1}(mulg1 a) (morph_morph f) -{2}(mulg1 (f a)).
+  by move => /(f_equal (fun n => (f a)^-1 * n)); rewrite !mulgA mulVg !mul1g.
+Qed.
+
+Lemma mor_inv [aT rT : FinGroup.type] (f : Mor aT rT) x : f x^-1 = (f x)^-1.
+Proof.
+  move: (mor1 f).
+  rewrite -{1}(mulgV x) -(mulgV (f x)) (morph_morph f) => /(f_equal (fun n => (f x)^-1 * n)).
+  by rewrite !mulgA mulVg !mul1g.
+Qed.
+
+Variable φ : Mor D (Aut C).
+
+Definition SemiDProd : Type := (C * D)%type.
+HB.instance Definition _ := isFinite.Build SemiDProd (@prod_enumP C D).
+
+Definition semiprod_mul (s t : SemiDProd) :=
+  let: (x, y) := s in let: (u, v) := t in
+  (x * (φ y u), y * v).
+Definition semiprod_one : SemiDProd := (1 : C, 1 : D).
+Definition semiprod_inv (s : SemiDProd) :=
+  let: (x, y) := s in
+  ((φ y^-1 x^-1), y^-1).
+
+Lemma semiprod_oneP : left_id semiprod_one semiprod_mul.
+Proof.
+  by case => /= a b; rewrite !mul1g mor1 autE.
+Qed.
+
+Lemma semiprod_invP : left_inverse  semiprod_one semiprod_inv semiprod_mul.
+Proof.
+  case => /= a b.
+  by rewrite -(aut_morph (φ b^-1)) !mulVg autg1.
+Qed.
+
+Lemma semiprod_mulP : associative semiprod_mul.
+Proof.
+  case => a b; case => c d; case => e f /=.
+  by rewrite !mulgA !(morph_morph φ) autE /= (aut_morph (φ b)) mulgA !avalE.
+Qed.
+
+HB.about isMulGroup.
+HB.instance Definition _ := isMulGroup.Build SemiDProd semiprod_mulP semiprod_oneP semiprod_invP.
+
+End semiprod_Group.
+
+Section tuple_Group.
+
+Open Scope group_scope.
+Variable n : nat.
+Variable C : FinGroup.type.
+Implicit Type s t : n.-tuple C.
+
+Definition tuple_mul s t : n.-tuple C :=
+  map_tuple (fun i => tnth s i * tnth t i) (ord_tuple n).
+Definition tuple_one :=
+  map_tuple (fun => (1 : C)) (ord_tuple n).
+Definition tuple_inv s :=
+  map_tuple (fun i => (tnth s i)^-1) (ord_tuple n).
+
+Lemma tuple_oneP : left_id tuple_one tuple_mul.
+Proof.
+  move => a; apply eq_from_tnth => i.
+  by rewrite !tnth_map tnth_ord_tuple mul1g.
+Qed.
+
+Lemma tuple_invP : left_inverse  tuple_one tuple_inv tuple_mul.
+Proof.
+  move => a; apply eq_from_tnth => i.
+  by rewrite !tnth_map tnth_ord_tuple mulVg.
+Qed.
+
+Lemma tuple_mulP : associative tuple_mul.
+Proof.
+  move => a b c; apply eq_from_tnth => i.
+  by rewrite !tnth_map !tnth_ord_tuple !mulgA.
+Qed.
+
+HB.instance Definition _ := isMulGroup.Build (n.-tuple C)%type
+  tuple_mulP tuple_oneP tuple_invP.
+
+End tuple_Group.
+
+Definition γ (C : Atomic_Skeleton) (p : ((@sk_arity C).+1.-tuple ±) 'Sym_(@sk_arity C).+1).
+  :=
   let (b, a) := p in sk_β (sk_α C a) b.
 
 Lemma residuate_sk_sign_output (C : Atomic_Skeleton) p :
@@ -608,6 +952,116 @@ Class Connective {C : Connective_Family.type} := {
     skeleton := skeleton_assignment var
 }.
 
+(* Canvia i revisa els noms sign_output/input. *)
+Definition arity {C : Connective_Family.type} (c : C) := @sk_arity (skeleton_assignment c).
+Definition permutation {C : Connective_Family.type} (c : C) := @sk_permutation (skeleton_assignment c).
+Definition sign {C : Connective_Family.type} (c : C) := @sk_sign (skeleton_assignment c).
+Definition sign_output {C : Connective_Family.type} (c : C) := @sk_sign_output (skeleton_assignment c).
+Definition sign_input {C : Connective_Family.type} (c : C) := @sk_sign_input (skeleton_assignment c).
+Definition quantification {C : Connective_Family.type} (c : C) := @sk_quantification (skeleton_assignment c).
+Definition type {C : Connective_Family.type} (c : C) := @sk_type (skeleton_assignment c).
+Definition type_output {C : Connective_Family.type} (c : C) := @sk_type_output (skeleton_assignment c).
+Definition type_input {C : Connective_Family.type} (c : C) := @sk_type_input (skeleton_assignment c).
+
+Module Of_arity.
+Section section.
+Variable n : nat.
+Variable C : Connective_Family.type.
+
+Inductive Connective := Var c of n == @arity C c.
+Coercion to_connective cn := let: Var c _ := cn in c.
+
+HB.instance Definition _ := [isSub of Connective for to_connective].
+Lemma val_inj : injective to_connective.
+Proof.
+  move => x y H.
+  apply val_inj.
+  exact: H.
+Qed.
+End section.
+End Of_arity.
+
+HB.instance Definition _ {C : Connective_Family.type} {n} := [isSub of (Of_arity.Connective n C) for @Of_arity.to_connective n C].
+
+Module Of_type.
+Section section.
+Variable n : pos.
+Variable C : Connective_Family.type.
+
+Inductive Connective := Var c of n == @type_output C c.
+Coercion to_connective cn := let: Var c _ := cn in c.
+
+HB.instance Definition _ := [isSub of Connective for to_connective].
+Lemma val_inj : injective to_connective.
+Proof.
+  move => x y H.
+  apply val_inj.
+  exact: H.
+Qed.
+End section.
+End Of_type.
+
+HB.instance Definition _ {C : Connective_Family.type} {n} := [isSub of (Of_type.Connective n C) for @Of_type.to_connective n C].
+
+Module Letter.
+
+Class Atomic_Skeleton := {
+    sk_sign : ±;
+    sk_quantification : Æ;
+    sk_type_output : pos;
+}.
+Coercion to_atomic_skeleton (P : Atomic_Skeleton) :=
+  match P with
+    {| sk_sign := s; sk_quantification := q; sk_type_output := t |} =>
+      gaggle.Build_Atomic_Skeleton (1)%g  (@Tuple _ _ [::s] (eq_refl _)) q (@Tuple _ _ [::t] (eq_refl _))
+  end.
+Definition Connective := Of_arity.Connective 0.
+End Letter.
+
+Variable AS : Letter.Atomic_Skeleton.
+Coercion Letter.to_atomic_skeleton : Letter.Atomic_Skeleton >-> Atomic_Skeleton.
+
+Module Strict.
+Section section.
+Variable C : Connective_Family.type.
+
+Inductive Connective := Var c of @arity C c > 0.
+Coercion to_connective cn := let: Var c _ := cn in c.
+
+HB.instance Definition _ := [isSub of Connective for to_connective].
+Lemma val_inj : injective to_connective.
+Proof.
+  move => x y H.
+  apply val_inj.
+  exact: H.
+Qed.
+End section.
+End Strict.
+
+HB.instance Definition _ {C : Connective_Family.type} := [isSub of (Strict.Connective C) for @Strict.to_connective C].
+
+Inductive typed_Formula {C : Connective_Family.type} : pos -> Type :=
+  | composition :
+      forall (c : C),
+      (forall i : 'I_(arity c), typed_Formula (tnth (type c) (lift ord_max i))) ->
+      typed_Formula (tnth (type c) ord_max)
+.
+Definition Formula {C : Connective_Family.type} := {k & @typed_Formula C k}.
+
+(* PERMUTATIONS and α-ACTION *)
+
+(* versió inductiva -la del Guillaume- tb? *)
+
+(* STRUCTURES *)
+
+(*
+    We begin by defining a structural family for each orbit of the action on skeletons with elements in the connective family.
+    Something key in this first half is being able to characterize each orbit with a function like inOrbit.
+    Each set of possible value in the equalities in inOrbit uniquely determine the orbit.
+    This lets us identify the orbit without needing to resort to a representative of the family.
+    We then instantiate a different copy of this family with the original connective as a component whenever available.
+ *)
+
 (* Maybe defining a structure as a connective_Family with the actions closed on it and a disponibility value on each connective.
      Then for each connective_Family create a structure by closing the orbits and adding the available connectives themselves in the disponibility values.
      This is done on the dependent product of orbit_groups by orbit_par.
@@ -638,145 +1092,26 @@ HB.mixin Record is_structure_Family (C : Connective_Family.type) S := {
 HB.structure Definition Structure_Family (C : Connective_Family.type)
   := {T of is_structure_Family C T}.
 
-Definition arity {A} (C : Connective) := @sk_arity (@skeleton A C).
-Definition permutation {A} (C : Connective) := @sk_permutation (@skeleton A C).
-Definition sign {A} (C : Connective) := @sk_sign (@skeleton A C).
-Definition sign_output {A} (C : Connective) := @sk_sign_output (@skeleton A C).
-Definition sign_input {A} (C : Connective) := @sk_sign_input (@skeleton A C).
-Definition quantification {A} (C : Connective) := @sk_quantification (@skeleton A C).
-Definition type {A} (C : Connective) := @sk_type (@skeleton A C).
-Definition type_output {A} (C : Connective) := @sk_type_output (@skeleton A C).
-Definition type_input {A} (C : Connective) := @sk_type_input (@skeleton A C).
-
-Section Of_arity.
-Variable n : nat.
-
-Class ary_Connective {A : Connective_Family.type} := {
-    ca : @Connective A;
-    eqc_arity : n == @sk_arity skeleton
-}.
-Coercion ca : ary_Connective >-> Connective.
-End Of_arity.
-
-HB.instance Definition _ {A : Connective_Family.type} {n : nat} := [isSub of (ary_Connective n) for @ca n A].
-
-Section Of_type.
-
-Variable k : pos.
-Class typed_Connective {A : Connective_Family.type} := {
-    ct : @Connective A;
-    eq_type : @sk_type_output (skeleton) = k
-}.
-End Of_type.
-
-Lemma ca_inj {A} {n} : injective (@ca A n).
-Proof.
-  move => x y H.
-  apply val_inj.
-  exact: H.
-Qed.
-
-Module Letter.
-Class Atomic_Skeleton := {
-    sk_sign : ±;
-    sk_quantification : Æ;
-    sk_type_output : pos;
-}.
-Definition to_atomic_skeleton (P : Atomic_Skeleton) :=
-  match P with
-    {| sk_sign := s; sk_quantification := q; sk_type_output := t |} =>
-      gaggle.Build_Atomic_Skeleton (1)%g  (@Tuple _ _ [::s] (eq_refl _)) q (@Tuple _ _ [::t] (eq_refl _))
-  end.
-Class Connective {A : Connective_Family.type} := {
-    var : A;
-    skeleton := assignment var;
-    min : sk_arity = 0
-}.
-Definition to_connective {A}
-  (P : Connective) : gaggle.Connective :=
-    match P with
-      {| var := var0; min := _ |} => (gaggle.Build_Connective A var0)
-    end.
-End Letter.
-Coercion Letter.to_atomic_skeleton : Letter.Atomic_Skeleton >-> Atomic_Skeleton.
-Coercion Letter.to_connective : Letter.Connective >-> Connective.
-
-Module Strict.
-Class Connective {A : Connective_Family.type} := {
-    var : A;
-    skeleton := assignment var;
-    pos : sk_arity > 0
-  }.
-Definition to_connective {A : Connective_Family.type}
-  (P : Connective) : gaggle.Connective :=
-  match P with
-    {| Strict.var := var0; Strict.pos := _ |} =>
-      gaggle.Build_Connective A var0
-  end.
-End Strict.
-Coercion Strict.to_connective : Strict.Connective >-> Connective.
-
-Inductive typed_Formula {A : Connective_Family.type} : pos -> Type :=
-  | composition :
-      forall (C : @Connective A),
-      (forall i : 'I_(@arity A C), typed_Formula (tnth (type C) (lift ord_max i))) ->
-      typed_Formula (tnth (type C) ord_max)
-.
-Definition Formula {A : Connective_Family.type} := {k & @typed_Formula A k}.
-
-(* PERMUTATIONS and α-ACTION *)
-
-(* versió inductiva -la del Guillaume- tb? *)
-
-(* STRUCTURES *)
-
-(* Una definició diferent alternativa seria que structure_set hagues de contenir als connectius A però en poguès tenir més.
-    Ho farem així, has de canviar Structure de manera similar a Connective_Family.
-    Pensa si cal requerir que les structures siguin tancades sota una accio.
-    En tot cas, les hauràs de deixar preparades per a posar-hi la acció residuació a tot elles.
-
-    A nivell més general, el que seria interessant introduïr és que els connectius complissin inOrbit sota una acció qualsevol (referint-me al resultat de inOrbitP, és a dir que els esquelets de cada classe de partició es trobin en la mateixa òrbita) i tal que l'assignment és injectiu sobre cada classe de la partició.
-    Aleshores, Structure_Family contindria tota l'òrbita dels connectius de la família, mantenint aquells relacionats dins de la mateixa òrbita.
- *)
-
-(*
-    We begin by defining a structural family for each orbit of the action on skeletons with elements in the connective family.
-    Something key in this first half is being able to characterize each orbit with a function like inOrbit.
-    Each set of possible value in the equalities in inOrbit uniquely determine the orbit.
-    This lets us identify the orbit without needing to resort to a representative of the family.
-    We then instantiate a different copy of this family with the original connective as a component whenever available.
- *)
-
 (* An orbit of a connective is parametrized by the sign tuple and the permutation while determining quantification from them. *)
 (* Similarly it can be represented as those atomic skeletons of fixed arity and signs product  *)
-Class structure_Orbit_of {A : Connective_Family.type} (C : Connective) :=
-  {
-    structure_set := ;
-    structure_assignment := @assignment A
-  }.
+(* It makes no sense doing this with the general groups because it might not be a structure_family.
 
-(*
-    We should define a different orbit on each class of the partition.
-    We then get assigned for each connective a new structure on a structure set.
-    The other other structures from the orbit get assigned no connective (possibly using an option?).
-    On the Calculus structures without a connective get no introduction nor elimination rules.
+    To proceed we will assume a bijection F between the {s : S & structure_orbit_assignment s = i} and (orbit_group i) such that (structure_action i x y) = (@mulg (orbit_group i) x (F y)).
+    Which are the conditions on the action on skeletons and the group so that the orbit has a bijection with the group sending the action to the group operation?
  *)
+Definition structure_Orbit {C : Connective_Family.type} := { i : @orbit_par C & orbit_group i }.
+Definition connective_to_Orbit {C : Connective_Family.type} := .
 
-HB.mixin Record is_structure_Orbit T := {
-    assignment : T -> Atomic_Skeleton;
-    rel : equiv_rel T;
-    assignment_wf : forall x y, rel x y -> inOrbit (assignment x) (assignment y);
-    assignment_pinj : forall x y, rel x y -> assignment x = assignment y -> x = y
-  }.
+(* In our case orbit_par shoud be a countable type where each orbit of strict connectives has a particular arity and sign * quantification and each orbit of letter connectives is just itself. *)
 
-Class Structure {A : Connective_Family.type} {S : Structure_Family.type} :=
+Class Structure {C : Connective_Family.type} {S : Structure_Family.type} :=
   {
     structure_var : A;
     structure_skeleton := assignment structure_var
   }.
 Definition C_of_Ss {A} (S : @Structures A) := A.
 Definition S_of_Cs (C : @Connective_Family.type) := @Build_Structures C.
-Definition C_of_S {A : Connective_Family.type} {B} (S : @Structure _ B) : @Connective (C_of_Ss B) :=
+Definition C_of_S {C : Connective_Family.type} {B} (S : @Structure _ B) : @Connective (C_of_Ss B) :=
   {|
     var := structure_var
   |}.
@@ -788,7 +1123,7 @@ Definition S_of_C {A} (C : @Connective A) : @Structure A (S_of_Cs A) :=
 (* Boolean negation to be done and added over formulas.
    As an alternative one could leave the sign over formulas as ill-defined (it takes whatever value is required by context).
  *)
-Inductive typed_Structural_Formula {A : Connective_Family.type} {S : Structures} : pos -> Type :=
+Inductive typed_Structural_Formula {C : Connective_Family.type} {S : Structures} : pos -> Type :=
   | from_formula {k} : @typed_Formula A k -> typed_Structural_Formula k
   | structural_composition
     : forall C : Structure,
@@ -796,7 +1131,7 @@ Inductive typed_Structural_Formula {A : Connective_Family.type} {S : Structures}
           typed_Structural_Formula
             (tnth (@sk_type (@structure_skeleton _ _ C)) (lift ord_max i))) ->
       typed_Structural_Formula (tnth (@sk_type (@structure_skeleton _ _ C)) ord_max).
-Definition Structural_Formula {A : Connective_Family.type} {S : Structures} := sigT typed_Structural_Formula.
+Definition Structural_Formula {C : Connective_Family.type} {S : Structures} := sigT typed_Structural_Formula.
 
 Definition orbit_of_skeleton (C : Atomic_Skeleton) : Connective_Family.type :=
   {|
@@ -936,12 +1271,12 @@ Proof.
   by case: D; case: C => /= [[C s]] [D p].
 Qed.
 
-Lemma arity_S_of_C {A : Connective_Family.type} {C : Connective} : @sk_arity (@structure_skeleton _ _ (S_of_C C)) = arity C.
+Lemma arity_S_of_C {C : Connective_Family.type} {C : Connective} : @sk_arity (@structure_skeleton _ _ (S_of_C C)) = arity C.
 Proof.
   by[].
 Qed.
 
-Lemma arity_C_of_S {A : Connective_Family.type} {B : Structures} {C : Structure} : arity (C_of_S C) =  @sk_arity (@structure_skeleton _ _ C).
+Lemma arity_C_of_S {C : Connective_Family.type} {B : Structures} {C : Structure} : arity (C_of_S C) =  @sk_arity (@structure_skeleton _ _ C).
 Proof.
   by[].
 Qed.
@@ -956,7 +1291,7 @@ Qed.
 (* Agafar tota l'òrbita per la negació i la residuació. *)
 
 Definition unsigned_function
-  (s : ±) {A : Connective_Family.type} {S : Structures}
+  (s : ±) {C : Connective_Family.type} {S : Structures}
   (f : Structural_Formula -> Structural_Formula -> Type)
   (X Y : Structural_Formula)
   :=
@@ -965,7 +1300,7 @@ Definition unsigned_function
     (if s then Y else X).
 
 Definition unsigned_pivoted_function_S
-  {A : Connective_Family.type} {S : Structures}
+  {C : Connective_Family.type} {S : Structures}
   (f : Structural_Formula -> Structural_Formula -> Type) (C : @Structure _ S)
   (X : forall i:'I_(@sk_arity (@structure_skeleton _ _ C)),
       typed_Structural_Formula (tnth sk_type (lift ord_max i)))
@@ -976,7 +1311,7 @@ Definition unsigned_pivoted_function_S
          (@sk_type_output (@structure_skeleton _ _ C)) (structural_composition C X)).
 
 Definition unsigned_pivoted_function_C
-  {A : Connective_Family.type} {S : Structures}
+  {C : Connective_Family.type} {S : Structures}
   (f : Structural_Formula -> Structural_Formula -> Type) (C : @Connective A)
   (φ : forall i:'I_(arity C),
       typed_Formula (tnth (type C) (lift ord_max i)))
@@ -988,9 +1323,7 @@ Definition unsigned_pivoted_function_C
 
 (* Lacks dr2 and connective sets non equal to a full orbit. *)
 
-(* Els errors venen de que cal veure que les aritats son iguals i que els tipos son iguals (ja que les formules depenen de la tupla de tipos) *)
-
-Definition cast_Formula {A : Connective_Family.type} {S : Structures} [n m : pos] (eq_mn : m = n) (φ : typed_Structural_Formula m) :=
+Definition cast_Formula {C : Connective_Family.type} {S : Structures} [n m : pos] (eq_mn : m = n) (φ : typed_Structural_Formula m) :=
   let: erefl in _ = n := eq_mn return typed_Structural_Formula n in φ.
 
 Lemma calculus_type_wf (Generators : Connective_Family.type)
