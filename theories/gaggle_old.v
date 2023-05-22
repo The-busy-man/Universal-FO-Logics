@@ -1453,3 +1453,354 @@ Lemma neqP {A : eqType} {a b : A} : a == b = false -> a != b.
 Proof.
   by move => /eqP/eqP.
 Qed.
+
+
+Goal
+  (sk_Residuation and_skeleton
+  (tperm (@Ordinal 3 0 (eq_refl _)) (@Ordinal 3 2 (eq_refl _))))
+  = lres_skeleton.
+Admitted.
+
+(*
+  rewrite /sk_Residuation/and_skeleton/lres_skeleton /=.
+  f_equal.
+  - by rewrite /sk_permutation mul1g.
+  - apply eq_from_tnth => x.
+    rewrite !permE /= !tnth_map.
+    rewrite tnth_ord_tuple /=.
+    case: x.
+    (case; try case; try case) => //= Hproof.
+      by rewrite /ord_max !permE /=.
+    rewrite /ord_max !permE /=.
+    rewrite !(tnth_nth (@Ordinal 2 0 (eq_refl _))) !permE /=.
+    by rewrite !GRing.addr0.
+  - have <-: (ord_max = @Ordinal 3 2 (eq_refl _)). exact: ord_inj.
+    have <-: (ord_max = @Ordinal 3 2 Hproof). exact: ord_inj.
+    rewrite !permE /= !tpermL /= !(tnth_nth (@Ordinal 2 0 (eq_refl _))) /=.
+    by rewrite !GRing.addr0.
+  - have <-: (ord_max = @Ordinal 3 2 (eq_refl _)). exact: ord_inj.
+    rewrite !permE /= !(tnth_nth (@Ordinal 2 0 (eq_refl _))) /=.
+    by rewrite GRing.addr0 -GRing.mulrnDr char_Zp.
+  apply eq_from_tnth => x.
+  rewrite tnth_map.
+  case: x. (case; try case; try case) => //= Hproof;
+    rewrite tnth_ord_tuple ?(tnth_nth 0) ?(tnth_nth (@Pos 1 (eq_refl _))) /=.
+  - have ->: (Ordinal Hproof = @Ordinal 3 0 (eq_refl _)). exact: ord_inj.
+    by rewrite tpermL.
+  - have ->: (Ordinal Hproof = @Ordinal 3 1 (eq_refl _)). exact: ord_inj.
+    by rewrite tpermD.
+  have ->: (Ordinal Hproof = @Ordinal 3 2 (eq_refl _)). exact: ord_inj.
+  by rewrite tpermR.
+Qed.
+*)
+
+
+Section Morphb.
+Variable aT rT : finType.
+Variable opa : aT -> aT -> aT.
+Variable opr : rT -> rT -> rT.
+Variable f : aT -> rT.
+Implicit Type D : {pred aT}.
+
+Definition dmorphb D :=
+  allpairs opr (map f (enum D)) (map f (enum D)) ==
+    map f (allpairs opa (enum D) (enum D)).
+
+Lemma dmorphPn D :
+  reflect (exists2 x, x \in D & exists2 y, y \in D & f (opa x y) <> opr (f x) (f y))
+          (~~ dmorphb D).
+Proof.
+  apply: (iffP idP) => [morphf | [x Dx [y Dy neqfxy]]]; last first.
+    move: Dx; rewrite -(mem_enum D) => /rot_to[i G defG].
+    move: Dy; rewrite -(mem_enum D) => /rot_to[j F defF].
+    rewrite /dmorphb/allpairs.
+    set N := (length G).+1.
+    apply/eqP => /(f_equal (fun k => nth (f x) k (i * N + j))).
+    rewrite (nth_map x).
+    (* The proof consist on rotating i * N + j times the allpairs until you get the pair (i, j), so that we can somehow use defE and defF and neqfxy.
+
+    rewrite (nth_map _).
+    move: (H) => /(f_equal (_ (i, j))).
+    -(rot_uniq i) -map_rot defE /=; apply/nandP; left.
+    rewrite inE /= -(mem_enum D) -(mem_rot i) defE inE in Dxy.
+    rewrite andb_orr andbC andbN in Dxy.
+    by rewrite eqfxy map_f //; case/andP: Dxy. *)
+    admit. admit.
+  pose p := [pred x in D | [exists (y | y \in D), f (opa x y) != opr (f x) (f y)]].
+  case: (pickP p) => [x /= /andP[ Dx /exists_inP[y Dy /eqP eqfxy]]| no_p].
+    by exists x; last exists y.
+  rewrite /dmorphb in morphf.
+  admit.
+(*
+map_inj_in_uniq ?enum_uniq // in injf => x y Dx Dy eqfxy.
+apply: contraNeq (negbT (no_p x)) => ne_xy /=; rewrite -mem_enum Dx.
+by apply/existsP; exists y; rewrite /= !inE eq_sym ne_xy -mem_enum Dy eqfxy /=.
+*)
+Admitted.
+
+Definition morphb := dmorphb aT.
+
+Lemma dmorphP D : reflect {in D &, morphism_2 f opa opr} (dmorphb D).
+Proof.
+  rewrite -[dmorphb D]negbK.
+  case (@dmorphPn D) => [nomorphf | morphf]; constructor.
+    case: nomorphf => x Dx [y Dy /eqP neqxy /=] morphf.
+    by case/eqP: neqxy; apply: morphf.
+  move=> x y Dx Dy; apply/eqP; apply/idPn=> nxy; case: morphf.
+  by exists x => //; exists y => //=; apply/eqP.
+Qed.
+
+Lemma morphP : reflect (morphism_2 f opa opr) morphb.
+Proof. by apply: (iffP (dmorphP _)) => injf x y => [|_ _]; apply: injf. Qed.
+
+End Morphb.
+
+Arguments morphb [_] [_] [_] [_] _.
+Arguments morphP [_] [_] [_] [_] _.
+
+Definition morphbg [C D : FinGroup.type] (f : C -> D) := (morphb f (opa := mulg) (opr := mulg)).
+
+Section MorDefSection.
+
+Variable S T : FinGroup.type.
+Implicit Type f : S -> T.
+
+Inductive Mor := Morph (mval : {ffun S -> T}) & (morphbg mval).
+Coercion mval (p : Mor)  := let: Morph g _ := p in g.
+Definition morph_of of phant T := Mor.
+Identity Coercion type_of_morph : morph_of >-> Mor.
+
+HB.instance Definition _ := [isSub of Mor for mval].
+HB.instance Definition _ := [Finite of Mor by <:].
+
+Lemma morph_proof f : {morph f : x y / x * y} -> morphbg (finfun f).
+Proof.
+  by move=> g_morph; apply/morphP => x y; rewrite !ffunE g_morph.
+Qed.
+
+End MorDefSection.
+
+HB.lock Definition morph S T f morphf :=
+  Morph _ _ (@morph_proof S T f morphf).
+Canonical morph_unlock := Unlockable morph.unlock.
+
+HB.lock Definition fun_of_morph S T (u : Mor S T) : S -> T := val u.
+Canonical fun_of_morph_unlock := Unlockable fun_of_morph.unlock.
+Coercion fun_of_morph : Mor >-> Funclass.
+
+Section AutDefSection.
+
+Variable C : FinGroup.type.
+Variable f : {perm C}.
+
+Inductive Aut := Autom (f : {perm2 C}) of (morphbg f).
+Coercion aval (p : Aut) := let: Autom f _ := p in f.
+Definition aut_of of phant T := Aut.
+Identity Coercion type_of_aut : aut_of >-> Aut.
+
+HB.instance Definition _ := [isSub of Aut for aval].
+HB.instance Definition _ := [Finite of Aut by <:].
+
+Lemma aut_proof (g : {perm C}) : {morph g : x y / x * y} -> morphbg g.
+Proof.
+  by move=> g_morph; apply/morphP => x y; rewrite g_morph.
+Qed.
+
+End AutDefSection.
+
+HB.lock Definition aut C f injf morphf :=
+  @Autom C (@perm C f injf) (@aut_proof C (@perm C f injf) morphf).
+Canonical aut_unlock := Unlockable aut.unlock.
+
+HB.lock Definition fun_of_aut C (u : Aut C) : C -> C := val u.
+Canonical fun_of_aut_unlock := Unlockable fun_of_aut.unlock.
+Coercion fun_of_aut : Aut >-> Funclass.
+
+Section general_Groups.
+
+Open Scope group_scope.
+Variable C D : FinGroup.type.
+
+Definition dprod_mul (s t : C * D) :=
+  let: (x, y) := s in let: (u, v) := t in
+  (x * u, y * v).
+Definition dprod_one := (1 : C, 1 : D).
+Definition dprod_inv (s : C * D) :=
+  let: (x, y) := s in
+  (x^-1, y^-1).
+
+Lemma dprod_oneP : left_id dprod_one dprod_mul.
+Proof.
+  by case => /= a b; rewrite !mul1g.
+Qed.
+
+Lemma dprod_invP : left_inverse  dprod_one dprod_inv dprod_mul.
+Proof.
+  by case => /= a b; rewrite !mulVg.
+Qed.
+
+Lemma dprod_mulP : associative dprod_mul.
+Proof.
+  by case => a b; case => c d; case => e f /=; rewrite !mulgA.
+Qed.
+
+HB.instance Definition _ := isMulGroup.Build (C * D)%type
+  dprod_mulP dprod_oneP dprod_invP.
+
+Lemma aut_mul_proof (f g : Aut C) : {morph (comp_mul f g) : x y / x * y}.
+Proof.
+  case: f => f Hf; case: g => g Hg x y.
+  by rewrite !permE /= (morphP _ Hg) (morphP _ Hf).
+Qed.
+
+Definition aut_mul (f g : Aut C) := aut (aut_mul_proof f g).
+
+Lemma aut_one_proof : {morph (perm_one C) : x y / x * y}.
+Proof. move => x y. by rewrite !permE. Qed.
+
+Definition aut_one : Aut C := aut aut_one_proof.
+
+Lemma aut_inv_proof (f : Aut C) : {morph (comp_inv f) : x y / x * y}.
+Proof.
+  case: f => f Hf x y /=.
+  by apply: (@perm_inj _ f); rewrite !permE /= (morphP _ Hf) !perm_invK.
+Qed.
+
+Definition aut_inv (f : Aut C) := aut (aut_inv_proof f).
+
+Lemma perm_of_aut_inj : injective (@aval C).
+Proof.
+  case => f Hf; case => g Hg. exact: val_inj.
+Qed.
+
+Lemma autP (f g : Aut C) : (f =1 g) <-> f = g.
+Proof. by split=> [| -> //]; rewrite unlock => eq_sv; apply/val_inj/permP. Qed.
+
+Lemma avalE (f : Aut C) : aval f = f :> (C -> C).
+Proof. by rewrite [@fun_of_aut]unlock. Qed.
+
+Lemma autE f f_inj f_morph : @aut C f f_inj f_morph =1 f.
+Proof.
+  move=> x. rewrite -avalE [@aut]unlock /=.
+  by rewrite -(permE f_inj) [@perm]unlock. Qed.
+
+Lemma fun_of_morph_inj : injective (@mval C D).
+Proof.
+  case => f Hf; case => g Hg. exact: val_inj.
+Qed.
+
+Lemma morP (f g : Mor C D) : (f =1 g) <-> f = g.
+Proof. by split=> [| -> //]; move/ffunP => /= eq_sv; apply/val_inj. Qed.
+
+Lemma morphE f f_morph : @morph C D f f_morph =1 f.
+Proof.
+  move=> x. rewrite [@morph]unlock /=.
+  by rewrite -[in RHS]ffunE.
+Qed.
+
+Lemma morph_morph (f : Mor C D) : {morph f : x y / x * y}.
+Proof. exact: (morphP _ (valP f)). Qed.
+Hint Resolve morph_morph : core.
+
+Lemma aut_oneP : left_id aut_one aut_mul.
+Proof.
+  move => s; apply/autP => x.
+  by rewrite autE /= avalE /= autE -avalE.
+Qed.
+
+Lemma aut_invP : left_inverse  aut_one aut_inv aut_mul.
+Proof.
+  move=> s; apply/autP=> x. rewrite !autE /= avalE /= autE iinv_f //.
+  exact: perm_inj.
+Qed.
+
+Lemma aut_mulP : associative aut_mul.
+Proof.
+  by move => s r t; apply/autP => x; rewrite !autE /= !avalE autE !avalE autE /= -!avalE.
+Qed.
+
+HB.instance Definition _ := isMulGroup.Build (Aut C)
+  aut_mulP aut_oneP aut_invP.
+
+Lemma autM (f g : Aut C) : forall x, (f * g) x = f (g x).
+Proof.
+  intros. by rewrite autE /= !avalE.
+Qed.
+
+Lemma aut_morph (f : Aut C) : {morph f : x y / x * y}.
+Proof. rewrite -avalE. exact: (morphP _ (valP f)). Qed.
+Hint Resolve aut_morph : core.
+
+End general_Groups.
+
+Section semiprod_Group.
+
+Open Scope group_scope.
+Variable C D : FinGroup.type.
+
+Variable φ : {morphism D >-> Aut [set: C]}
+
+Lemma (x y : sdprod_by C D).
+
+Lemma autg1 [aT : FinGroup.type] (f : Aut aT) : f 1 = 1.
+Proof.
+  have a : aT. exact: 1.
+  move: (erefl (f a)). rewrite -{1}(mulg1 a) (aut_morph f) -{2}(mulg1 (f a)).
+  by move => /(f_equal (fun n => (f a)^-1 * n)); rewrite !mulgA mulVg !mul1g.
+Qed.
+
+Lemma aut_invg [aT : FinGroup.type] (f : Aut aT) x : f x^-1 = (f x)^-1.
+Proof.
+  move: (autg1 f).
+  rewrite -{1}(mulgV x) -(mulgV (f x)) (aut_morph f) => /(f_equal (fun n => (f x)^-1 * n)).
+  by rewrite !mulgA mulVg !mul1g.
+Qed.
+
+Lemma mor1 [aT rT : FinGroup.type] (f : Mor aT rT) : f 1 = 1.
+Proof.
+  have a : aT. exact: 1.
+  move: (erefl (f a)). rewrite -{1}(mulg1 a) (morph_morph f) -{2}(mulg1 (f a)).
+  by move => /(f_equal (fun n => (f a)^-1 * n)); rewrite !mulgA mulVg !mul1g.
+Qed.
+
+Lemma mor_inv [aT rT : FinGroup.type] (f : Mor aT rT) x : f x^-1 = (f x)^-1.
+Proof.
+  move: (mor1 f).
+  rewrite -{1}(mulgV x) -(mulgV (f x)) (morph_morph f) => /(f_equal (fun n => (f x)^-1 * n)).
+  by rewrite !mulgA mulVg !mul1g.
+Qed.
+
+Variable φ : Mor D (Aut C).
+
+Definition SemiDProd : Type := (C * D)%type.
+HB.instance Definition _ := isFinite.Build SemiDProd (@prod_enumP C D).
+
+Definition semiprod_mul (s t : SemiDProd) :=
+  let: (x, y) := s in let: (u, v) := t in
+  (x * (φ y u), y * v).
+Definition semiprod_one : SemiDProd := (1 : C, 1 : D).
+Definition semiprod_inv (s : SemiDProd) :=
+  let: (x, y) := s in
+  ((φ y^-1 x^-1), y^-1).
+
+Lemma semiprod_oneP : left_id semiprod_one semiprod_mul.
+Proof.
+  by case => /= a b; rewrite !mul1g mor1 autE.
+Qed.
+
+Lemma semiprod_invP : left_inverse  semiprod_one semiprod_inv semiprod_mul.
+Proof.
+  case => /= a b.
+  by rewrite -(aut_morph (φ b^-1)) !mulVg autg1.
+Qed.
+
+Lemma semiprod_mulP : associative semiprod_mul.
+Proof.
+  case => a b; case => c d; case => e f /=.
+  by rewrite !mulgA !(morph_morph φ) autE /= (aut_morph (φ b)) mulgA !avalE.
+Qed.
+
+HB.about isMulGroup.
+HB.instance Definition _ := isMulGroup.Build SemiDProd semiprod_mulP semiprod_oneP semiprod_invP.
+
+End semiprod_Group.
