@@ -1804,3 +1804,16 @@ HB.about isMulGroup.
 HB.instance Definition _ := isMulGroup.Build SemiDProd semiprod_mulP semiprod_oneP semiprod_invP.
 
 End semiprod_Group.
+
+
+Lemma sk_Residuation_arity (C : Atomic_Skeleton) (σ : 'Sym_sk_arity.+1) : @sk_arity C == @sk_arity (sk_Residuation C σ).
+Proof. by case: C σ. Qed.
+
+Definition ska_Residuation
+  (C : ary_Skeleton) (σ : 'Sym_n.+1) : ary_Skeleton :=
+  let: {| sa := sa; eqs_arity := eqs |} := C in
+  let: σ' := (cast_perm (f_equal succn (eqP eqs)) σ) in
+  {|
+    sa := sk_Residuation sa σ';
+    eqs_arity := (eq_op_trans (eqs) (sk_Residuation_arity sa σ'))
+  |}.

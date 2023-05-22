@@ -209,6 +209,60 @@ Definition sk_Residuation (C : Atomic_Skeleton) (p : 'Sym_sk_arity.+1) : Atomic_
       [tuple tnth sk_type (p i) | i < sk_arity.+1]
   |}.
 
+Definition inOrbit (C D : Atomic_Skeleton) := (@sk_arity C == @sk_arity D)&&(@sk_sign_output C*@sk_quantification C == @sk_sign_output D*@sk_quantification D).
+
+Section tuple_Group.
+
+Open Scope group_scope.
+Variable n : nat.
+Variable C : FinGroup.type.
+Implicit Type s t : n.-tuple C.
+
+Definition tuple_mul s t : n.-tuple C :=
+  map_tuple (fun i => tnth s i * tnth t i) (ord_tuple n).
+Definition tuple_one :=
+  map_tuple (fun => (1 : C)) (ord_tuple n).
+Definition tuple_inv s :=
+  map_tuple (fun i => (tnth s i)^-1) (ord_tuple n).
+
+Lemma tuple_oneP : left_id tuple_one tuple_mul.
+Proof.
+  move => a; apply eq_from_tnth => i.
+  by rewrite !tnth_map tnth_ord_tuple mul1g.
+Qed.
+
+Lemma tuple_invP : left_inverse  tuple_one tuple_inv tuple_mul.
+Proof.
+  move => a; apply eq_from_tnth => i.
+  by rewrite !tnth_map tnth_ord_tuple mulVg.
+Qed.
+
+Lemma tuple_mulP : associative tuple_mul.
+Proof.
+  move => a b c; apply eq_from_tnth => i.
+  by rewrite !tnth_map !tnth_ord_tuple !mulgA.
+Qed.
+
+HB.instance Definition _ := isMulGroup.Build (n.-tuple C)%type
+  tuple_mulP tuple_oneP tuple_invP.
+
+End tuple_Group.
+
+Definition sk_Switch_Negation (C : Atomic_Skeleton) (s : (@sk_arity C).+1.-tuple ±) : Atomic_Skeleton :=
+  let: n := (@ord_max sk_arity) in
+      ({|
+          sk_arity := sk_arity;
+          sk_permutation := sk_permutation;
+          sk_sign := map_tuple
+                       (fun i => if i != ord_max then (tnth s i * tnth sk_sign i) else tnth sk_sign i)
+                       (ord_tuple sk_arity.+1);
+          sk_quantification := tnth s ord_max * sk_quantification;
+          sk_type := sk_type;
+        |}).
+
+Lemma sk_Switch_Negation_arity (C : Atomic_Skeleton) (b : (@sk_arity C).+1.-tuple ±) : @sk_arity C == @sk_arity (sk_Switch_Negation C b).
+Proof. by case: C b. Qed.
+
 Section Of_arity.
 Variable n : nat.
 
@@ -220,9 +274,17 @@ Coercion sa : ary_Skeleton >-> Atomic_Skeleton.
 
 Definition ska_Residuation
   (C : ary_Skeleton) (s : 'Sym_n.+1) :=
-  {| sa := sk_Residuation C (cast_perm (f_equal S (eqP eqs_arity)) s);
+  {|
+    sa := sk_Residuation C (cast_perm (f_equal S (eqP eqs_arity)) s);
     eqs_arity := eqs_arity
   |}.
+
+Definition ska_Switch_Negation (C : ary_Skeleton) (b : n.+1.-tuple ±) :=
+  {|
+    sa := sk_Switch_Negation C (tcast (f_equal S (eqP eqs_arity)) b);
+    eqs_arity := eqs_arity
+  |}.
+
 End Of_arity.
 
 Coercion ary_id (C : Atomic_Skeleton) : (ary_Skeleton sk_arity) :=
@@ -491,44 +553,29 @@ Proof.
   by case: (unlift ord_max (p ord_max)).
 Qed.
 
-Definition inOrbit (C D : Atomic_Skeleton) := (@sk_arity C == @sk_arity D)&&(@sk_sign_output C*@sk_quantification C == @sk_sign_output D*@sk_quantification D).
-
-Section tuple_Group.
-
-Open Scope group_scope.
-Variable n : nat.
-Variable C : FinGroup.type.
-Implicit Type s t : n.-tuple C.
-
-Definition tuple_mul s t : n.-tuple C :=
-  map_tuple (fun i => tnth s i * tnth t i) (ord_tuple n).
-Definition tuple_one :=
-  map_tuple (fun => (1 : C)) (ord_tuple n).
-Definition tuple_inv s :=
-  map_tuple (fun i => (tnth s i)^-1) (ord_tuple n).
-
-Lemma tuple_oneP : left_id tuple_one tuple_mul.
+Theorem sk_ς_is_action n : is_action [set: n.+1.-tuple ±] (@ska_Switch_Negation n).
 Proof.
-  move => a; apply eq_from_tnth => i.
-  by rewrite !tnth_map tnth_ord_tuple mul1g.
+  rewrite /ska_Switch_Negation/sk_Switch_Negation.
+  apply: is_total_action => [aC|aC τ1 τ2].
+    apply sa_inj.
+    case: aC; case => /= m σ sign q t eqs.
+    f_equal.
+      apply: eq_from_tnth => i. rewrite tnth_map.
+      case: (tnth (ord_tuple m.+1) i != ord_max); rewrite !tnth_ord_tuple //=.
+      by rewrite tcastE tnth_map mul1g.
+    by rewrite tcastE tnth_map mul1g.
+  apply sa_inj.
+  case: aC; case => /= m σ sign q t eqs.
+  f_equal.
+    apply: eq_from_tnth => i. rewrite !tnth_map !tnth_ord_tuple.
+    case H1: (i != ord_max) => //=.
+    rewrite {1}[τ1 * τ2]/mulg !tcastE /= !tnth_map !tnth_ord_tuple.
+    by rewrite !mulgE !addbA [X in X (+) _]addbC.
+  rewrite !tcastE {1}[τ1 * τ2]/mulg /= !tnth_map !tnth_ord_tuple.
+  by rewrite !mulgE !addbA [X in X (+) _]addbC.
 Qed.
 
-Lemma tuple_invP : left_inverse  tuple_one tuple_inv tuple_mul.
-Proof.
-  move => a; apply eq_from_tnth => i.
-  by rewrite !tnth_map tnth_ord_tuple mulVg.
-Qed.
-
-Lemma tuple_mulP : associative tuple_mul.
-Proof.
-  move => a b c; apply eq_from_tnth => i.
-  by rewrite !tnth_map !tnth_ord_tuple !mulgA.
-Qed.
-
-HB.instance Definition _ := isMulGroup.Build (n.-tuple C)%type
-  tuple_mulP tuple_oneP tuple_invP.
-
-End tuple_Group.
+Definition sk_ς {n} := Action (sk_ς_is_action n).
 
 Definition to (n : nat) (s : n.+1.-tuple ±) (σ : 'Sym_n.+1) : n.+1.-tuple ± :=
   let: i := σ ord_max in
@@ -536,8 +583,8 @@ Definition to (n : nat) (s : n.+1.-tuple ±) (σ : 'Sym_n.+1) : n.+1.-tuple ± :
   if (i != ord_max)
   then
     (if tnth s i
-     then [tuple of [seq if k != i then ~~(tnth s (σ' k)) else tnth s k | k <- (ord_tuple n.+1)]]
-     else [tuple of [seq tnth s (σ k) | k <- (ord_tuple n.+1)]])
+     then [tuple of [seq if k != ord_max then ~~(tnth s (σ' k)) else tnth s k | k <- (ord_tuple n.+1)]]
+     else [tuple of [seq tnth s (σ' k) | k <- (ord_tuple n.+1)]])
   else [tuple of [seq tnth s (σ k) | k <- (ord_tuple n.+1)]].
 
 Lemma to_is_action n : is_action [set: 'Sym_n.+1] (@to n).
@@ -557,20 +604,44 @@ Proof.
   rewrite inE. apply/andP; split.
     apply/subsetP => /= s. apply: contraR.
     by rewrite in_set.
-  move => x.
-    rewrite actpermE /= /to.
-    case H1: (σ ord_max != ord_max).
-    case H2: (tnth s (σ ord_max)).
-    apply/eqP. apply: eq_from_tnth => i.
-    rewrite tnth_map.
-    case H3: (tnth (ord_tuple n.+1) i != σ ord_max).
-    rewrite mem_map. rewrite actpermE in Hs.
-  rewrite /is_groupAction/actperm => σ Hσ.
-  apply (actpermM (to2 n)).
+  apply/morphicP => x y Hx Hy.
+  rewrite !actpermE /= /to.
+  case H1: (σ ord_max != ord_max); last first.
+    by apply: eq_from_tnth => i; rewrite !tnth_map !tnth_ord_tuple.
+  rewrite {1}[x * y]/mulg tnth_map !tnth_ord_tuple /=.
+  case H2: (tnth x (σ ord_max));
+    case H3: (tnth y (σ ord_max)) => /=;
+    apply: eq_from_tnth => i;
+    rewrite !tnth_map !tnth_ord_tuple //=;
+    (case H4: (i != ord_max);
+       first (by rewrite !mulgE ?addNb ?addbN ?negbK);
+       last (move: H4 => /negbT; rewrite !permE /= negbK => /eqP ->;
+          by rewrite tpermR)).
+Qed.
 
-Definition γ (C : Atomic_Skeleton) (p : sdprod_by to).
-  :=
-  let (b, a) := p in sk_β (sk_α C a) b.
+Definition sk_α_onZ2 (n : nat) := GroupAction (@to_is_groupAction n).
+
+Definition ska_full_Residuation {n} (C : ary_Skeleton n) (p : sdprod_by (@sk_α_onZ2 n)) : ary_Skeleton n :=
+  let: SdPair P _ := p in let: (a, s) := P in let: eqs := (@eqs_arity _ C) in
+  {|
+    sa := sk_α (sk_ς C s) a;
+    eqs_arity := eqs
+  |}.
+
+Lemma sk_γ_is_action n : is_action [set: sdprod_by (@sk_α_onZ2 n)] (@ska_full_Residuation n).
+Proof.
+  rewrite /ska_full_Residuation.
+  apply: is_total_action => [C | /= p1 p2 C].
+Admitted.
+  (* simpl. *)
+  (*   rewrite (lock (sk_ς C _)). *)
+  (* ; apply: val_inj => /=. *)
+  (*   case: C; case; intros. *)
+  (*   rewrite /sk_Residuation/sk_Switch_Negation /=. *)
+  (*   f_equal. rewrite cast_perm_morphM. *)
+  (*   rewrite -/sk_α. act1. *)
+
+Definition sk_γ {n} := Action (sk_γ_is_action n).
 
 Lemma residuate_sk_sign_output (C : Atomic_Skeleton) p :
   @sk_sign_output (sk_Residuation C p) =
@@ -597,49 +668,50 @@ Proof.
   by rewrite tnth_map.
 Qed.
 
-Lemma γ_sign_invariant (C : Atomic_Skeleton) p : @sk_sign_output (γ C p) * @sk_quantification (γ C p) = @sk_sign_output C * @sk_quantification C.
+Lemma full_residuation_sign_invariant (C : Atomic_Skeleton) p : @sk_sign_output (sk_γ C p) * @sk_quantification (sk_γ C p) = @sk_sign_output C * @sk_quantification C.
 Proof.
-  rewrite /γ/=.
-  case: p; case => p; rewrite cast_perm_id;
-    rewrite negation_sk_sign_output;
-    rewrite !residuate_sk_sign_output;
-    case Heq : (p ord_max != ord_max) => /=;
-      rewrite Heq !mulgE //= !addNb !addbN !negbK //;
-    by rewrite addbA [in X in X (+) _]addbC addbA addbb addFb.
-Qed.
+  rewrite /sk_γ/=.
+Admitted.
+(*   case: p; case => p; rewrite cast_perm_id; *)
+(*     rewrite negation_sk_sign_output; *)
+(*     rewrite !residuate_sk_sign_output; *)
+(*     case Heq : (p ord_max != ord_max) => /=; *)
+(*       rewrite Heq !mulgE //= !addNb !addbN !negbK //; *)
+(*     by rewrite addbA [in X in X (+) _]addbC addbA addbb addFb. *)
+(* Qed. *)
 
 (* In here we show that inOrbit truly reflect that C and D are on the same orbit, by showing that it is equivalent to having a list of residuations and negations from one connective to the other. *)
-Lemma inOrbitP (C D : Atomic_Skeleton) :
-  reflect
-     (exists l : seq (± * 'Sym_sk_arity.+1), foldr (fun x => fun => γ C x) C l = D)
-     (inOrbit C D).
-Proof.
-  rewrite /inOrbit.
-  (* To begin with we want to prove that it is not possible for residuated connectives to have different arity.  *)
-  case Heq_arity: (@sk_arity C == @sk_arity D) => /=; last first.
-    apply: ReflectF => [[l /(f_equal (fun C'=>@sk_arity C')) Hl]].
-    have nH1 : forall (C' : Atomic_Skeleton) p, @sk_arity (γ C' p) = @sk_arity C'.
-      by case; intros; case: p0; case.
-    have nH : forall (C' : ary_Skeleton (@sk_arity C)) (l' : seq (± * 'Sym_sk_arity.+1)), @sk_arity (foldr (fun x => fun => γ C' x) C' l') = @sk_arity C'.
-      move => C'; case => [//|/= p l'].
-      by rewrite nH1.
-    rewrite (nH C l) in Hl. move: Heq_arity => /eqP. by rewrite Hl.
-  (* Now we show that it is not possible for residuated connectives to have different difference between the sign and the quantification sign. *)
-  case Heq_sign:
-    (@sk_sign_output C * @sk_quantification C == @sk_sign_output D * @sk_quantification D); last first.
-    apply: ReflectF => [[l /(f_equal (fun C' => @sk_sign_output C' * @sk_quantification C')) Hl]].
-    have nH : forall (C' : Atomic_Skeleton) (l' : seq (± * 'Sym_sk_arity.+1)), @sk_sign_output (foldr (fun x => fun => γ C' x) C' l') * @sk_quantification (foldr (fun x => fun => γ C' x) C' l') = @sk_sign_output C' * @sk_quantification C'.
-      move => C'; case => [//|/= p l'].
-      by rewrite γ_sign_invariant.
-    rewrite (nH C l) in Hl. move: Heq_sign => /eqP. by rewrite Hl.
-  (* Finally it is necesary to see that having equal difference and arity is enough to find a sequence between them. *)
-  apply: ReflectT.
-  (* Using that C and D have the same arity we can get rid of D and write it with the same arity as C, so that we can operate on their permutations. *)
-  case: D Heq_arity Heq_sign => /=; intros.
-  move: sk_sign0 sk_permutation0 sk_type0 Heq_sign.
-  rewrite -(eqP Heq_arity); intros.
-  (* First you residuate C until you have the same permutation as D, then you flip the signs, by acting with (j n+1)-(j n+1), on each component until you have the same sign list, the quantification comes free as the difference is equal in both connectives. *)
-  Admitted.
+(* Lemma inOrbitP (C D : Atomic_Skeleton) : *)
+(*   reflect *)
+(*      (exists l : seq (± * 'Sym_sk_arity.+1), foldr (fun x => fun => γ C x) C l = D) *)
+(*      (inOrbit C D). *)
+(* Proof. *)
+(*   rewrite /inOrbit. *)
+(*   (* To begin with we want to prove that it is not possible for residuated connectives to have different arity.  *) *)
+(*   case Heq_arity: (@sk_arity C == @sk_arity D) => /=; last first. *)
+(*     apply: ReflectF => [[l /(f_equal (fun C'=>@sk_arity C')) Hl]]. *)
+(*     have nH1 : forall (C' : Atomic_Skeleton) p, @sk_arity (γ C' p) = @sk_arity C'. *)
+(*       by case; intros; case: p0; case. *)
+(*     have nH : forall (C' : ary_Skeleton (@sk_arity C)) (l' : seq (± * 'Sym_sk_arity.+1)), @sk_arity (foldr (fun x => fun => γ C' x) C' l') = @sk_arity C'. *)
+(*       move => C'; case => [//|/= p l']. *)
+(*       by rewrite nH1. *)
+(*     rewrite (nH C l) in Hl. move: Heq_arity => /eqP. by rewrite Hl. *)
+(*   (* Now we show that it is not possible for residuated connectives to have different difference between the sign and the quantification sign. *) *)
+(*   case Heq_sign: *)
+(*     (@sk_sign_output C * @sk_quantification C == @sk_sign_output D * @sk_quantification D); last first. *)
+(*     apply: ReflectF => [[l /(f_equal (fun C' => @sk_sign_output C' * @sk_quantification C')) Hl]]. *)
+(*     have nH : forall (C' : Atomic_Skeleton) (l' : seq (± * 'Sym_sk_arity.+1)), @sk_sign_output (foldr (fun x => fun => γ C' x) C' l') * @sk_quantification (foldr (fun x => fun => γ C' x) C' l') = @sk_sign_output C' * @sk_quantification C'. *)
+(*       move => C'; case => [//|/= p l']. *)
+(*       by rewrite γ_sign_invariant. *)
+(*     rewrite (nH C l) in Hl. move: Heq_sign => /eqP. by rewrite Hl. *)
+(*   (* Finally it is necesary to see that having equal difference and arity is enough to find a sequence between them. *) *)
+(*   apply: ReflectT. *)
+(*   (* Using that C and D have the same arity we can get rid of D and write it with the same arity as C, so that we can operate on their permutations. *) *)
+(*   case: D Heq_arity Heq_sign => /=; intros. *)
+(*   move: sk_sign0 sk_permutation0 sk_type0 Heq_sign. *)
+(*   rewrite -(eqP Heq_arity); intros. *)
+(*   (* First you residuate C until you have the same permutation as D, then you flip the signs, by acting with (j n+1)-(j n+1), on each component until you have the same sign list, the quantification comes free as the difference is equal in both connectives. *) *)
+(*   Admitted. *)
 
 
 (* Cal construir l'estructura de hasDecEq i Finite sobre Atomic_Skeleton i ary_Skeleton respectivament. *)
@@ -672,6 +744,66 @@ HB.mixin Record is_connective_Family T := {
 
 HB.structure Definition Connective_Family
   := {T of is_connective_Family T}.
+
+Lemma id_is_action (G : FinGroup.type) (T : Type) (D : {set G}) : is_action D (fun x : T => fun=> x).
+Proof. by split; intros x. Qed.
+
+Definition id_action (G : FinGroup.type) (T : Type) := Action (id_is_action T [set: G]).
+
+Definition True_eq : True -> True -> bool := fun => xpredT.
+Lemma True_eqP : Equality.axiom (T := True) True_eq.
+Proof.
+  by case; case; apply: ReflectT.
+Qed.
+
+Definition True_pickle : True -> nat := fun => 0.
+Definition True_unpickle : nat -> option True := fun => Some I.
+Lemma True_pickleK : pcancel True_pickle True_unpickle.
+Proof. by case. Qed.
+
+Definition True_find_subdef : pred True -> nat -> option True := fun P =>fun=> if P I then Some I else None.
+Lemma True_choice_correct_subdef P n x : True_find_subdef P n = Some x -> P x.
+Proof.
+  rewrite /True_find_subdef.
+  by case : x; case : (P I).
+Qed.
+
+Lemma True_choice_complete_subdef (P : pred True) : (exists x, P x) -> exists n, True_find_subdef P n.
+Proof.
+  by move => [[] HI]; exists 0; rewrite /True_find_subdef HI.
+Qed.
+
+Lemma True_choice_extensional_subdef (P Q : pred True) :
+  P =1 Q -> True_find_subdef P =1 True_find_subdef Q.
+Proof.
+  rewrite /True_find_subdef.
+  by move => H _; rewrite (H I).
+Qed.
+
+HB.instance Definition _ := hasDecEq.Build True True_eqP.
+HB.instance Definition _ := isCountable.Build True True_pickleK.
+HB.instance Definition _ := hasChoice.Build True True_choice_correct_subdef True_choice_complete_subdef True_choice_extensional_subdef.
+
+Definition True_enum_subdef := [::I].
+Lemma True_enumP_subdef : finite_axiom True_enum_subdef.
+Proof. by[]. Qed.
+
+HB.instance Definition _ := isFinite.Build True True_enumP_subdef.
+
+Definition True_mul (x y : True) : True := y.
+Definition True_one : True := I.
+Definition True_inv (x : True) : True := x.
+
+Lemma True_mulP : associative True_mul.
+Proof. by[]. Qed.
+Lemma True_oneP : left_id True_one True_mul.
+Proof. by[]. Qed.
+Lemma True_invP : left_inverse True_one True_inv True_mul.
+Proof. by case. Qed.
+
+(* CONTINUAR.
+
+    HB.instance Definition _ :=  isMulGroup.Build True True_mulP True_oneP True_invP. *)
 
 (* Class Connectives := { *)
 (*   connective_set : Type; *)
@@ -832,7 +964,6 @@ HB.structure Definition Structure_Family (C : Connective_Family.type)
     Which are the conditions on the action on skeletons and the group so that the orbit has a bijection with the group sending the action to the group operation?
  *)
 Definition structure_Orbit {C : Connective_Family.type} := { i : @orbit_par C & orbit_group i }.
-Definition connective_to_Orbit {C : Connective_Family.type} := .
 
 (* In our case orbit_par shoud be a countable type where each orbit of strict connectives has a particular arity and sign * quantification and each orbit of letter connectives is just itself. *)
 
